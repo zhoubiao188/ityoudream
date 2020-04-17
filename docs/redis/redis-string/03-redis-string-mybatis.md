@@ -1,7 +1,7 @@
 # spring boot 和 redis集成
 
 ### 步骤一：pom文件引入redis依赖包
-``` 
+``` xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -11,7 +11,7 @@
 ```
 
 ### 步骤二：配置文件(application.yml)加入redis配置信息
-``` 
+```
 ## Redis 配置
 ## Redis数据库索引（默认为0）
 spring.redis.database=0
@@ -26,15 +26,12 @@ spring.redis.password=
 
 ### 步骤三：在mysql中导入sql文件
 
-```
+```sql
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
-  `password` varchar(50) NOT NULL DEFAULT '' COMMENT '密码',
-  `sex` tinyint(4) NOT NULL DEFAULT '0' COMMENT '性别 0=女 1=男 ',
-  `deleted` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '删除标志，默认0不删除，1删除',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
+  `sex` int(1) NOT NULL DEFAULT '0' COMMENT '性别 0=女 1=男 ',
+  `age` int(5) unsigned NOT NULL DEFAULT '0' COMMENT '年龄',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
@@ -42,110 +39,167 @@ CREATE TABLE `users` (
 
 ### 步骤四: 编写UserService
 
-```
+```java
 @Service
-public class UserService {
-
-    private static final Logger LOGGER =  LoggerFactory.getLogger(UserService.class);
-
-    public static final String CACHE_KEY_USER = "user:";
-
+public class RedisServiceImpl implements RedisService {
     @Autowired
-    private UserMapper userMapper;
+    private UserMapper redisDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
+    private static final String CHECK_USER_KEY = "zb:";
+    @Override
+    public void createUser(UserDTO userDto) {
+        User redisEntity =  new User();
+        BeanUtils.copyProperties(userDto, redisEntity);
+        redisDao.insertSelective(redisEntity);
 
-    public void createUser(User obj){
-        this.userMapper.insertSelective(obj);
+        //缓冲key
+        String key = CHECK_USER_KEY + redisEntity.getId();
+        redisEntity = redisDao.selectByPrimaryKey(redisEntity.getId());
+        redisTemplate.opsForValue().set(key, redisEntity);
 
-        //缓存key
-        String key=CACHE_KEY_USER+obj.getId();
-        //到数据库里面，重新捞出新数据出来，做缓存
-        obj=this.userMapper.selectByPrimaryKey(obj.getId());
 
-        //opsForValue代表了Redis的String数据结构
-        //set代表了redis的SET命令
-        redisTemplate.opsForValue().set(key,obj);
     }
 
-    public void updateUser(User obj){
-        //1.先直接修改数据库
-        this.userMapper.updateByPrimaryKeySelective(obj);
-        //2.再修改缓存
-        //缓存key
-        String key=CACHE_KEY_USER+obj.getId();
-        obj=this.userMapper.selectByPrimaryKey(obj.getId());
-        //修改也是用SET命令，重新设置，Redis 没有update操作，都是重新设置新值
-        redisTemplate.opsForValue().set(key,obj);
-    }
-
-    public User findUserById(Integer userid){
-        ValueOperations<String, User> operations = redisTemplate.opsForValue();
-        //缓存key
-        String key=CACHE_KEY_USER+userid;
-        //1.先去redis查 ，如果查到直接返回，没有的话直接去数据库捞
-        //Redis 用了GET命令
-        User user=operations.get(key);
-
-        //2.redis没有的话，直接去数据库捞
-        if(user==null){
-            user=this.userMapper.selectByPrimaryKey(userid);
-            //由于redis没有才到数据库捞，所以必须把捞到的数据写入redis，方便下次查询能redis命中。
-            operations.set(key,user);
-        }
-        return user;
-    }
-
-}
-
-```
-
-### 步骤五：编写UserContrller
-
-```
-
-@Api(description = "用户接口")
-@RestController
-@RequestMapping("/user")
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    @ApiOperation("数据库初始化100条数据")
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public void init() {
-        for (int i = 0; i < 100; i++) {
-            Random rand = new Random();
-            User user = new User();
-            String temp = "un" + i;
-            user.setUsername(temp);
-            user.setPassword(temp);
-            int n = rand.nextInt(2);
-            user.setSex((byte) n);
-            userService.createUser(user);
-        }
-    }
-
-    @ApiOperation("单个用户查询，按userid查用户信息")
-    @RequestMapping(value = "/findById/{id}", method = RequestMethod.GET)
-    public UserVO findById(@PathVariable int id) {
-        User user = this.userService.findUserById(id);
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
-    }
-
-    @ApiOperation("修改某条数据")
-    @PostMapping(value = "/updateUser")
-    public void updateUser(@RequestBody UserVO obj) {
+    @Override
+    public void updateUser(UserDTO userDto) {
+        //先更新数据库，然后在缓存到redis
         User user = new User();
-        BeanUtils.copyProperties(obj, user);
-        userService.updateUser(user);
+        BeanUtils.copyProperties(userDto, user);
+        this.redisDao.updateByPrimaryKeySelective(user);
+        String key = CHECK_USER_KEY + user.getId();
+        user = this.redisDao.selectByPrimaryKey(user.getId());
+        this.redisTemplate.opsForValue().set(key, user);
+    }
+
+    @Override
+    public UserDTO selectUserById(Integer id) {
+        ValueOperations<String, User> operations = redisTemplate.opsForValue();
+        //缓冲key
+        String key = CHECK_USER_KEY + id;
+        //去redis中去查询
+        User user = operations.get(key);
+        UserDTO userdto = new UserDTO();
+        if (user != null) {
+            BeanUtils.copyProperties(user, userdto);
+        }
+
+        if (user == null) {
+            user = redisDao.selectByPrimaryKey(id);
+            //将数据库查询的数据 set到redis
+            operations.set(key, user);
+        }
+        return userdto;
+    }
+}
+\
+```
+
+### 步骤五：编写RedisContrller
+
+```java
+@RestController
+@Api(tags = "redis增删改查")
+public class RedisController {
+    @Autowired
+    private RedisService redisService;
+    @GetMapping("/create")
+    @ApiOperation("数据库初始化100条数据")
+    public void initData() {
+        for (int i = 0; i < 100; i ++) {
+            String tempName = "girl" + i;
+            Random r = new Random();
+            int n = r.nextInt(2);
+            int age = r.nextInt(6) + 5;
+            UserDTO redisDto = new UserDTO();
+            redisDto.setSex(n);
+            redisDto.setAge(age);
+            redisDto.setNickname(tempName);
+            redisService.createUser(redisDto);
+        }
+    }
+
+    @GetMapping("/findByUser/{id}")
+    @ApiOperation("查询数据")
+    public UserDTO findByUserId(@PathVariable int id) {
+        UserDTO redisStringMybatisDTO = redisService.selectUserById(id);
+        return redisStringMybatisDTO;
+    }
+
+    @PostMapping("/updateUser")
+    @ApiOperation("更新数据")
+    public void updateUser(@RequestBody UserDTO userDTO) {
+        this.redisService.updateUser(userDTO);
     }
 
 }
 
 ```
+### 步骤六 体验效果
+体验效果之前一定要启动redis，启动命令如下:
+```
+redis-server /usr/local/etc/redis.conf
+```
+我们使用Swagger来测试：
+
+![](/redis-img/initdata.png)
+
+我们点击Execute 执行，然后发现报错了：
+
+![](/redis-img/error-insert.png)
+
+这个意思是说，要想把数据放到redis中，必须对这个User的JavaBean进行序列化，那么我们在User上实现Serializable接口
+
+```java
+
+@Data
+public class User implements Serializable {
+    /**
+    * id
+    */
+    private Integer id;
+
+    /**
+    * 名称
+    */
+    private String nickname;
+
+    /**
+    * 年龄
+    */
+    private Integer age;
+
+    /**
+    * 性别
+    */
+    private Integer sex;
+}
+
+```
+
+需要注意的是这里的序列化默认使用的是JDK序列化，我们再次执行Execute就成功了，然后我们在redis中看下数据：
+
+![](/redis-img/show-redis.png)
+
+这就是JDK默认的序列化，非常不好看，后面我们可以实现Redis的序列化操作，让数据更好的查看，
+然后我们查询数据：
+
+![](/redis-img/findById.png)
+
+我们查询id为1101的数据，我们通过后台Mybatis日志发现第一次的时候是从数据库查询的：
+
+![](/redis-img/log_find.png)
+
+当我们再次查询1101这条数据的时候，我们发现Mybatis并没有输出日志，而是从redis中得到的数据：
+
+![](/redis-img/log_find2.png)
+
+
+![](/redis-img/find_result.png)
+
+
+
+
+

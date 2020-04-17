@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /image/main.png
+heroImage: /main.png
 heroText: 天地大同
 tagline: 技术无止境的笔记
 actionText: 从这里开始 →

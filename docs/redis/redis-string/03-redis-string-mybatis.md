@@ -199,6 +199,39 @@ public class User implements Serializable {
 
 ![](/redis-img/find_result.png)
 
+下面我们来修改数据：
+
+![](/redis-img/updateRedis.png)
+
+我们要修改的是原来1101的数据，我们看下原来的数据：
+
+![](/redis-img/oldFind.png)
+
+当我们点击Execute 执行后，就修改了原来的旧数据：
+
+![](/redis-img/newFind.png)
+
+最终我们再去查询1101的数据：
+
+![](/redis-img/findById.png)
+
+最终结果是从redis中得到的数据：
+
+![](/redis-img/findRedis.png)
+
+### 总结
+在SpringBoot中集成Redis十分简单，本案例没有任何复杂的代码，相比传统的sql查询，redis在海量数据中脱颖而出。
+
+### 留下的问题？
+之前我们遇到一个问题，就是将数据存到redis后，发现乱码，非常的不美观，下一节将解决这个问题。
+
+### 源码下载
+<a href="https://github.com/zhoubiao188/redis/tree/master/redis-string-mybatis">github</a>
+
+
+
+
+
 
 
 

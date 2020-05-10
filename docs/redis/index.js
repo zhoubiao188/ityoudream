@@ -10,7 +10,8 @@ module.exports = () => {
           'redis-string/03-redis-string-mybatis.md',
           'redis-string/04-redis-string-serializable.md',
           'redis-string/05-redis-mybatis-cache.md',
-          'redis-string/06-redis-string-pv.md'
+          'redis-string/06-redis-string-pv.md',
+          'redis-string/07-redis-string-id.md'
         ]
       }
     ]

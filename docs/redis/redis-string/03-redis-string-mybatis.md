@@ -27,113 +27,176 @@ spring.redis.password=
 ### 步骤三：在mysql中导入sql文件
 
 ```sql
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
-  `sex` int(1) NOT NULL DEFAULT '0' COMMENT '性别 0=女 1=男 ',
-  `age` int(5) unsigned NOT NULL DEFAULT '0' COMMENT '年龄',
+  `sex` int NOT NULL DEFAULT '0' COMMENT '性别 0=女 1=男 ',
+  `age` int unsigned NOT NULL DEFAULT '0' COMMENT '年龄',
+  `flag` int unsigned NOT NULL DEFAULT '0' COMMENT '0正常, 1删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
+SET FOREIGN_KEY_CHECKS = 1;
 ```
 
 ### 步骤四: 编写UserService
 
 ```java
+public interface UserSerivce {
+    /**
+     * 根据传入的Users对象创建用户
+     * @param obj
+     */
+   void createUser(Users obj);
+
+
+    /**
+     * 根据传入的Users对象更新用户信息
+     * @param obj
+     */
+   void updateUser(Users obj);
+
+    /**
+     * 根据用户传入的用户id查询用户信息
+     * @param userId
+     * @return
+     */
+   Users findByUserId(Integer userId);
+}
+
+```
+
+```java
+@Slf4j
 @Service
-public class RedisServiceImpl implements RedisService {
+public class UserServiceImpl implements UserSerivce {
     @Autowired
-    private UserMapper redisDao;
+    private UsersMapper usersMapper;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private static final String CHECK_USER_KEY = "zb:";
+    private static final String CACHE_KEY_USER = "user:";
     @Override
-    public void createUser(UserDTO userDto) {
-        User redisEntity =  new User();
-        BeanUtils.copyProperties(userDto, redisEntity);
-        redisDao.insertSelective(redisEntity);
+    public void createUser(Users obj) {
+        /**
+         * 通过传入的obj对象，向数据库插入数据
+         */
+        this.usersMapper.insertSelective(obj);
 
-        //缓冲key
-        String key = CHECK_USER_KEY + redisEntity.getId();
-        redisEntity = redisDao.selectByPrimaryKey(redisEntity.getId());
-        redisTemplate.opsForValue().set(key, redisEntity);
+        /**
+         * 组装Redis的key
+         * redis中一般key都是xxxx:xxx这种格式的
+         */
+        String key = CACHE_KEY_USER + obj.getId();
 
-
+        /**
+         * String类型使用opsForValue来操作
+         * 这里的set相当于redis的的set的命令
+         */
+        obj = this.usersMapper.selectByPrimaryKey(obj.getId());
+        redisTemplate.opsForValue().set(key,obj);
     }
 
     @Override
-    public void updateUser(UserDTO userDto) {
-        //先更新数据库，然后在缓存到redis
-        User user = new User();
-        BeanUtils.copyProperties(userDto, user);
-        this.redisDao.updateByPrimaryKeySelective(user);
-        String key = CHECK_USER_KEY + user.getId();
-        user = this.redisDao.selectByPrimaryKey(user.getId());
-        this.redisTemplate.opsForValue().set(key, user);
+    public void updateUser(Users obj) {
+        /**
+         * 更新先更新数据库的数据，然后再缓存
+         */
+        this.usersMapper.updateByPrimaryKeySelective(obj);
+
+        /**
+         * 组装Rdis的key
+         */
+        String key = CACHE_KEY_USER + obj.getId();
+
+        /**
+         * 先将数据查询出来，然后再更新到redis中
+         * 这里注意的是redis没有update命令，都是重新设置值
+         */
+        obj = this.usersMapper.selectByPrimaryKey(obj.getId());
+        redisTemplate.opsForValue().set(key, obj);
     }
 
     @Override
-    public UserDTO selectUserById(Integer id) {
-        ValueOperations<String, User> operations = redisTemplate.opsForValue();
-        //缓冲key
-        String key = CHECK_USER_KEY + id;
-        //去redis中去查询
-        User user = operations.get(key);
-        UserDTO userdto = new UserDTO();
-        if (user != null) {
-            BeanUtils.copyProperties(user, userdto);
-        }
+    public Users findByUserId(Integer userId) {
+        /**
+         * 这里是获取redis中所有的数据集合
+         */
+        ValueOperations<String, Users> operations = redisTemplate.opsForValue();
+
+        /**
+         * 组装Redis的key
+         */
+        String key = CACHE_KEY_USER + userId;
+
+        /**
+         * 先去redis中查询，如果没有，再到数据库中去查询
+         */
+        Users user =  operations.get(key);
 
         if (user == null) {
-            user = redisDao.selectByPrimaryKey(id);
-            //将数据库查询的数据 set到redis
+            user = this.usersMapper.selectByPrimaryKey(userId);
+            /**
+             * 查询到数据后，再次将数据缓冲到redis中
+             */
             operations.set(key, user);
         }
-        return userdto;
+
+        return user;
     }
 }
-\
 ```
 
 ### 步骤五：编写RedisContrller
 
 ```java
+@Api(tags = {"redis缓存测试"})
 @RestController
-@Api(tags = "redis增删改查")
-public class RedisController {
+@RequestMapping("/user")
+public class    UserController {
     @Autowired
-    private RedisService redisService;
-    @GetMapping("/create")
-    @ApiOperation("数据库初始化100条数据")
-    public void initData() {
-        for (int i = 0; i < 100; i ++) {
-            String tempName = "girl" + i;
-            Random r = new Random();
-            int n = r.nextInt(2);
-            int age = r.nextInt(6) + 5;
-            UserDTO redisDto = new UserDTO();
-            redisDto.setSex(n);
-            redisDto.setAge(age);
-            redisDto.setNickname(tempName);
-            redisService.createUser(redisDto);
+    private UserSerivce userSerivce;
+
+    @ApiOperation("向数据库初始化100条数据")
+    @GetMapping("/init")
+    public void init() {
+        for(int i = 0; i < 100; i ++) {
+            Random rand = new Random();
+            Users users = new Users();
+            String tempprefix = "girl" + i;
+            users.setNickname(tempprefix);
+            int n  = rand.nextInt(2);
+            int age = rand.nextInt(6) + 5;
+            users.setSex(n);
+            users.setAge(age);
+            userSerivce.createUser(users);
         }
     }
 
+    @ApiOperation("根据用户id查询某条数据")
     @GetMapping("/findByUser/{id}")
-    @ApiOperation("查询数据")
-    public UserDTO findByUserId(@PathVariable int id) {
-        UserDTO redisStringMybatisDTO = redisService.selectUserById(id);
-        return redisStringMybatisDTO;
+    public UsersDTO findByUserId(@PathVariable int id) {
+        Users users = this.userSerivce.findByUserId(id);
+        UsersDTO usersDTO = new UsersDTO();
+        BeanUtils.copyProperties(users, usersDTO);
+        return usersDTO;
     }
 
-    @PostMapping("/updateUser")
-    @ApiOperation("更新数据")
-    public void updateUser(@RequestBody UserDTO userDTO) {
-        this.redisService.updateUser(userDTO);
+    @ApiOperation("修改某条数据")
+    @PutMapping("/updateUser")
+    public void updateUser(@RequestBody UsersDTO obj) {
+        Users users = new Users();
+        BeanUtils.copyProperties(obj, users);
+        this.userSerivce.updateUser(users);
     }
-
 }
 
 ```

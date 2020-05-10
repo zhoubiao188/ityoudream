@@ -96,105 +96,93 @@ public class RedisConfig {
 #### 步骤4：逻辑代码
 
 ``` java
-@Api(description = "用户接口")
+@Api(tags = "springcache测试")
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-
     @Autowired
     private UserService userService;
-
-
-
-    @ApiOperation("单个用户查询，按userid查用户信息")
-    @RequestMapping(value = "/findById/{id}", method = RequestMethod.GET)
-    public UserVO findById(@PathVariable int id) {
-        User user = this.userService.findUserById(id);
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return userVO;
+    @ApiOperation("根据用户id查询")
+    @GetMapping("/findByUserId/{id}")
+    public UsersVo findByUserId(@PathVariable int id) {
+        Users user = userService.findUserById(id);
+        UsersVo usersVo = new UsersVo();
+        BeanUtils.copyProperties(user, usersVo);
+        return usersVo;
     }
 
-    @ApiOperation("修改某条数据")
-    @PostMapping(value = "/updateUser")
-    public void updateUser(@RequestBody UserVO obj) {
-        User user = new User();
-        BeanUtils.copyProperties(obj, user);
-        userService.updateUser(user);
+    @ApiOperation("更新某条数据")
+    @PutMapping("/updateUser")
+    public void  updateUser(@RequestBody UsersVo obj) {
+        Users users = new Users();
+        BeanUtils.copyProperties(obj, users);
+        userService.updateUser(users);
     }
 
-    @ApiOperation("按id删除用户")
-    @RequestMapping(value = "/del/{id}", method = RequestMethod.GET)
-    public void deleteUser(@PathVariable int id) {
+    @ApiOperation("根据id删除某条数据")
+    @DeleteMapping("/del/{id}")
+    public void deleteByUserId(@PathVariable int id) {
         this.userService.deleteUser(id);
-    }
 
+    }
 }
 ```
+UserService
 ```java
+public interface UserService {
+    /**
+     * 根据用户id查询用户信息
+     * @param id
+     * @return Users
+     */
+    Users findUserById(Integer id);
 
-@Service
-@CacheConfig(cacheNames = { "user" })
-public class UserService {
+    /**
+     * 根据传入的Users对象来更新用户信息
+     * @param obj
+     * @return
+     */
+    Users updateUser(Users obj);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Cacheable(key="#id")
-    public User findUserById(Integer id){
-        return this.userMapper.selectByPrimaryKey(id);
-    }
-
-    @CachePut(key = "#obj.id")
-    public User updateUser(User obj){
-        this.userMapper.updateByPrimaryKeySelective(obj);
-        return this.userMapper.selectByPrimaryKey(obj.getId());
-    }
-
-    @CacheEvict(key = "#id")
-    public void deleteUser(Integer id){
-        User user=new User();
-        user.setId(id);
-        user.setDeleted((byte)1);
-        this.userMapper.updateByPrimaryKeySelective(user);
-    }
-
+    /**
+     * 根据传入的用户id来删除用户信息
+     * @param id
+     */
+    void deleteUser(Integer id);
 }
 ```
+
 
 ### 三、剖析SpringCache常用注解
 ``` java
+@Slf4j
+@CacheConfig(cacheNames = {"user"})
 @Service
-@CacheConfig(cacheNames = { "user" })
-public class UserService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
-
+public class UserServiceImpl implements UserService {
     @Autowired
-    private UserMapper userMapper;
+    private UsersMapper usersMapper;
 
-    @Cacheable(key="#id")
-    public User findUserById(Integer id){
-        return this.userMapper.selectByPrimaryKey(id);
+    @Cacheable(key = "#id")
+    @Override
+    public Users findUserById(Integer id) {
+        return this.usersMapper.selectByPrimaryKey(id);
     }
 
     @CachePut(key = "#obj.id")
-    public User updateUser(User obj){
-        this.userMapper.updateByPrimaryKeySelective(obj);
-        return this.userMapper.selectByPrimaryKey(obj.getId());
+    @Override
+    public Users updateUser(Users obj) {
+        this.usersMapper.updateByPrimaryKeySelective(obj);
+        return this.usersMapper.selectByPrimaryKey(obj.getId());
     }
 
     @CacheEvict(key = "#id")
-    public void deleteUser(Integer id){
-        User user=new User();
+    @Override
+    public void deleteUser(Integer id) {
+        Users user = new Users();
         user.setId(id);
-        user.setDeleted((byte)1);
-        this.userMapper.updateByPrimaryKeySelective(user);
+        user.setFlag(1);
+        this.usersMapper.updateByPrimaryKeySelective(user);
     }
-
 }
 ```
 
@@ -252,6 +240,10 @@ public void deleteUser(Integer id){
    
 2. 对于多表查询的数据缓存，springcache是不支持的，只支持单表的简单缓存。
    对于多表的整体缓存，只能用RedisTemplate。
+
+
+### 源码下载
+<a href="https://github.com/zhoubiao188/redis/tree/master/redis-string-springcache">github</a>
 
 
 

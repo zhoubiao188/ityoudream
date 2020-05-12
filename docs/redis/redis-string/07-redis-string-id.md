@@ -160,7 +160,6 @@ public class ProductController {
     }
 }
 ```
-
 ### 步骤五：体验效果
 浏览器访问http://localhost:8081/swagger-ui.html，在swagger中输出创建参数进行创建，注意id和productId可以不用带，这里由redis自动生成
 

@@ -133,7 +133,7 @@ redis中
 
 
 ### 源码下载
-<a href="https://github.com/zhoubiao188/redis/tree/master/redis-string-springcache">github</a>
+<a href="https://github.com/zhoubiao188/easyredis/tree/master/redis-string-lua">github</a>
 
 
 

@@ -13,7 +13,8 @@ module.exports = () => {
           'redis-string/06-redis-string-pv.md',
           'redis-string/07-redis-string-id.md',
           'redis-string/08-redis-string-lua.md',
-          'redis-string/09-redis-string-lua.md'
+          'redis-string/09-redis-string-lua.md',
+          'redis-string/10-redis-string-lua.md'
         ]
       }
     ]

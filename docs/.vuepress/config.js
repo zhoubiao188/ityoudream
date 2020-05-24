@@ -36,6 +36,9 @@ module.exports = {
           { text: 'Redis', link: '/redis/' },
           { text: 'MogoDB', link: '/mogodb/' }
         ]
+      },
+      {
+        text: 'Nginx', link: '/nginx/'
       }
     ],
   sidebar: {

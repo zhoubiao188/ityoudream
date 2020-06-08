@@ -1,7 +1,11 @@
 const RedisSidebarConfig = require('../redis/')
+const RabbitMQConfig = require('../rmq/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
+  head: [
+    ['link', { rel: 'shortcut icon', type: "image/x-icon", href: "/public/favicon.ico" }]
+],
   //静态资源相对路径配置
   //配置显示行号
   markdown: {
@@ -39,10 +43,14 @@ module.exports = {
       },
       {
         text: 'Nginx', link: '/nginx/'
+      },
+      {
+        text: 'RabbitMQ', link: '/rmq/'
       }
     ],
   sidebar: {
-    '/redis/': RedisSidebarConfig()
+    '/redis/': RedisSidebarConfig(),
+    '/rmq/': RabbitMQConfig()
   },
   }
 }

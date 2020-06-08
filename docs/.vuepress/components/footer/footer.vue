@@ -7,7 +7,7 @@ export default {
   data () {
     return {
       url: 'http://www.beian.miit.gov.cn/',
-      code: ''
+      code: '蜀ICP备20015312号'
     }
   },
   methods: {

@@ -9,7 +9,8 @@ module.exports = () => {
             'rmq-01-install.md',
             'rmq-02-install.md',
             'rmq-03-quick-start.md',
-            'rmq-04-connection.md'
+            'rmq-04-connection.md',
+            'rmq-05-direct.md'
         ]
       }
     ]

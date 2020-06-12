@@ -1,5 +1,6 @@
 const RedisSidebarConfig = require('../redis/')
 const RabbitMQConfig = require('../rmq/')
+const ArithmeticConfig = require('../arithmetic/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
@@ -46,11 +47,15 @@ module.exports = {
       },
       {
         text: 'RabbitMQ', link: '/rmq/'
+      },
+      {
+        text: '数据结构与算法', link: '/arithmetic/'
       }
     ],
   sidebar: {
     '/redis/': RedisSidebarConfig(),
-    '/rmq/': RabbitMQConfig()
+    '/rmq/': RabbitMQConfig(),
+    '/arithmetic/': ArithmeticConfig()
   },
   }
 }

@@ -7,7 +7,8 @@ module.exports = () => {
         children: [
             'arith-01.md',
             'arith-02.md',
-            'arith-03.md'
+            'arith-03.md',
+            'arith-04.md'
         ]
       }
     ]

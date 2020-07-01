@@ -8,7 +8,8 @@ module.exports = () => {
             'arith-01.md',
             'arith-02.md',
             'arith-03.md',
-            'arith-04.md'
+            'arith-04.md',
+            'arith-05.md'
         ]
       }
     ]

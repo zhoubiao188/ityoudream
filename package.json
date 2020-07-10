@@ -3,5 +3,10 @@
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"
   },
-  "dependencies": {}
+  "dependencies": {
+    "yarn": "^1.22.4"
+  },
+  "devDependencies": {
+    "vuepress": "^1.5.2"
+  }
 }

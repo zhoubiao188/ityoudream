@@ -9,7 +9,7 @@ Map<String, HashMap<String,String>> hash=new HashMap<String,HashMap<String,Strin
 
 ###  redis的hash结构经典场景：存储java对象
 把一个Product对象，存储进redis的hash结构
-```
+```java
 @Data
 public class Product {
     //商品id

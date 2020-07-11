@@ -4,6 +4,12 @@ const ArithmeticConfig = require('../arithmetic/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
+  plugins: {
+    'sitemap': {
+      hostname: 'http://ityoudream.cn'
+    },
+    'vuepress-plugin-baidu-autopush': true
+  },
   head: [
     ['link', { rel: 'shortcut icon', type: "image/x-icon", href: "/public/favicon.ico" }]
 ],

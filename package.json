@@ -4,9 +4,11 @@
     "build": "vuepress build docs"
   },
   "dependencies": {
+    "vuepress-plugin-sitemap": "^2.3.1",
     "yarn": "^1.22.4"
   },
   "devDependencies": {
-    "vuepress": "^1.5.2"
+    "vuepress": "^1.5.2",
+    "vuepress-plugin-baidu-autopush": "^1.0.1"
   }
 }

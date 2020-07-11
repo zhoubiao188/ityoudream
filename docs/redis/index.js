@@ -21,7 +21,8 @@ module.exports = () => {
       title: "Redis之Hash部分",
       collapsable: true,
       children: [
-        'redis-hash/01-aboutHash.md'
+        'redis-hash/01-aboutHash.md',
+        'redis-hash/02-hash-quickstart.md'
       ]
       }
     ]

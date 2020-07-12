@@ -22,7 +22,8 @@ module.exports = () => {
       collapsable: true,
       children: [
         'redis-hash/01-aboutHash.md',
-        'redis-hash/02-hash-quickstart.md'
+        'redis-hash/02-hash-quickstart.md',
+        'redis-hash/03-taobao-shorturl.md'
       ]
       }
     ]

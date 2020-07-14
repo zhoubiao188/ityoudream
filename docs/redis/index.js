@@ -23,7 +23,9 @@ module.exports = () => {
       children: [
         'redis-hash/01-aboutHash.md',
         'redis-hash/02-hash-quickstart.md',
-        'redis-hash/03-taobao-shorturl.md'
+        'redis-hash/03-taobao-shorturl.md',
+        'redis-hash/04-hash-shorturl-boot.md',
+        'redis-hash/05-hash-shoppingcard.md'
       ]
       }
     ]

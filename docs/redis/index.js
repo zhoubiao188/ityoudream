@@ -25,7 +25,8 @@ module.exports = () => {
         'redis-hash/02-hash-quickstart.md',
         'redis-hash/03-taobao-shorturl.md',
         'redis-hash/04-hash-shorturl-boot.md',
-        'redis-hash/05-hash-shoppingcard.md'
+        'redis-hash/05-hash-shoppingcard.md',
+        'redis-hash/06-hash-concurrent-shoppingcard.md'
       ]
       }
     ]

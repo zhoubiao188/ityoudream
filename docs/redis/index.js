@@ -27,7 +27,8 @@ module.exports = () => {
         'redis-hash/04-hash-shorturl-boot.md',
         'redis-hash/05-hash-shoppingcard.md',
         'redis-hash/06-hash-concurrent-shoppingcard.md',
-        'redis-hash/07-hash-session.md'
+        'redis-hash/07-hash-session.md',
+        'redis-hash/08-hash-login-manger.md'
       ]
       }
     ]

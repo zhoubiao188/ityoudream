@@ -52,10 +52,37 @@ module.exports = {
         text: 'Nginx', link: '/nginx/'
       },
       {
-        text: 'RabbitMQ', link: '/rmq/'
+        text: 'RabbitMQ',
+        ariaLabel: 'Queue',
+        items: [
+          { text: 'RabbitMQ', link: '/rmq/'},
+          { text: 'KaFka', link: '/kfa/'}
+        ]
       },
       {
         text: '数据结构与算法', link: '/arithmetic/'
+      },
+      {
+        text: '大数据',
+        ariaLabel: 'BigData Menu',
+        items: [
+          { text: 'Flink', link: '/flink/' },
+          { text: 'ElasticSearch', link: '/es/' },
+          { text: 'spark', link: '/spark/' },
+          { text: 'hadoop', link: '/hadoop/' }
+        ]
+      },
+      {
+        text: 'Java编程',
+        ariaLabel: 'Java',
+        items: [
+          { text: 'SpringBoot', link: '/springboot/' },
+          { text: 'SpringCloud', link: '/springcloud/' },
+          { text: 'SpringCloud for AliBaBa', link: '/alibabaCloud/' },
+          { text: 'WebFlux', link: '/webflux/' },
+          { text: 'Docker', link: '/docker/' },
+          { text: 'K8s', link: '/k8s/' }
+        ]
       }
     ],
   sidebar: {

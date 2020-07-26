@@ -28,7 +28,12 @@ module.exports = () => {
         'redis-hash/05-hash-shoppingcard.md',
         'redis-hash/06-hash-concurrent-shoppingcard.md',
         'redis-hash/07-hash-session.md',
-        'redis-hash/08-hash-login-manger.md'
+        'redis-hash/08-hash-login-manger.md',
+        'redis-hash/redis-hash-nginx-session.md',
+        'redis-hash/redis-hash-nginx-session-request.md',
+        'redis-hash/redis-hash-session-source.md',
+        'redis-hash/09-hash-webo-send.md',
+        'redis-hash/redis-hash-webo-register.md'
       ]
       }
     ]

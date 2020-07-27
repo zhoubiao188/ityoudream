@@ -35,6 +35,12 @@ module.exports = () => {
         'redis-hash/09-hash-webo-send.md',
         'redis-hash/redis-hash-webo-register.md'
       ]
-      }
+      },
+      {
+        title: "Redis之Set部分",
+        collapsable: true,
+        children: [
+        ]
+        }
     ]
   }

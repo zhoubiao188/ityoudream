@@ -40,6 +40,9 @@ module.exports = () => {
         title: "Redis之Set部分",
         collapsable: true,
         children: [
+          'redis-set/01-aboutSet.md',
+          'redis-set/02.set-quickstart.md',
+          'redis-set/03-set-taobao-blacklist.md'
         ]
         }
     ]

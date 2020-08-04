@@ -43,7 +43,8 @@ module.exports = () => {
           'redis-set/01-aboutSet.md',
           'redis-set/02.set-quickstart.md',
           'redis-set/03-set-taobao-blacklist.md',
-          'redis-set/04-set-jd-choujiang.md'
+          'redis-set/04-set-jd-choujiang.md',
+          'redis-set/05-set-alipay-taobao.md'
         ]
         }
     ]

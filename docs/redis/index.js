@@ -46,7 +46,9 @@ module.exports = () => {
           'redis-set/04-set-jd-choujiang.md',
           'redis-set/05-set-alipay-taobao.md',
           'redis-set/06-set-webo-guanzhu.md',
-          'redis-set/07-set-webo-start.md'
+          'redis-set/07-set-webo-start.md',
+          'redis-set/08-redis-hyper.md',
+          'redis-set/09-redis-set-current.md'
         ]
         }
     ]

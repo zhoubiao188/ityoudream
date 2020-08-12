@@ -50,6 +50,13 @@ module.exports = () => {
           'redis-set/08-redis-hyper.md',
           'redis-set/09-redis-set-current.md'
         ]
-        }
+        },
+        {
+          title: "Redis之List部分",
+          collapsable: true,
+          children: [
+            'redis-list/01-about-redis-list.md'
+          ]
+          }
     ]
   }

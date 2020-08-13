@@ -55,7 +55,8 @@ module.exports = () => {
           title: "Redis之List部分",
           collapsable: true,
           children: [
-            'redis-list/01-about-redis-list.md'
+            'redis-list/01-about-redis-list.md',
+            'redis-list/02-taobao-juhuasuan.md'
           ]
           }
     ]

@@ -56,7 +56,8 @@ module.exports = () => {
           collapsable: true,
           children: [
             'redis-list/01-about-redis-list.md',
-            'redis-list/02-taobao-juhuasuan.md'
+            'redis-list/02-taobao-juhuasuan.md',
+            'redis-list/03-redis-jichuan.md'
           ]
           }
     ]

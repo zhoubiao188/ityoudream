@@ -57,7 +57,9 @@ module.exports = () => {
           children: [
             'redis-list/01-about-redis-list.md',
             'redis-list/02-taobao-juhuasuan.md',
-            'redis-list/03-redis-jichuan.md'
+            'redis-list/03-redis-jichuan.md',
+            'redis-list/04-redis-list-redpacket.md',
+            'redis-list/05-redis-list-pv.md'
           ]
           }
     ]

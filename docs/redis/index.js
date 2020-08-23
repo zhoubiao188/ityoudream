@@ -59,7 +59,13 @@ module.exports = () => {
             'redis-list/02-taobao-juhuasuan.md',
             'redis-list/03-redis-jichuan.md',
             'redis-list/04-redis-list-redpacket.md',
-            'redis-list/05-redis-list-pv.md'
+            'redis-list/05-redis-list-pv.md',
+            'redis-list/06-redis-webo-push.md',
+            'redis-list/07-redis-webo-youhua.md',
+            'redis-list/docker-redis-fbs.md',
+            'redis-list/redis-lock-about.md',
+            'redis-list/redis-lock-waitTime.md',
+            'redis-list/redis-setnx.md'
           ]
           }
     ]

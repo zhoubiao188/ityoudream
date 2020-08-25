@@ -65,7 +65,8 @@ module.exports = () => {
             'redis-list/docker-redis-fbs.md',
             'redis-list/redis-lock-about.md',
             'redis-list/redis-lock-waitTime.md',
-            'redis-list/redis-setnx.md'
+            'redis-list/redis-setnx.md',
+            'redis-list/redis-lock-lua.md'
           ]
           }
     ]

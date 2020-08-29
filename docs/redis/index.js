@@ -67,7 +67,8 @@ module.exports = () => {
             'redis-list/redis-lock-waitTime.md',
             'redis-list/redis-setnx.md',
             'redis-list/redis-lock-lua.md',
-            'redis-list/redis-leaseTime.md'
+            'redis-list/redis-leaseTime.md',
+            'redis-list/redis-lock-core.md'
           ]
           }
     ]

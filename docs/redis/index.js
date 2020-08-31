@@ -68,7 +68,8 @@ module.exports = () => {
             'redis-list/redis-setnx.md',
             'redis-list/redis-lock-lua.md',
             'redis-list/redis-leaseTime.md',
-            'redis-list/redis-lock-core.md'
+            'redis-list/redis-lock-core.md',
+            'redis-list/redis-lock-cfs.md'
           ]
           }
     ]

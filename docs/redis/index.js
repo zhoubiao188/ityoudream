@@ -70,7 +70,8 @@ module.exports = () => {
             'redis-list/redis-leaseTime.md',
             'redis-list/redis-lock-core.md',
             'redis-list/redis-lock-cfs.md',
-            'redis-list/redis-lock-digui.md'
+            'redis-list/redis-lock-digui.md',
+            'redis-list/redis-lock-fbs-crs.md'
           ]
           }
     ]

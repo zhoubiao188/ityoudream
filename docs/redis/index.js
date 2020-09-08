@@ -66,6 +66,7 @@ module.exports = () => {
             'redis-list/redis-lock-about.md',
             'redis-list/redis-lock-waitTime.md',
             'redis-list/redis-setnx.md',
+            'redis-list/redis-lock-cr.md',
             'redis-list/redis-lock-lua.md',
             'redis-list/redis-leaseTime.md',
             'redis-list/redis-lock-core.md',
@@ -73,6 +74,14 @@ module.exports = () => {
             'redis-list/redis-lock-digui.md',
             'redis-list/redis-lock-fbs-crs.md'
           ]
-          }
+          },
+          {
+            title: "Redis之Zset部分",
+            collapsable: true,
+            children: [
+             'redis-zset/about-zset.md',
+             'redis-zset/redis-webo-rank.md'
+            ]
+            }
     ]
   }

@@ -80,7 +80,12 @@ module.exports = () => {
             collapsable: true,
             children: [
              'redis-zset/about-zset.md',
-             'redis-zset/redis-webo-rank.md'
+             'redis-zset/redis-webo-rank.md',
+             'redis-zset/redis-geo-hotel.md',
+             'redis-zset/redis-geo-hotel-coding.md',
+             'redis-zset/redis-zset-live.md',
+             'redis-zset/redis-im-01.md',
+             'redis-zset/redis-bloom-filter.md'
             ]
             }
     ]

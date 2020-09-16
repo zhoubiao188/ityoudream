@@ -85,7 +85,8 @@ module.exports = () => {
              'redis-zset/redis-geo-hotel-coding.md',
              'redis-zset/redis-zset-live.md',
              'redis-zset/redis-im-01.md',
-             'redis-zset/redis-bloom-filter.md'
+             'redis-zset/redis-bloom-filter.md',
+             'redis-zset/redis-stream-mq-01.md'
             ]
             }
     ]

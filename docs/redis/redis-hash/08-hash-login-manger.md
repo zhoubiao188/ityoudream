@@ -33,8 +33,8 @@ public class UserController {
 
     public UserController() {
         //初始化2个用户，用于模拟登录
-        User u1=new User(1,"agan1","agan1");
-        userMap.put("agan1",u1);
+        User u1=new User(1,"zb1","zb1");
+        userMap.put("zb1",u1);
         User u2=new User(2,"agan2","agan2");
         userMap.put("agan2",u2);
     }
@@ -92,5 +92,5 @@ session拦截器的作用：
 验证当前用户发来的请求是否有携带sessionid，如果没有携带，提示用户重新登录。
 
 #### 步骤4：体验测试
-http://127.0.0.1:9090/user/login?username=agan1&password=agan1
-http://127.0.0.1:9090/user/find/agan1
+http://127.0.0.1:9090/user/login?username=zb1&password=zb1
+http://127.0.0.1:9090/user/find/zb1

@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:latest
 COPY ./docs/.vuepress/dist /usr/share/nginx/html/
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 

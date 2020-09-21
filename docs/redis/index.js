@@ -89,8 +89,15 @@ module.exports = () => {
              'redis-zset/redis-stream-mq-01.md',
              'redis-zset/redis-stream-mq-02.md',
              'redis-zset/redis-stream-mq-03.md',
-             'redis-zset/redis-stream-mq-04.md'
+             'redis-zset/redis-stream-mq-04.md',
+             'redis-zset/redis-stream-mq-05.md'
             ]
-            }
+            },
+            {
+              title: "Redis之源码解析",
+              collapsable: true,
+              children: [          
+              ]
+              }
     ]
   }

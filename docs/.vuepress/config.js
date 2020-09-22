@@ -1,6 +1,7 @@
 const RedisSidebarConfig = require('../redis/')
 const RabbitMQConfig = require('../rmq/')
 const ArithmeticConfig = require('../arithmetic/')
+const SpringBootConfig = require('../springboot/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
@@ -88,7 +89,8 @@ module.exports = {
   sidebar: {
     '/redis/': RedisSidebarConfig(),
     '/rmq/': RabbitMQConfig(),
-    '/arithmetic/': ArithmeticConfig()
+    '/arithmetic/': ArithmeticConfig(),
+    '/springboot/': SpringBootConfig()
   },
   }
 }

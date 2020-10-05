@@ -22,6 +22,8 @@ module.exports = () => {
           'sb-basic/sb-b-03.md',
           'sb-basic/sb-b-04.md',
           'sb-basic/sb-b-05.md',
+          'sb-basic/sb-b-06.md',
+          'sb-basic/sb-b-07.md',
         ]
       }
     ]

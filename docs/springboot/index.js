@@ -6,15 +6,15 @@ module.exports = () => {
         collapsable: true,
         children: [
           'sb-core/sb-ioc.md',
-          'sb-core/sb-ioc2.md',
-          'sb-core/sb-ioc3.md',
-          'sb-core/sb-ioc4.md',
-          'sb-core/sb-ioc5.md'
+          'sb-core/sb-ioc-2.md',
+          'sb-core/sb-ioc-3.md',
+          'sb-core/sb-ioc-4.md',
+          'sb-core/sb-ioc-5.md'
         ]
       },
       '',
       {
-        title: "SpringBoot核心原理",
+        title: "SpringBoot基本知识",
         collapsable: true,
         children: [
           'sb-basic/sb-b-01.md',
@@ -30,7 +30,9 @@ module.exports = () => {
           'sb-basic/sb-b-11.md',
           'sb-basic/sb-b-12.md',
           'sb-basic/sb-b-13.md',
-
+          'sb-basic/sb-b-14.md',
+          'sb-basic/sb-b-15.md',
+          'sb-basic/sb-b-16.md'
         ]
       }
     ]

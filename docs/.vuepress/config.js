@@ -2,6 +2,7 @@ const RedisSidebarConfig = require('../redis/')
 const RabbitMQConfig = require('../rmq/')
 const ArithmeticConfig = require('../arithmetic/')
 const SpringBootConfig = require('../springboot/')
+const KafkaConfig = require('../kafka/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
@@ -57,7 +58,7 @@ module.exports = {
         ariaLabel: 'Queue',
         items: [
           { text: 'RabbitMQ', link: '/rmq/'},
-          { text: 'KaFka', link: '/kfa/'}
+          { text: 'KaFka', link: '/kafka/'}
         ]
       },
       {
@@ -90,7 +91,8 @@ module.exports = {
     '/redis/': RedisSidebarConfig(),
     '/rmq/': RabbitMQConfig(),
     '/arithmetic/': ArithmeticConfig(),
-    '/springboot/': SpringBootConfig()
+    '/springboot/': SpringBootConfig(),
+    '/kafka/': KafkaConfig()
   },
   }
 }

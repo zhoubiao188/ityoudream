@@ -18,3 +18,6 @@ bin/kafka-console-consumer.sh --bootstrap-server 192.168.220.128:9092 --topic ji
 
 
 {"orderId":"002","price":"80"}
+
+## kafka基本原理
+![](/kafka/kafka-basic.png)

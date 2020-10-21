@@ -6,6 +6,7 @@ module.exports = () => {
         collapsable: true,
         children: [
             'kafka-basic-cmd.md',
+            'kafka-stream.md'
         ]
       }
     ]

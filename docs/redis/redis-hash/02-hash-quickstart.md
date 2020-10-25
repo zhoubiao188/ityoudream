@@ -111,3 +111,6 @@ public void addPrice(int id,int price) {
 
 ```
 #### 步骤5：用swagger体验效果
+
+#### 源码下载
+<a href="https://github.com/zhoubiao188/easyredis/tree/master/redis-hash/redis-hash-object">github</a>

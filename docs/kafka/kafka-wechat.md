@@ -82,3 +82,211 @@ public class WechatTemplateServiceImpl implements WechatTemplateService{
 }
 
 ```
+
+#### 文件上传工具类
+```java
+@Slf4j
+public class FileUtils {
+
+  public static String readFile(String filePath) throws IOException {
+    @Cleanup
+    BufferedReader reader = new BufferedReader(
+        new FileReader(new File(filePath))
+    );
+
+    String lineStr = "";
+    StringBuffer stringBuffer = new StringBuffer();
+    while ((lineStr = reader.readLine()) != null) {
+      stringBuffer.append(lineStr);
+    }
+
+    return stringBuffer.toString();
+  }
+
+
+  public static Optional<JSONObject> readFile2JsonObject(String filePath){
+    try {
+      String fileContent = readFile(filePath);
+      log.info("readFile2Json fileContent: [{}]" , fileContent);
+      return Optional.ofNullable(JSON.parseObject(fileContent));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Optional.empty();
+  }
+
+  public static Optional<JSONArray> readFile2JsonArray(String filePath){
+    try {
+      String fileContent = readFile(filePath);
+      log.info("readFile2JsonArray fileContent: [{}]" , fileContent);
+      return Optional.ofNullable(JSON.parseArray(fileContent));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return Optional.empty();
+  }
+
+}
+```
+
+#### kafka连接配置
+```java
+@Configuration
+public class KafkaConf {
+
+    @Autowired
+    private KafkaProperties kafkaProperties;
+
+    @Bean
+    public Producer kafkaProducer(){
+        Properties properties = new Properties();
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.getBootstrapServers());
+        properties.put(ProducerConfig.ACKS_CONFIG, kafkaProperties.getAcksConfig());
+        properties.put(ProducerConfig.RETRIES_CONFIG,"0");
+        properties.put(ProducerConfig.BATCH_SIZE_CONFIG,"16384");
+        properties.put(ProducerConfig.LINGER_MS_CONFIG,"1");
+        properties.put(ProducerConfig.BUFFER_MEMORY_CONFIG,"33554432");
+
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringSerializer");
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringSerializer");
+//        properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,"com.imooc.jiangzh.kafka.producer.SamplePartition");
+
+        // Producer的主对象
+        Producer<String,String> producer = new KafkaProducer<>(properties);
+
+        return producer;
+    }
+
+}
+
+```
+
+#### application.properties 读取配置 java类
+```java
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "wechat.kafka")
+public class KafkaProperties {
+
+    private String bootstrapServers;
+    private String acksConfig;
+    private String partitionerClass;
+
+}
+```
+
+```java
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "template")
+public class WechatTemplateProperties {
+
+    private List<WechatTemplate> templates;
+    private int templateResultType; // 0-文件获取 1-数据库获取 2-ES
+    private String templateResultFilePath;
+
+    @Data
+    public static class WechatTemplate{
+        private String templateId;
+        private String templateFilePath;
+        private boolean active;
+    }
+
+}
+```
+#### 请求响应体
+```java
+@Data
+public class BaseResponseVO<M> {
+
+  private String requestId;
+  private M result;
+
+  public static<M> BaseResponseVO success(){
+    BaseResponseVO baseResponseVO = new BaseResponseVO();
+    baseResponseVO.setRequestId(genRequestId());
+
+    return baseResponseVO;
+  }
+
+  public static<M> BaseResponseVO success(M result){
+    BaseResponseVO baseResponseVO = new BaseResponseVO();
+    baseResponseVO.setRequestId(genRequestId());
+    baseResponseVO.setResult(result);
+
+    return baseResponseVO;
+  }
+
+  private static String genRequestId(){
+    return UUID.randomUUID().toString();
+  }
+
+}
+
+```
+
+#### 跨越配置文件 
+```java
+@WebFilter(filterName = "CorsFilter")
+@Configuration
+public class CorsFilter implements Filter {
+  @Override
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    HttpServletResponse response = (HttpServletResponse) res;
+    response.setHeader("Access-Control-Allow-Origin","*");
+    response.setHeader("Access-Control-Allow-Credentials", "true");
+    response.setHeader("Access-Control-Allow-Methods", "POST, GET, PATCH, DELETE, PUT");
+    response.setHeader("Access-Control-Max-Age", "3600");
+    response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    chain.doFilter(req, res);
+  }
+}
+```
+#### controller 编写
+```java
+@RestController
+@RequestMapping(value = "/v1")
+public class WechatTemplateController {
+
+    @Autowired
+    private WechatTemplateProperties properties;
+
+    @Autowired
+    private WechatTemplateService wechatTemplateService;
+
+    @RequestMapping(value = "/template", method = RequestMethod.GET)
+    public BaseResponseVO getTemplate(){
+
+        WechatTemplateProperties.WechatTemplate wechatTemplate = wechatTemplateService.getWechatTemplate();
+
+        Map<String, Object> result = Maps.newHashMap();
+        result.put("templateId",wechatTemplate.getTemplateId());
+        result.put("template", FileUtils.readFile2JsonArray(wechatTemplate.getTemplateFilePath()));
+
+        return BaseResponseVO.success(result);
+    }
+
+    @RequestMapping(value = "/template/result", method = RequestMethod.GET)
+    public BaseResponseVO templateStatistics(
+            @RequestParam(value = "templateId", required = false)String templateId){
+
+        JSONObject statistics = wechatTemplateService.templateStatistics(templateId);
+
+        return BaseResponseVO.success(statistics);
+    }
+
+    @RequestMapping(value = "/template/report", method = RequestMethod.POST)
+    public BaseResponseVO dataReported(
+            @RequestBody String reportData){
+
+        wechatTemplateService.templateReported(JSON.parseObject(reportData));
+
+        return BaseResponseVO.success();
+    }
+
+}
+
+```
+
+#### 体验效果 通过postman或者加入swagger来体验，一定要启动kafka
+

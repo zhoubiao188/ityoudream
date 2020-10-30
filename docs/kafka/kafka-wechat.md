@@ -290,3 +290,5 @@ public class WechatTemplateController {
 
 #### 体验效果 通过postman或者加入swagger来体验，一定要启动kafka
 
+### 源码地址
+

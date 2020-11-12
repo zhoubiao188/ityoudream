@@ -3,6 +3,7 @@ const RabbitMQConfig = require('../rmq/')
 const ArithmeticConfig = require('../arithmetic/')
 const SpringBootConfig = require('../springboot/')
 const KafkaConfig = require('../kafka/')
+const Java8Config = require('../java8/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
@@ -78,6 +79,7 @@ module.exports = {
         text: 'Java编程',
         ariaLabel: 'Java',
         items: [
+          {text: 'Java8', link: '/java8/'},
           { text: 'SpringBoot', link: '/springboot/' },
           { text: 'SpringCloud', link: '/springcloud/' },
           { text: 'SpringCloud for AliBaBa', link: '/alibabaCloud/' },
@@ -92,7 +94,8 @@ module.exports = {
     '/rmq/': RabbitMQConfig(),
     '/arithmetic/': ArithmeticConfig(),
     '/springboot/': SpringBootConfig(),
-    '/kafka/': KafkaConfig()
+    '/kafka/': KafkaConfig(),
+    '/java8/':Java8Config()
   },
   }
 }

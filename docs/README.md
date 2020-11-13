@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /main.png
-heroText: 剑廿三
+heroText: 重回巅峰
 tagline: 技术无止境的笔记
 actionText: 从这里开始 →
 actionLink: /about/

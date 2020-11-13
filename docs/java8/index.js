@@ -22,7 +22,8 @@ module.exports = () => {
         children: [
           'stream/Collect.md',
           'stream/Stream1.md',
-          'stream/Stream2.md'
+          'stream/Stream2.md',
+          'stream/Stream3.md'
         ]
       }
     ]

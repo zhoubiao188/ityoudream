@@ -23,7 +23,8 @@ module.exports = () => {
           'stream/Collect.md',
           'stream/Stream1.md',
           'stream/Stream2.md',
-          'stream/Stream3.md'
+          'stream/Stream3.md',
+          'stream/Stream4.md'
         ]
       }
     ]

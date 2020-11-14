@@ -1,4 +1,4 @@
-#### Stream流的几种创建方式
+### Stream流的几种创建方式
 ```java
 public static void main(String[] args) {
 		List<String> list = new ArrayList<>();

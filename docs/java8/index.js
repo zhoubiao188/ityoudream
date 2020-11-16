@@ -13,7 +13,8 @@ module.exports = () => {
             'lambda/Function2.md',
             'lambda/Function',
             'lambda/Curry.md',
-            'lambda/Core.md'
+            'lambda/Core.md',
+            'lambda/Resource.md'
         ]
       },
       {
@@ -25,7 +26,8 @@ module.exports = () => {
           'stream/Stream2.md',
           'stream/Stream3.md',
           'stream/Stream4.md',
-          'stream/Stream5.md'
+          'stream/Stream5.md',
+          'stream/Resource.md'
         ]
       }
     ]

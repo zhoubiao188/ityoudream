@@ -34,6 +34,8 @@ module.exports = () => {
         title: "WebFlux异步编程",
         collapsable: true,
         children: [
+          'webflux/webflux1.md',
+          'webflux/webflux2.md',
         ]
       }
     ]

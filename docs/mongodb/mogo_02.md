@@ -1,0 +1,35 @@
+### 如何安装mongodb
+首先安装方式有多种，如windows平台，有linux平台、macos平台、以及可以使用docker容器进行安装
+
+#### windows 安装
+<a href="https://www.mongodb.com/try/download/enterprise">download mongodb install</a>
+
+首先去官网下载mongodb，这里我们选择windows然后下载msi就可以了，如果网速慢的话，可以使用vpn代理来安装
+
+![image][mongodb/mongodb-href.png] 
+
+
+安装完成后，修改mongodb.cnf
+```yml
+#数据库路径
+dbpath=D:\Mongo\data
+#日志输出文件路径
+logpath=D:\Mongo\logs\mongo.log
+#错误日志采用追加模式
+logappend=true
+#启用日志文件，默认启用
+journal=true
+#这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为false
+quiet=true
+#端口号 默认为27017
+port=27017 
+```
+最后通过cmd 窗口进行启动输入如下命令
+```yml
+mongod --config "D:\Mongo\mongo.conf" 
+```
+
+#### centos安装mogodb
+
+
+

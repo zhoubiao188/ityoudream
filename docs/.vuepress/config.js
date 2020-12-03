@@ -4,7 +4,7 @@ const ArithmeticConfig = require('../arithmetic/')
 const SpringBootConfig = require('../springboot/')
 const KafkaConfig = require('../kafka/')
 const Java8Config = require('../java8/')
-const mogodbConfig = require('../mogodb/')
+const mogodbConfig = require('../mongodb')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',

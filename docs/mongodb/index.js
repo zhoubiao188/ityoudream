@@ -5,10 +5,10 @@ module.exports = () => {
         title: "Mogodb实战",
         collapsable: true,
         children: [
-          'mogodb/mongodb_01.md',
-          'mogodb/mongodb_02.md',
-          'mogodb/mongodb_03.md',
-          'mogodb/mongodb_04.md'
+          'mongodb_01.md',
+          'mongodb_02.md',
+          'mongodb_03.md',
+          'mongodb_04.md'
         ]
       }
     ]

@@ -6,7 +6,7 @@
 
 首先去官网下载mongodb，这里我们选择windows然后下载msi就可以了，如果网速慢的话，可以使用vpn代理来安装
 
-![image][mongodb/mongodb-href.png] 
+![image](/mongodb/mongodb-href.png)
 
 
 安装完成后，修改mongodb.cnf

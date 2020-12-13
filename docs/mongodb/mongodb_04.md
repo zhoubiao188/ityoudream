@@ -1,110 +1,47 @@
-### mongodb基本操作
-#### CRUD操作
-##### insert操作
-格式：
-```javascript
-db.<集合名称>.insertOne(<JSON对象>)
-db.<集合名称>.insertMany([<JSON对象1>, <JSON对象2>,...<JSON对象N>])
-```
-注意的是`insertOne`每次只能插入一条数据，而`insertMany`每次可以插入一条或者多条数据
+### mongodb 优势
+传统的关系型数据库采用的是ER模式，一旦表多了之后，就会错中复杂，需要话很多时间去整理才能看懂。
 
-示例：
-```javascript
-db.girl.insertOne({name: '小蕾'})
-db.girl.insertMany([
-    {name: '小林'},
-    {name: '小雪'},
-    {name: '小爱',age: 20}
-])
-```
+#### 采用对象模型
+而mongodb采用的是一目了然的对象模型
 
-#### 使用find查询
-##### 什么是find
-find是mongodb中查询数据的基本指令，类似于关系型数据库的select
-find返回的是游标
+#### 快速响应业务变化
+![image](/mongodb/json.png) 
 
-##### find示例
-```javascript
-db.girl.find({name: '小林'}) //单条件查询
-db.girl.find({name: '小爱',age: 20})//多条件and查询
-db.girl.find({$and:[{name: '小爱'},{age: 20}]}) //and的另一种形式
-db.girl.find({$or:[{name: '小林'},{age: 20}]})//多条件or查询
-db.girl.find({name: /^林/})//正则查询
-```
-#### 查询条件对照表
-| SQL  | MQL  |
-|  ----  | ---- |
-| a = 1  | {a: 1} |
-| a <> 1  | {a: {$ne: 1}} |
-| a > 1  | {a: {$gt: 1}} |
-| a >= 1  | {a: {$gte: 1}} |
-| a < 1  | {a: {$lt: 1}} |
-| a <= 1  | {a: {$lte: 1}} |
+#### 最简单快速的开发方式
+传统的关系型数据库常常因为需要关联多张表才能实现业务查询，而mongodb是最简单快速的开发方式，比如一个客户信息的电话和地址可能是多个，而根据数据库第三范式那么电话号码和地址会各建一张表，这样关系型数据库查询就要查询三张表才能将用户数据查询出来，而mongodb只需要一张表这是为什么呢？因为采用的是JSON模型，其电话号码和地址可以是array数组，如下图：
+![image](/mongodb/array.png) 
 
-#### 查询逻辑对照表
-| SQL  | MQL  |
-|  ----  | ---- |
-| a = 1 and b = 1  | {a: 1, b: 1} 或 {$and:[{a: 1}, {b: 1}]} |
-| a = 1 or b = 1  | {$or:[{a: 1}, {b: 1}]} |
-| a is null  | {a: {$exists: false}} |
-| a IN (1, 2, 3)  | {a: {$in: [1, 2, 3]}} |
+#### 分布式能力
+mongodb原生的高可用和横向扩展能力
 
-#### 查询逻辑运算符
-```javascript
-$lt: 存在并小于
-$lte: 存在并小于等于
-$gt: 存在并大于
-$gte: 存在并大于等于
-$ne: 不存在或存在但不等于
-$in: 存在并在指定数组中
-$nin: 不存在或不在指定数组中
-$or: 匹配两个或多个条件中的一个
-$and: 匹配全部条件
-```
+![image](/mongodb/fbs.png)
 
-#### 使用 find 搜索子文档
-find 支持使用`field.sub_field`的形式查询子文档。假设有一个文档
-```javascript
-db.girl.insertOne({
-    name: '小秋',
-    love: {
-      person: 'i',
-      city: 'chengdou'
-    }
-})
-```
-
-使用子查询
-```javascript
-db.girl.find( { "love.person" : "i" } )
-```
-首先`love`是最外层的名称，person是`love`的儿子字段名称，这就是子查询
-
-##### 使用 find 搜索数组
-find 支持对数组中的元素进行搜索。假设有一个文档：
-```javascript
-db.girl.insert([
-{name: '小张', hobby: ['打游戏','唱歌']},
-{name: '小惠', hobby: ['蹦迪','喝酒']}
-])
-```
-下面的查询有什么不同：
-```javascript
-db.girl.find({hobby: '蹦迪'})//单条件查询
-db.girl.find({$or:[{hobby: '蹦迪'},{hobby: '唱歌'}]})//多条件查询或
-```
-##### 使用 find 搜索数组中的对象
-find 支持搜索数组中的对象，假设有一个文档：
+##### Replica set -2 to 50 个成员
+复制集群，最少2个最多50个，一般每个节点最少3个或3个以上，因为我们要保证多种机制，所以必须是一个奇数
 
 
+##### 自恢复
+出现故障会自动恢复
 
+##### 多中心容灾能力
+比如上海机房服务器挂掉，不会影响北京服务器，且上海服务器挂掉后，会定时恢复过来
 
+#####  滚动服务
+比如数据库升级迁移数据，通过只升级一个节点的方式，升级的过程中不用重启数据库，来保证我们的业务正常
 
+#### 横向扩展能力
+mongodb横向扩展能力主要通过分片来做到的，把数据通过水平扩展方式分片成1个2个到1000多个上，一个分片就是一个复制集群，10个TB就是10个分片，这样做的话可以降低访问数据慢，从而达到访问非常快，并且和mysql的custer最大区别是mongodb是应用全透明，你表面上看到的可能是1个但是下面可能是10个100个，你不需要关注的，业务全透明。
 
+![image](/mongodb/fenpian.png)  
 
+#### 技术优势总结
+JSON 结构和对象模型接近，开发代码量低
 
+JSON的动态模型意味着更容易响应新的业务需求
 
+复制集提供99.9999%高可用
 
+分片架构支持海量数据和无缝扩容
 
 
 

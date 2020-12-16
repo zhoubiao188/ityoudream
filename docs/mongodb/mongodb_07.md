@@ -66,6 +66,210 @@ db.<COLLECTION>.aggregate(
 
 #### MQL 常用步骤与 SQL 对比
 
+```sql
+SELECT
+FIRST_NAME AS `名`,
+LAST_NAME AS `姓`
+FROM Users
+WHERE GENDER = '男'
+SKIP 100
+LIMIT 20
+```
+那么转换为聚合函数查询就是下面这样
+```javascript
+db.users.aggregate([
+{$match: {gender: ’’男”}},
+{$skip: 100},
+{$limit: 20},
+{$project: {
+'名': '$first_name',
+'姓': '$last_name'
+}}
+]);
+```
+#### MQL 常用步骤与 SQL 对比
+传统sql
+```sql
+SELECT DEPARTMENT,
+COUNT(NULL) AS EMP_QTY
+FROM Users
+WHERE GENDER = '女'
+GROUP BY DEPARTMENT HAVING
+COUNT(*) < 10
+```
+聚合函数
+```javascript
+db.users.aggregate([
+{$match: {gender: '女'}},
+{$group: {
+_id: '$DEPARTMENT’,
+emp_qty: {$sum: 1}
+}},
+{$match: {emp_qty: {$lt: 10}}}
+]);
+```
+
+#### MQL 特有步骤 $unwind
+ 传统sql
+ ```sql
+ SELECT
+FIRST_NAME AS `名`,
+LAST_NAME AS `姓`
+FROM Users
+WHERE GENDER = '男'
+SKIP 100
+LIMIT 20
+ ```
+转换为聚合函数
+ ```javascript
+ db.users.aggregate([
+{$match: {gender: ’’男”}},
+{$skip: 100},
+{$limit: 20},
+{$project: {
+'名': '$first_name',
+'姓': '$last_name'
+}}
+]);
+ ```
+ #### MQL 特有步骤 $facet
+ 什么是$fact?我们购物的时候，比如搜索电视机，可能有30寸的有40寸的有50寸的，有的是液晶，有的是其它类型的，这些都算是纬度，而facet可以查询复杂的纬度，这样看上去会非常直观
+
+ ```javascript
+ db.products.aggregate([{
+$facet:{
+price:{
+$bucket:{…}
+},
+year:{
+$bucket:{…}
+}
+}
+}])
+ ```
+
+ #### 聚合查询实践
+ 聚合数据的模型为如下：
+ ```javascript
+ { 
+    "_id" : ObjectId("5dbe7a545368f69de2b4d36e"), 
+    "street" : "493 Hilll Curve", 
+    "city" : "Champlinberg", 
+    "state" : "Texas", 
+    "country" : "Malaysia", 
+    "zip" : "24344-1715", 
+    "phone" : "425.956.7743 x4621", 
+    "name" : "Destinee Schneider", 
+    "userId" : NumberInt(3573), 
+    "orderDate" : ISODate("2019-03-26T03:20:08.805+0000"), 
+    "status" : "created", 
+    "shippingFee" : NumberDecimal("8.00"), 
+    "orderLines" : [
+        {
+            "product" : "Refined Fresh Tuna", 
+            "sku" : "2057", 
+            "qty" : NumberInt(25), 
+            "price" : NumberDecimal("56.00"), 
+            "cost" : NumberDecimal("46.48")
+        }, 
+        {
+            "product" : "Refined Concrete Ball", 
+            "sku" : "1738", 
+            "qty" : NumberInt(61), 
+            "price" : NumberDecimal("47.00"), 
+            "cost" : NumberDecimal("47")
+        }, 
+        {
+            "product" : "Rustic Granite Towels", 
+            "sku" : "500", 
+            "qty" : NumberInt(62), 
+            "price" : NumberDecimal("74.00"), 
+            "cost" : NumberDecimal("62.16")
+        }, 
+        {
+            "product" : "Refined Rubber Salad", 
+            "sku" : "1400", 
+            "qty" : NumberInt(73), 
+            "price" : NumberDecimal("93.00"), 
+            "cost" : NumberDecimal("87.42")
+        }, 
+        {
+            "product" : "Intelligent Wooden Towels", 
+            "sku" : "5674", 
+            "qty" : NumberInt(72), 
+            "price" : NumberDecimal("84.00"), 
+            "cost" : NumberDecimal("68.88")
+        }, 
+        {
+            "product" : "Refined Steel Bacon", 
+            "sku" : "5009", 
+            "qty" : NumberInt(8), 
+            "price" : NumberDecimal("53.00"), 
+            "cost" : NumberDecimal("50.35")
+        }
+    ], 
+    "total" : NumberDecimal("407")
+}
+ ```
+
+ #### 聚合查询总销量
+ 计算到目前为止的所有订单的总销售额
+ ```javascript
+ use mock;
+ db.orders.aggregate([
+{ $group:
+{
+_id: null,
+total: { $sum: "$total" }
+}
+}
+])
+ ```
+返回结果是
+```json
+ { 
+    "_id" : null, 
+    "total" : NumberDecimal("44019609")
+}
+```
+
+#### 聚合实验:订单金额汇总
+查询2019年第一季度（1月1日~3月31日）已完成订单（completed）的订单总金
+额和订单总数
+```javascript
+db.orders.aggregate([
+// 步骤1：匹配条件
+{ $match: { status: "completed", orderDate: {
+$gte: ISODate("2019-01-01"),
+$lt: ISODate("2019-04-01") } } },
+// 步骤二：聚合订单总金额、总运费、总数量
+{ $group: {
+_id: null,
+total: { $sum: "$total" },
+shippingFee: { $sum: "$shippingFee" },
+count: { $sum: 1 } } },
+{ $project: {
+// 计算总金额
+grandTotal: { $add: ["$total", "$shippingFee"] },
+count: 1,
+_id: 0 } }
+]) 
+```
+结果如下：
+```json
+{ "count" : 5875, "grandTotal" : NumberDecimal("2636376.00") }
+```
+
+#### 测试数据下载
+<a href="/mongodb/data/dump.tar.gz">mock数据下载</a>
+下载完成后，通过mongo命令
+```linux
+tar dump.tar.gz
+mongorestore dump
+use mock;
+......
+```
+
 
 
 

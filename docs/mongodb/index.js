@@ -14,7 +14,10 @@ module.exports = () => {
           'mongodb_07.md',
           'mongodb_08.md',
           'mongodb_09.md',
-          'mongodb_10.md'
+          'mongodb_10.md',
+          'mongodb_11.md',
+          'mongodb_12.md',
+          'mongodb_13.md'
         ]
       }
     ]

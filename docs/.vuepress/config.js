@@ -5,6 +5,8 @@ const SpringBootConfig = require('../springboot/')
 const KafkaConfig = require('../kafka/')
 const Java8Config = require('../java8/')
 const mogodbConfig = require('../mongodb/')
+const JdkConfig = require('../jdk/')
+const DubboConfig = require('../dubbo/')
 module.exports = {
   title: '技术无止境的笔记',
   description: 'jishu',
@@ -81,9 +83,10 @@ module.exports = {
         ariaLabel: 'Java',
         items: [
           {text: 'Java8', link: '/java8/'},
+          {text: 'JDK核心源码', link: '/jdk/'},
           { text: 'SpringBoot', link: '/springboot/' },
           { text: 'SpringCloud', link: '/springcloud/' },
-          { text: 'SpringCloud for AliBaBa', link: '/alibabaCloud/' },
+          { text: 'Dubbo入门到源码分析', link: '/dubbo/' },
           { text: 'WebFlux', link: '/webflux/' },
           { text: 'Docker', link: '/docker/' },
           { text: 'K8s', link: '/k8s/' }
@@ -97,7 +100,11 @@ module.exports = {
     '/springboot/': SpringBootConfig(),
     '/kafka/': KafkaConfig(),
     '/java8/':Java8Config(),
-    '/mongodb/':mogodbConfig()
+    '/jdk/':JdkConfig(),
+    '/mongodb/':mogodbConfig(),
+    '/dubbo/':DubboConfig()
   },
   }
 }
+
+

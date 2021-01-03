@@ -3,8 +3,8 @@ home: true
 heroImage: /main.png
 heroText: 重回巅峰
 tagline: 技术无止境的笔记
-actionText: 从这里开始 →
-actionLink: /about/
+actionText: 精通Redis→
+actionLink: /redis/
 features:
 - title: 学以致用
   details: 将所学知识运用到实践中

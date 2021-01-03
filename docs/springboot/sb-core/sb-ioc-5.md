@@ -1,10 +1,10 @@
-#剖析springboot的@ComponentScan注解
-##一：本课程目标：
+# 剖析springboot的@ComponentScan注解
+## 一：本课程目标：
 1. 理解springboot的@ComponentScan注解作用
 2. 学会用@ComponentScan
 
-##二、剖析springboot的@ComponentScan注解
-```
+## 二、剖析springboot的@ComponentScan注解
+```java
 @ComponentScan(excludeFilters = { @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
 ```
@@ -34,7 +34,7 @@ classes :过滤指定的class，即剔除了TypeExcludeFilter.class、AutoConfig
 ## 四、 案例实战：体验@ComponentScan的作用
 
 ### 步骤1：在包名为com.agan.boot.scan，新建一个ComponentScan测试类
-``` 
+``` java
 package com.agan.boot.scan;
 
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class TestComponentScan {
 }
 ```
 ### 步骤2：在com.agan.boot.app下面建个启动类
-``` 
+``` java
 package com.agan.boot.app;
 
 import com.agan.boot.scan.TestComponentScan;
@@ -63,7 +63,7 @@ public class Application {
 }
 ```
 启动报错：
-``` 
+``` java
 seconds (JVM running for 3.941)
 Exception in thread "main" org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.agan.boot.scan.TestComponentScan' available
 	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:346)
@@ -74,11 +74,11 @@ Exception in thread "main" org.springframework.beans.factory.NoSuchBeanDefinitio
 以上报错的意思是：找不到com.agan.boot.scan.TestComponentScan这个bean，那怎么办呢？
 这要加这行代码重新运行即可
 - 手工指定包路径
-``` 
+``` java
 @ComponentScan("com.agan.boot.scan")
 ```
 整体如下：
-``` 
+``` java
 @SpringBootApplication
 @ComponentScan("com.agan.boot.scan")
 public class Application {
@@ -96,7 +96,7 @@ public class Application {
 
 ##五：课后练习题
 在本项目的基础上，在com.agan.boot.practise包下增加以下代码
-```
+```java
 package com.agan.boot.practise;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -21,7 +21,7 @@ spring boot的validator校验框架有3个特性：
 ## 三、案例实战：实现一个SpringBoot的参数校验功能
 ### 步骤1：pom文件加入依赖包
 springboot天然支持validator数据校验
-``` 
+``` xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
@@ -78,7 +78,7 @@ public class UserController {
 
 执行结果：
 
-``` 
+``` json
 {
   "timestamp": "2019-10-03T02:34:54.545+0000",
   "status": 400,
@@ -236,7 +236,7 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
 ```
 
 ### 步骤3：给UserVO类，加上手机号码校验注解
-``` 
+``` java
 
 @Data
 public class UserVO {
@@ -267,7 +267,7 @@ public class UserVO {
 }
 ```
 ### 步骤4：体验效果
-``` 
+``` json
 {
   "timestamp": "2019-10-03T03:42:10.928+0000",
   "status": 400,
@@ -312,7 +312,7 @@ public class UserVO {
 
 ### 步骤1：《全局异常处理器》加入validator异常处理
 
-``` 
+``` java
     /**
      * validator 统一异常封装
      */
@@ -337,7 +337,7 @@ public class UserVO {
     }
 ```
 ### 步骤2：结果
-``` 
+``` json
 {
   "status": 10001,
   "desc": "idCard=[身份证格式错误]  email=[请输入正确的邮箱]  phone=[请输入正确的手机号码]  ",

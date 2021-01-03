@@ -30,7 +30,7 @@ mybatis最大的一个问题，就是要写大量的SQL在XML中，因为除了�
 
 ## 四、案例实战：SpringBoot配置mybatis的步骤 
 ### 步骤1：pom文件引入依赖包
-``` 
+``` xml
 
 <!--通用spring boot mapper-->
 <dependency>
@@ -54,7 +54,7 @@ mybatis最大的一个问题，就是要写大量的SQL在XML中，因为除了�
 拷贝《案例实战：MyBatis 代码生成器Generator》生成的代码即可
 
 ### 步骤3：application.properties 加入mysql配置信息
-``` 
+``` yml
 #指定mapper.xml的位置
 mybatis.mapper-locations=classpath*:com/agan/boot/mapper/xml/*.xml
 
@@ -70,7 +70,7 @@ spring.datasource.password=root
 在启动类中，加入mybatis的mapper
 @MapperScan("com.ityoudream.boot.mapper")
 如果不配的话，mybatis找不到UserMapper文件
-``` 
+``` java
 //指定要扫描的Mapper类的包的路径
 @MapperScan("com.ityoudream.boot.mapper")
 @SpringBootApplication

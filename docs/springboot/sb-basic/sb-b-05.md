@@ -15,7 +15,7 @@
 ### 四、@Async异步调用例子
 #### 步骤1：开启异步任务
 采用@EnableAsync来开启异步任务支持，另外需要加入@Configuration来把当前类加入springIOC容器中。
-``` 
+``` java
 @Configuration
 @EnableAsync
 public class SyncConfiguration {
@@ -25,7 +25,7 @@ public class SyncConfiguration {
 #### 步骤2：在方法上标记异步调用
 增加一个service类，用来做积分处理。
 @Async添加在方法上，代表该方法为异步处理。
-``` 
+``` java
 public class ScoreService {
 
     private static final Logger logger = LoggerFactory.getLogger(ScoreService.class);
@@ -56,7 +56,7 @@ ThreadPoolTaskExecutor ：最常使用，推荐。 其实质是对java.util.conc
 
 ### 六、为@Async实现一个自定义线程池
 #### 步骤1：配置线程池
-```
+```java
 @Configuration
 @EnableAsync
 public class SyncConfiguration {
@@ -91,7 +91,7 @@ public class SyncConfiguration {
 
 
 #### 步骤2： 为@Async指定线程池名字
-``` 
+``` java
     @Async("scorePoolTaskExecutor")
     public void addScore2(){
         //TODO 模拟睡5秒，用于赠送积分处理

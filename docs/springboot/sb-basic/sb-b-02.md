@@ -12,13 +12,13 @@ SpringBoot的配置文件有两种，一种是properties结尾的，一种是以
 yml是YAML（YAML Ain't Markup Language）语言的文件，以数据为中心，比json、xml等更适合做配置文件
 
 ## 三、对比区别
-``` 
+``` yml
 server.port=9090
 
 agan.msg=hi,hello world!!
 ```
 转换为yml配置文件
-``` 
+``` yml
 server：
    port： 9090
 

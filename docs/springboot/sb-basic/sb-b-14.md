@@ -21,7 +21,7 @@ Swagger 提供了一个全新的维护 API 文档的方式，有4大优点：
 ### 三、案例实战：把springboot的接口，自动生成接口文档
 
 #### 步骤1： pom文件加入依赖包
-``` 
+``` xml
 
 <!--swagger-->
 <dependency>
@@ -38,12 +38,12 @@ Swagger 提供了一个全新的维护 API 文档的方式，有4大优点：
 ```
 #### 步骤2：修改配置文件
 1. application.properties 加入配置
-``` 
+``` yml
 #表示是否开启 Swagger，一般线上环境是关闭的
 spring.swagger2.enabled=true
 ```
 2.增加一个swagger配置类
-``` 
+``` java
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

@@ -79,7 +79,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 ```
 2. pom.xml加入依赖包
 
-``` 
+``` xml
     <dependencies>
         <!-- Mybatis Generator -->
         <dependency>
@@ -100,7 +100,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 ### 步骤3:2个核心的配置文件
 resources配置文件 config.properties
 重点要注意：生成的包名
-``` 
+``` yml
 # 生成的包名
 package.name=com.agan.boot
 
@@ -163,7 +163,7 @@ jdbc.password =agan
 </generatorConfiguration>
 ```
 以上配置 ，一定要修改以下内容
-``` 
+``` xml
 <!-- 设置数据库表名 -->
 <table tableName="temp" domainObjectName="User">
     <generatedKey column="id" sqlStatement="JDBC"/>

@@ -38,7 +38,7 @@ public void test2(int userId) {
     }
 ```
 #### 测试结果：
-``` 
+``` json
 {
   "timestamp": "2019-10-03T07:40:29.416+0000",
   "status": 500,
@@ -93,7 +93,7 @@ public void test2(int userId) {
 ### 五、案例实战：把Assert异常加入《全局异常处理器》
 为什么要加？
 因为assert的异常结构如下：
-``` 
+``` json
 {
   "timestamp": "2019-10-03T07:40:29.416+0000",
   "status": 500,
@@ -105,7 +105,7 @@ public void test2(int userId) {
 这种异常一般是不允许和客户端联调的！！必须加入加入《全局异常处理器》
 
 执行结果：
-``` 
+``` json
 {
   "status": 4000,
   "desc": "用户不存在！",

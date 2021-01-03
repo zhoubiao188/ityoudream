@@ -91,7 +91,10 @@ module.exports = {
           { text: 'Docker', link: '/docker/' },
           { text: 'K8s', link: '/k8s/' }
         ]
-      }
+      },
+      {
+        text: 'Github', link: 'https://github.com/zhoubiao188'
+      },
     ],
   sidebar: {
     '/redis/': RedisSidebarConfig(),

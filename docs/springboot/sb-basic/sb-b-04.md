@@ -21,7 +21,7 @@ Lombok 是一个 IDEA 插件,也是一个依赖jar 包。
 @Data 注解在实体类上，自动生成javabean的getter/setter方法，写构造器、equals等方法；
 
 #### 步骤2：pom文件添加依赖包
-``` 
+``` xml
 <dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
@@ -30,7 +30,7 @@ Lombok 是一个 IDEA 插件,也是一个依赖jar 包。
 ```
 ### 五、体验lombok第二核心注解@Slf4j
 注解@Slf4j的作用就是代替一下代码
-``` 
+``` java
 private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 ```
 让你不用每次都写重复的代码

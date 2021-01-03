@@ -21,7 +21,7 @@ Google开源工具包Guava提供了限流工具类RateLimiter，该类基于令�
 2.当新请求过来时，会在桶里拿走一个token,如果没有token可以拿，就阻塞或拒绝服务。
 ### 采用guava实现SpringBoot限流
 #### 步骤1：pom文件加入guava依赖包
-```
+```xml
 <dependency>
     <groupId>com.google.guava</groupId>
     <artifactId>guava</artifactId>
@@ -29,7 +29,7 @@ Google开源工具包Guava提供了限流工具类RateLimiter，该类基于令�
 </dependency>
 ```
 #### 步骤2：加入限流逻辑
-```
+```java
 @RestController
 @Slf4j
 public class TestController {
@@ -83,7 +83,7 @@ public class TestController {
 1. 业务代码和限流代码解耦，开发人员只要一个注解，不用关心限流的实现逻辑。
 1. 采用实现自定义注解，减少代码冗余。
 #### 步骤1：pom文件加入aop依赖包
-```
+```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-aop</artifactId>
@@ -98,7 +98,7 @@ public class TestController {
 
 ```
 #### 步骤3：实现限流接口
-```
+```java
 @GetMapping("/limiter2")
 @Limiter(key = "limiter2", permitsPerSecond = 1, timeout = 500, timeunit = TimeUnit.MILLISECONDS,msg = "当前排队人数较多，请稍后再试！")
 public String limiter2() {

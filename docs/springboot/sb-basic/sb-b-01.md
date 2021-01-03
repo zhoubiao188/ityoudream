@@ -17,7 +17,7 @@ springboot2.0默认采用了slf4f+logback的日志搭配。
 
 ##为什么控制台的日志只输出了 info  warn error?
 因为springboot默认是info级别的
-```
+```yml
 logging.level.com.agan.boot=trace
 
 ```
@@ -25,17 +25,17 @@ logging.level.com.agan.boot=trace
 ## 三：配置日志的生成存储路径和日志名称
 在实际的开发中，你不可能一直看着控制台，而且日志会非常大，瞬间就丢失。
 故，我们要把日志存储在指定的目录下；
-``` 
+```yml
 
-#一下配置的效果为：项目根目录下/output/logs/spring.log,默认的日志名为spring.log
-#logging.path=output/logs
+# 一下配置的效果为：项目根目录下/output/logs/spring.log,默认的日志名为spring.log
+logging.path=output/logs
 
 # 如果不想要把日志存放在longging.path默认的根目录下，那就采用自定义的目录和文件名
 logging.file=/Volumes/data/logs/springboot.log
 ```
 ## 三：配置日志的内容格式
 
-``` 
+``` yml
 # %d-时间格式、%thread-线程、%-5level-从左5字符宽度、%logger{50}-日志50个字符、%msg-信息、%n-换行
 # 设置在控制台输出的日志格式
 logging.pattern.console=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} -%msg%n

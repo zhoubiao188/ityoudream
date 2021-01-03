@@ -6,7 +6,7 @@
 ##二、为什么要对springboot的接口返回值统一标准格式?
 我们先来看下，springboot默认情况下的response是什么格式的
 ###第一种格式：response为String 
-``` 
+``` java
 @GetMapping(value="/getStr")
 public String  getStr(  ){
     return  "test";
@@ -17,7 +17,7 @@ public String  getStr(  ){
 test
 ```
 ###第二种格式：response为Objct 
-``` 
+``` java
 @GetMapping(value="/getObject")
 public UserVO  getObject(  ){
     UserVO vo=new UserVO();
@@ -26,10 +26,10 @@ public UserVO  getObject(  ){
 }
 ```
 以上springboot的返回值为
-``` 
+``` json
 {
   "id": null,
-  "username": "agan",
+  "username": "zb",
   "password": null,
   "email": null,
   "phone": null,
@@ -41,7 +41,7 @@ public UserVO  getObject(  ){
 }
 ```
 ###第三种格式：response为void 
-``` 
+``` java
 @GetMapping(value="/empty")
 public void  empty(  ){
 
@@ -50,14 +50,14 @@ public void  empty(  ){
 以上springboot的返回值为空
 
 ###第四种格式：response为异常 
-``` 
+``` java
 @GetMapping(value="/error")
 public void  error(  ){
     int i=9/0;
 }
 ```
 以上springboot的返回值为空
-``` 
+``` json
 {
   "timestamp": "2019-09-07T10:35:56.658+0000",
   "status": 500,
@@ -74,7 +74,7 @@ public void  error(  ){
 1.status状态值：代表本次请求response的状态结果。
 2.response描述：对本次状态码的描述。
 3.data数据：本次返回的数据。
-``` 
+``` json
 {
    "status":0,
    "desc":"成功",
@@ -84,7 +84,7 @@ public void  error(  ){
 ##四、初级程序员对response代码封装
 对response的统一封装，是有一定的技术含量的，我们先来看下，初级程序员的封装，网上很多教程都是这么写的。
 ### 步骤1:把标准格式转换为代码
-``` 
+``` json
 {
    "status":0,
    "desc":"成功",
@@ -93,7 +93,7 @@ public void  error(  ){
 ```
 把以上格式转换为Result代码
 
-``` 
+``` java
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -160,7 +160,7 @@ public class Result<T> {
 }
 ```
 ### 步骤2:把状态码存在枚举类里面
-``` 
+``` java
 
 public enum ResultCode  {
 
@@ -198,7 +198,7 @@ public enum ResultCode  {
 ```
 
 ### 步骤3:加一个体验类
-``` 
+``` java
 @Api(description = "用户接口")
 @RestController
 @RequestMapping("/user")
@@ -227,7 +227,7 @@ springboot提供了ResponseBodyAdvice来帮我们处理
 ResponseBodyAdvice的作用：拦截Controller方法的返回值，统一处理返回值/响应体，一般用来做response的统一格式、加解密、签名等等。
 先看下ResponseBodyAdvice这个接口的源码。
 
-``` 
+``` java
 public interface ResponseBodyAdvice<T> {
     /**
      * 是否支持advice功能
@@ -244,7 +244,7 @@ public interface ResponseBodyAdvice<T> {
 
 ```
 ###步骤2：写一个ResponseBodyAdvice实现类
-``` 
+``` java
 @ControllerAdvice(basePackages = "com.agan.boot")
 public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
@@ -285,7 +285,7 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
 
 #### 第2个地方：beforeBodyWrite方法体的response类型判断
-``` 
+``` java
 if (o instanceof String) {
             return JsonUtil.object2Json(ResResult.suc(o));
 }
@@ -298,7 +298,7 @@ if (o instanceof String) {
 ##六：课后练习题
 本节课，我们没有对Controller的异常做处理，是会出问题的。
 在本节课的基础上执行以下代码：
-``` 
+``` java
 @GetMapping(value="/error")
 public void  error(){
     int i=9/0;

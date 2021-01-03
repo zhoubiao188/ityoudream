@@ -15,7 +15,7 @@ SQL性能收集、SQL注入检查、SQL翻译等，程序员可以通过定制�
 假如：余额和红包分别是2个独立数据库。
 这个时候你的余额数据库对应的余额就应该减10元，你的好友的红包数据库就应该加10元。
 ## 步骤1：建立2个数据库
-``` 
+``` sql
 
 CREATE DATABASE `xa_account` /*!40100 DEFAULT CHARACTER SET utf8 */;
 use xa_account;
@@ -52,7 +52,7 @@ INSERT INTO `red_packet_account` (`id`,`user_id`,`balance_amount`) VALUES (1,2,1
 
 ## 步骤2：pom文件加入依赖包
 
-``` 
+``` xml
 <!--通用spring boot mapper-->
 <dependency>
     <groupId>tk.mybatis</groupId>
@@ -73,7 +73,7 @@ INSERT INTO `red_packet_account` (`id`,`user_id`,`balance_amount`) VALUES (1,2,1
 ```
 ## 步骤3：修改配置文件
 application.properties 必须配置2个数据源 
-``` 
+``` yml
 
 # 数据源配置
 # 数据源 account
@@ -143,7 +143,7 @@ spring.main.allow-bean-definition-overriding=true
 ```
 ## 步骤4：将配置信息，注入druid
 1. 配置2个数据源DataSource
-``` 
+``` java
 
 @Configuration
 @EnableConfigurationProperties
@@ -184,7 +184,7 @@ public class MybatisConfiguration {
 
 2.有了数据源，就要配置数据源的sessionFactory
 配置account数据源的sessionFactory
-``` 
+``` java
 @Configuration
 @MapperScan(basePackages = {"com.agan.boot.mapper.account.mapper"}, sqlSessionFactoryRef = "accountSqlSessionFactory")
 public class AccountDataSourceConfiguration {
@@ -228,7 +228,7 @@ public class AccountDataSourceConfiguration {
 ```
 
 配置redaccount数据源的sessionFactory
-``` 
+``` java
 @Configuration
 @MapperScan(basePackages = {"com.agan.boot.mapper.redaccount.mapper"}, sqlSessionFactoryRef = "redPacketSqlSessionFactory")
 public class RedAccountDataSourceConfiguration {
@@ -275,7 +275,7 @@ public class RedAccountDataSourceConfiguration {
 
 ## 步骤6：service 体验类 
 PayService 作用：模拟发红包，账户余额减钱，红包余额加钱
-``` 
+``` java
 
 @Service
 public class PayService {
@@ -332,7 +332,7 @@ public class PayService {
 ```
 
 ## 步骤7：controller测试体验类
-``` 
+``` java
 
 @RestController
 public class PayController {

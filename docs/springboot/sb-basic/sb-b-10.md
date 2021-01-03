@@ -3,7 +3,7 @@
 全局异常处理器就是把整个系统的异常统一自动处理，程序员可以做到不用写try...catch
 2. 那为什么需要全局异常呢？
 - 第一个原因：不用强制写try-catch,由全局异常处理器统一捕获处理
-``` 
+``` java
     @PostMapping(value="/error1")
     public void  error1(  ){
         int i=9/0;
@@ -11,7 +11,7 @@
 
 ```
 如果不用try-catch捕获的话，客户端就会怎么样？
-``` 
+``` json
 {
   "timestamp": "2019-10-02T02:15:26.591+0000",
   "status": 500,
@@ -21,7 +21,7 @@
 }
 ```
 这种格式对于客户端来说，不友好，而一般程序员的try-catch
-``` 
+``` java
     @PostMapping(value="/error11")
     public String  error11(  ){
         try{
@@ -36,7 +36,7 @@
 但是还要一直自动化处理的，就是不用谢try-catch，由全局异常处理器来处理。
 
 - 第二个原因：自定义异常，只能用全局异常来捕获。
-``` 
+``` java
     @PostMapping(value="/error4")
     public void  error4(  ){
         throw new RuntimeException("用户已存在！！");
@@ -44,7 +44,7 @@
 
 ```
 
-``` 
+``` json
 {
   "timestamp": "2019-10-02T02:18:26.843+0000",
   "status": 500,
@@ -61,7 +61,7 @@
 ## 三、案例实战：编码实现一个springboot《全局异常处理器》
 ### 步骤1：封装异常内容，统一存储在枚举类中
 把所有的未知运行是异常都，用SYSTEM_ERROR(10000, "系统异常，请稍后重试")来提示
-``` 
+``` java
 public enum ResultCode  {
 
 	/* 成功状态码 */
@@ -98,7 +98,7 @@ public enum ResultCode  {
 ```
 ### 步骤2：封装Controller的异常结果
 最终目标格式：
-``` 
+``` json
 {
   "status": 10000,
   "message": "系统异常，请稍后重试",
@@ -106,7 +106,7 @@ public enum ResultCode  {
 }
 ```
 
-``` 
+``` java
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -158,7 +158,7 @@ public class ErrorResult {
 ```
 
 ### 步骤3：加个全局异常处理器，对异常进行处理
-``` 
+``` java
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler  {
@@ -183,14 +183,14 @@ handleThrowable方法的作用是：捕获运行时异常，并把异常统一�
 3. @ResponseStatus指定客户端收到的http状态码，这里配置500错误，客户端就显示500错误，
 
 ### 步骤4：体验效果
-``` 
+``` java
     @PostMapping(value="/error1")
     public void  error1(  ){
         int i=9/0;
     }
 ```
 结果
-``` 
+``` json
 {
   "status": 10000,
   "message": "系统异常，请稍后重试",
@@ -203,7 +203,7 @@ handleThrowable方法的作用是：捕获运行时异常，并把异常统一�
 ### 步骤1：封装一个自定义异常
 
 自定义异常通常是集成RuntimeException
-``` 
+``` java
 @Data
 public class BusinessException extends RuntimeException {
 
@@ -222,7 +222,7 @@ public class BusinessException extends RuntimeException {
 
 ### 步骤2：把自定义异常 集成 进全局异常处理器
 全局异常处理器只要在上节课的基础上，添加一个自定义异常处理即可。
-``` 
+``` java
 	/**
      * 处理自定义异常
      */
@@ -237,14 +237,14 @@ public class BusinessException extends RuntimeException {
 	}
 ```
 ### 步骤3：体验效果
-``` 
+``` java
     @PostMapping(value="/error3")
     public void  error3(  ){
         throw new BusinessException(ResultCode.USER_HAS_EXISTED);
     }
 ```
 结果
-``` 
+``` json
 {
   "status": 20001,
   "message": "用户名已存在",
@@ -254,7 +254,7 @@ public class BusinessException extends RuntimeException {
 
 ## 四、案例实战：把《全局异常处理器》集成进《接口返回值统一标准格式》
 目标：把《全局异常处理器》的json格式转换为《接口返回值统一标准格式》格式
-``` 
+``` json
 {
   "status": 20001,
   "message": "用户名已存在",
@@ -262,7 +262,7 @@ public class BusinessException extends RuntimeException {
 }
 ```
 转换
-``` 
+``` json
 {
    "status":20001,
    "desc":"用户名已存在",
@@ -270,7 +270,7 @@ public class BusinessException extends RuntimeException {
 }
 ```
 ### 步骤1：改造ResponseHandler
-``` 
+``` java
 
 @ControllerAdvice(basePackages = "com.agan.boot")
 public class ResponseHandler implements ResponseBodyAdvice<Object> {
@@ -302,7 +302,7 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 
 ```
 在 《接口返回值统一标准格式》的基础上
-``` 
+``` java
  if (o instanceof ErrorResult) {
             ErrorResult errorResult = (ErrorResult) o;
             return Result.fail(errorResult.getStatus(),errorResult.getMessage());
@@ -310,14 +310,14 @@ public class ResponseHandler implements ResponseBodyAdvice<Object> {
 ```
 
 ### 步骤2：体验效果
-``` 
+``` java
     @PostMapping(value="/error3")
     public void  error3(  ){
         throw new BusinessException(ResultCode.USER_HAS_EXISTED);
     }
 ```
 结果
-``` 
+``` json
 {
   "status": 20001,
   "desc": "用户名已存在",

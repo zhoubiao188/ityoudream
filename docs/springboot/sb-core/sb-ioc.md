@@ -3,7 +3,7 @@
 
 ### 二：剖析@SpringBootApplication源码
 首先我们来分析springboot的启动注解@SpringBootApplication
-``` 
+``` java
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

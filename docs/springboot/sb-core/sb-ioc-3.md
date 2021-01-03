@@ -8,7 +8,7 @@
 ### 二、解密spring 的ImportSelector和spring.factories原理
 找到springboot的 selectImports()源码 ，如下：
 
-``` 
+``` java
 @Override
 public Iterable<Entry> selectImports() {
     if (this.autoConfigurationEntries.isEmpty()) {
@@ -25,18 +25,18 @@ public Iterable<Entry> selectImports() {
             .map((importClassName) -> new Entry(this.entries.get(importClassName), importClassName))
             .collect(Collectors.toList());
 }
-```
-重点分析
+```java
+//重点分析
 Set<String> processedConfigurations = this.autoConfigurationEntries.stream()
 					.map(AutoConfigurationEntry::getConfigurations).flatMap(Collection::stream)
-先看 this.autoConfigurationEntries是怎么来的？它是一个ArrayList
+//先看 this.autoConfigurationEntries是怎么来的？它是一个ArrayList
 
 private final List<AutoConfigurationEntry> autoConfigurationEntries = new ArrayList<>();
 
 思考问题：
 autoConfigurationEntries是怎么赋值的？
 在process(）方法里面找到了答案
-``` 
+``` java
 public void process(AnnotationMetadata annotationMetadata, DeferredImportSelector deferredImportSelector) {
     Assert.state(deferredImportSelector instanceof AutoConfigurationImportSelector,
             () -> String.format("Only %s implementations are supported, got %s",
@@ -54,7 +54,7 @@ public void process(AnnotationMetadata annotationMetadata, DeferredImportSelecto
 ```
 看到这里 我们继续看getAutoConfigurationEntry(getAutoConfigurationMetadata(), annotationMetadata);
 
-``` 
+``` java
 protected AutoConfigurationEntry getAutoConfigurationEntry(AutoConfigurationMetadata autoConfigurationMetadata,
         AnnotationMetadata annotationMetadata) {
     if (!isEnabled(annotationMetadata)) {
@@ -73,7 +73,7 @@ protected AutoConfigurationEntry getAutoConfigurationEntry(AutoConfigurationMeta
 }
 ```
 继续看 getCandidateConfigurations(annotationMetadata, attributes);这行代码，源码如下：
-``` 
+``` java
 protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, AnnotationAttributes attributes) {
     List<String> configurations = SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(),
             getBeanClassLoader());
@@ -83,7 +83,7 @@ protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, A
 }
 ```
 继续跟进 SpringFactoriesLoader.loadFactoryNames
-``` 
+``` java
 public static List<String> loadFactoryNames(Class<?> factoryClass, @Nullable ClassLoader classLoader) {
     String factoryClassName = factoryClass.getName();
     return loadSpringFactories(classLoader).getOrDefault(factoryClassName, Collections.emptyList());
@@ -91,7 +91,7 @@ public static List<String> loadFactoryNames(Class<?> factoryClass, @Nullable Cla
 ```
 继续跟进loadSpringFactories(classLoader)
 
-``` 
+``` java
 private static Map<String, List<String>> loadSpringFactories(@Nullable ClassLoader classLoader) {
     MultiValueMap<String, String> result = cache.get(classLoader);
     if (result != null) {
@@ -127,7 +127,7 @@ private static Map<String, List<String>> loadSpringFactories(@Nullable ClassLoad
 以上代码 有个重大发现，它去加载了配置文件FACTORIES_RESOURCE_LOCATION，故我们只要知道这个FACTORIES_RESOURCE_LOCATION配置文件用来干嘛的？
 就能直接解开谜语了，对吧 ？
 
-```
+```java
 
 public final class SpringFactoriesLoader {
 
@@ -144,7 +144,7 @@ spring.factories是springboot 的解耦扩展机制，这种机制实际上是�
 你可以在META-INF/spring.factories文件里面配置你自己的实现类名称，然后spring会读取spring.factories文件的内容，并实例化进IOC容器。
 我们一起来看下  spring.factories文件有哪些东西？
 在 spring-boot-autoconfigure-2.1.8.RELEASE.jar的META-INF/spring.factories
-```
+```java
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
 org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
@@ -169,7 +169,7 @@ org.springframework.boot.autoconfigure.data.cassandra.CassandraReactiveDataAutoC
 
 #### 步骤1：新建一个@Configuration配置类
 注意：包名package agan.core;
-``` 
+``` java
 public class Agan {
     public String info(){
         return " teacher";
@@ -187,11 +187,11 @@ public class AganConfig {
 ```
 #### 步骤2：新建spring.factories
 在src/main/resource目录下的META-INF创建spring.factories文件即可
-``` 
+``` java
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=agan.core.AganConfig
 ```
 #### 步骤3：体验类
-``` 
+``` java
 package com.agan.boot.ioc;
 
 import agan.core.Agan;
@@ -230,7 +230,7 @@ public class Application {
 ###五：课后练习题
 参考本课程的代码，建2个maven工程，一个是school工程，另一个是student工程
 1.student工程，只有一个类，如下：
-``` 
+``` java
 package com.student.demo;
 
 public class Student {
@@ -240,7 +240,7 @@ public class Student {
 }
 ```
 2.school工程就一个启动类
-``` 
+``` java
 package com.school.demo;
 
 @SpringBootApplication

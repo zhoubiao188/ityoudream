@@ -128,7 +128,104 @@ public class GreetingServiceImpl implements GreetingService {
 ```
 
 ##### 步骤三
-创建一个dubbo-demo-xml-consumer的普通mavan项目
+创建一个dubbo-demo-xml-consumer的普通mavan项目依赖如下:
+
+```xml
+   <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.7.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-dependencies-zookeeper</artifactId>
+            <version>2.7.5</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>cn.ityoudream.dubbo</groupId>
+            <artifactId>dubbo-demo-interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+```
+Application启动类代码如下:
+```java
+public class Application {
+    /**
+     * In order to make sure multicast registry works, need to specify '-Djava.net.preferIPv4Stack=true' before
+     * launch the application
+     */
+    public static void main(String[] args) throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/dubbo-consumer.xml");
+        context.start();
+        //获取DemoService
+        DemoService demoService = context.getBean("demoService", DemoService.class);
+        //获取GreetingService
+        GreetingService greetingService = context.getBean("greetingService", GreetingService.class);
+
+        new Thread(() -> {
+            while (true) {
+                //调用hello方法
+                String greetings = greetingService.hello();
+                System.out.println(greetings + " from separated thread.");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        while (true) {
+            //异步调用sayHelloAsync
+            CompletableFuture<String> hello = demoService.sayHelloAsync("world");
+            //得到调用结果
+            System.out.println("result: " + hello.get());
+            //得到调用结果
+            String greetings = greetingService.hello();
+            System.out.println("result: " + greetings);
+
+            Thread.sleep(500);
+        }
+    }
+}
+
+```
+
+##### 步骤四配置consumer的xml
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="demo-consumer">
+        <dubbo:parameter key="mapping-type" value="metadata"/>
+        <dubbo:parameter key="enable-auto-migration" value="true"/>
+    </dubbo:application>
+
+    <!--    <dubbo:metadata-report address="zookeeper://127.0.0.1:2181"/>-->
+
+        <!--注册到zk注册中心-->
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+        <!--消费那个服务提供者-->
+    <dubbo:reference provided-by="demo-provider" id="demoService" check="false"
+                     interface="org.apache.dubbo.demo.DemoService"/>
+
+    <!--服务提供者的接口方法-->
+    <dubbo:reference provided-by="demo-provider" version="1.0.0" group="greeting" id="greetingService" check="false"
+                     interface="org.apache.dubbo.demo.GreetingService"/>
+
+</beans>
+```
+
+#### 源码下载
+
 
 
 

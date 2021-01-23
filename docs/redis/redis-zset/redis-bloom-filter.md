@@ -54,7 +54,7 @@ bf.mexists 一次查询多个元素是否存在
 RedisBloom 官方已经封装好了布隆过滤器依赖包
 https://github.com/RedisBloom/JRedisBloom
 
-``` 
+``` xml
 <dependency>
     <groupId>com.redislabs</groupId>
     <artifactId>jrebloom</artifactId>
@@ -62,7 +62,7 @@ https://github.com/RedisBloom/JRedisBloom
 </dependency>
 ```
 #### 步骤2:配置封装
-``` 
+``` java
 redis.bloom.url= 192.168.1.138
 redis.bloom.port= 6379
 redis.bloom.init-capacity= 10000

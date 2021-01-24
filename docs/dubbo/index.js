@@ -8,7 +8,8 @@ module.exports = () => {
           'dubbo1.md',
           'dubbo2.md',
           'dubbo3.md',
-          'dubbo4.md'
+          'dubbo4.md',
+          'dubbo5.md'
         ]
       }
     ]

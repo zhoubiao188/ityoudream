@@ -8,7 +8,7 @@
 3. 定时1小时合并统计 天、周、月的排行榜。
 
 #### 步骤1：先初始化1个月的历史数据
-```
+```java
 @Service
 @Slf4j
 public class InitService {
@@ -46,7 +46,7 @@ public class InitService {
 ```
 #### 步骤2：定时刷新数据
 
-```
+```java
 
 @Service
 @Slf4j
@@ -174,7 +174,7 @@ public class TaskService {
 }
 ```
 #### 步骤3：排行榜查询接口
-```  
+```java
 @RestController
 @Slf4j
 public class Controller {

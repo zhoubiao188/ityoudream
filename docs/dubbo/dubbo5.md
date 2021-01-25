@@ -94,6 +94,33 @@ spi 文件 存储路径 在 META-INF\dubbo\internal 目录下 并且文件名为
 Dubbo可以通过配置文件中的key来实现按需加载，而不是像JDK那样全部加载，这样就不会造成资源的浪费
 
 #### Dubbo SPI的目的是什么
+dubbo spi 的目的：获取一个指定实现类的对象。
+途径：`ExtensionLoader.getExtension(String name)`
+实现路径：
+`getExtensionLoader(Class<T> type) `就是为该接口new 一个`ExtensionLoader`，然后缓存起来。
+获取一个扩展类，如果`@Adaptive`注解在类上就是一个装饰类；如果注解在方法上就是一个动态代理类，例如Protocol$Adaptive对象。
+`getExtension(String name) `获取一个指定对象。
+
+-----------------------ExtensionLoader.getExtensionLoader(Class<T> type)
+ExtensionLoader.getExtensionLoader(Container.class)
+  -->this.type = type;
+  -->objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
+     -->ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension()
+       -->this.type = type;
+       -->objectFactory =null;
+       
+执行以上代码完成了2个属性的初始化
+```
+1.每个一个ExtensionLoader都包含了2个值 type 和 objectFactory
+  Class<?> type；//构造器  初始化时要得到的接口名
+  ExtensionFactory objectFactory//构造器  初始化时 AdaptiveExtensionFactory[SpiExtensionFactory,SpringExtensionFactory]
+  
+2.new 一个ExtensionLoader 存储在ConcurrentMap<Class<?>, ExtensionLoader<?>> EXTENSION_LOADERS
+关于这个objectFactory的一些细节：
+1.objectFactory就是ExtensionFactory，它也是通过ExtensionLoader.getExtensionLoader(ExtensionFactory.class)来实现的，但是它的objectFactory=null
+
+2.objectFactory作用，它就是为dubbo的IOC提供所有对象。
+```
 
 
 

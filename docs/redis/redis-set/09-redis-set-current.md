@@ -22,7 +22,7 @@ redis的实现技术方案:
 
 #### SpringBoot+Redis 实现好友\QQ群 随机推荐
 ##### 步骤1：提前先把数据刷新到redis缓存中。
-``` 
+``` java
     /**
      *提前先把数据刷新到redis缓存中。
      */
@@ -48,7 +48,7 @@ redis的实现技术方案:
     }
 ```
 ##### 步骤2：编写随机查询接口
-``` 
+``` java
 @GetMapping(value = "/crowd")
 public List<String> crowd() {
     List<String> list=null;
@@ -74,7 +74,7 @@ public List<String> crowd() {
 ##### 步骤1：提前先把数据刷新到redis缓存中。
 微博榜单和QQ群的区别是:微博榜单是整块数据的，所以随机的数据要按块来推荐
 所以我们要定义一个java bean来包装整块数据
-``` 
+``` java
 @Data
 public class WeiboList {
     
@@ -88,7 +88,7 @@ public class WeiboList {
 
 }
 ```
-``` 
+``` java
 
     /**
      * 模拟10个热门榜单，用于推荐
@@ -114,7 +114,7 @@ public class WeiboList {
 
 
 ##### 步骤2：编写随机查询接口
-``` 
+``` java
     @GetMapping(value = "/weibolist")
     public WeiboList weibolist() {
         WeiboList list=null;

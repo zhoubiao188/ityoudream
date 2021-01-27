@@ -14,7 +14,7 @@
 #### 三、案例实战：SpringBoot+Redis 实现京东京豆抽奖
 ##### 步骤1：奖品的初始化
 由于set集合是不重复，故在奖品初始化的时候，要为每个奖品设置一个序列号。
-``` 
+``` java
     /**
      *提前先把数据刷新到redis缓存中。
      */
@@ -54,8 +54,7 @@
     }
 ```
 ##### 步骤2：抽奖
-``` 
-
+``` java
     @GetMapping(value = "/prize")
     public String prize() {
         String result="";

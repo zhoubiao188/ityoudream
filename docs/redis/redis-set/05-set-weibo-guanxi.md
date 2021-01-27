@@ -20,14 +20,14 @@ Redis Set数据结构，非常适合存储好友、关注、粉丝、感兴趣�
 
 ### SpringBoot+Redis 计算微博好友关系
 目标：共同关注：是计算出周標和马化腾共同关注的人有哪些？
-``` 
+``` java
 @ApiOperation(value="求2个用户的关注交集")
 @GetMapping(value = "/intersect")
 public List<UserVO> intersect(Integer userId1, Integer userId2){
     return  this.relationService.intersect(userId1,userId2);
 }
 ```
-``` 
+``` java
 /**
  * 求2个用户的关注交集
  */

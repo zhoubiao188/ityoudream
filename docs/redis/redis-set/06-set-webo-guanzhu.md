@@ -17,7 +17,7 @@
 
 ### SpringBoot+Redis 实现微博关注与粉丝
 #### 功能1：关注
-``` 
+``` java
     /**
      * 周標关注了马化腾，周標即使马化腾的粉丝 follower
      * userId=周標
@@ -29,7 +29,7 @@
         relationService.follow(userId,followeeId);
     }
 ```
-``` 
+``` java
     /**
      * 周標关注了马化腾
      */
@@ -48,7 +48,7 @@
     }
 ```
 #### 功能2：我的关注
-``` 
+``` java
     @ApiOperation(value="查看我的关注")
     @GetMapping(value = "/myFollowee")
     public List<UserVO> myFollowee(Integer userId){
@@ -69,14 +69,14 @@
 ```
 
 #### 功能3：我的粉丝
-``` 
+``` java
     @ApiOperation(value="查看我的粉丝")
     @GetMapping(value = "/myFollower")
     public List<UserVO> myFollower(Integer userId){
         return this.relationService.myFollower(userId);
     }
 ```
-``` 
+``` java
     /**
      * 查看我的粉丝
      */

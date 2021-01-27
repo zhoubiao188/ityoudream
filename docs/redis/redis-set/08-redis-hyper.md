@@ -43,7 +43,7 @@ OK
 ### 3.案例实战:基于Redis的UV计算
 
 #### 步骤1：模拟UV访问
-``` 
+``` java
 @Service
 @Slf4j
 public class TaskService {
@@ -93,7 +93,7 @@ public class TaskService {
 }
 ```
 #### 步骤2：实现UV统计功能
-``` 
+``` java
 @RestController
 @Slf4j
 public class Controller {

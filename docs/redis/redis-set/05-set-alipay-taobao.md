@@ -20,7 +20,7 @@
 
 #### 三、案例实战：SpringBoot+Redis 实现支付宝抽奖
 #####步骤1：初始化抽奖数据
-``` 
+``` java
     /**
      *提前先把数据刷新到redis缓存中。
      */
@@ -49,7 +49,7 @@
     }
 ```
 #####步骤2：抽奖逻辑
-``` 
+``` java
     @GetMapping(value = "/prize")
     public List<Integer> prize(int num) {
         try {

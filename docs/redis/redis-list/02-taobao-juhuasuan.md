@@ -37,7 +37,7 @@ redisde list数据结构天然支持这种高并发的分页查询功能。
 #### 步骤0：配置redis
 
 #### 步骤1：采用定时器把特价商品都刷入redis缓存中
-``` 
+``` java
 @Service
 @Slf4j
 public class TaskService {

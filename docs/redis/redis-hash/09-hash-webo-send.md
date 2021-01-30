@@ -10,7 +10,7 @@
 
 ### 三、SpringBoot+Redis 实现用户发微博
 #### 步骤1：创建content表
-``` 
+``` sql
 CREATE TABLE `content` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL DEFAULT '0' COMMENT '用户id',
@@ -22,7 +22,7 @@ CREATE TABLE `content` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='内容表';
 ```
 #### 步骤2：发微博逻辑
-``` 
+``` java
     @ApiOperation(value="用户发微博")
     @PostMapping(value = "/post")
     public void post(@RequestBody ContentVO contentVO) {

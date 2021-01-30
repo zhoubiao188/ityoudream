@@ -5,7 +5,7 @@
 
 
 ### 案例实战：设计一个不可重入锁
-```
+```java
 
 public class Lock{
     //锁的状态：true=锁住，false=解锁

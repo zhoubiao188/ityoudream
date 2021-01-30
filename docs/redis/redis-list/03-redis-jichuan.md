@@ -19,14 +19,14 @@
 
 #### 淘宝聚划算的缓存击穿实现
 
-```
+```java
 @PostConstruct
 public void initJHSAB(){
     log.info("启动AB定时器..........");
     new Thread(()->runJhsAB()).start();
 }
 ```
-```
+```java
 public void runJhsAB() {
     while (true){
         //模拟从数据库读取100件 特价商品，用于加载到聚划算页面
@@ -48,7 +48,7 @@ public void runJhsAB() {
 }
 ```
 
-```
+```java
 @GetMapping(value = "/findAB")
 public List<Product> findAB(int page, int size) {
     List<Product> list=null;

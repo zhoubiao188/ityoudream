@@ -1,7 +1,7 @@
 
 ### 三、案例实战：Springboot实现用户登录session管理功能
 #### 步骤1：加入springboot的常用依赖包
-``` 
+``` xml
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
@@ -23,7 +23,7 @@
 核心代码 
 session.setAttribute(session.getId(), user);
 session.removeAttribute(session.getId());
-``` 
+``` java
 @Slf4j
 @RestController
 @RequestMapping(value = "/user")

@@ -12,7 +12,7 @@ Redis技术基本覆盖了微博的每个应用场景，比如像现在春晚必
 
 ### 二、SpringBoot+Redis 实现微博注册
 #### 步骤1：创建user表
-``` 
+``` sql
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 ```
 #### 步骤2：注册逻辑
-``` 
+``` java
 
 @Api(description = "用户接口")
 @RestController

@@ -28,7 +28,7 @@ redis-master-2
 ```
 
 
-``` 
+``` java
     
     @Override
     public boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException {

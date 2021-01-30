@@ -1,7 +1,7 @@
 
 ### 七、案例实战：SpringSession+redis解决分布式session不一致性问题
 #### 步骤1：加入SpringSession、redis的依赖包
-``` 
+``` xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-redis</artifactId>
@@ -14,7 +14,7 @@
 </dependency>
 ```
 #### 步骤2：修改配置文件
-``` 
+``` yml
 
 # 为某个包目录下 设置日志
 logging.level.com.agan=debug

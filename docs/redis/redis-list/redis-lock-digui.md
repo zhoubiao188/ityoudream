@@ -4,7 +4,7 @@ ReentrantLock，是一个可重入且独占式的锁，是一种递归无阻塞�
 和synchronized关键字相比，它更灵活、更强大，增加了轮询、超时、中断等高级功能。
 
 #### 步骤1：ReentrantLock的递归实现
-```
+```java
 public class ReentrantLockDemo {
 
     private Lock lock =  new ReentrantLock();
@@ -32,7 +32,7 @@ public class ReentrantLockDemo {
 }
 ```
 #### 步骤2：加个测试类
-```
+```java
 
     @GetMapping(value = "/lock2")
     public void lock2(String key) {

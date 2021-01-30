@@ -9,7 +9,7 @@
 业务场景：模仿下订单操作，先减库存，再插入订单表。
 
 ### 步骤1：库存加锁，订单也加锁
-```
+```java
 public class SynchronizedDemo {
     //模拟库存100
     int count=100;
@@ -34,7 +34,7 @@ public class SynchronizedDemo {
 ```
 
 ### 步骤2：加个测试类
-```
+```java
 public class SynchronizedController {
 
     SynchronizedDemo synchronizedDemo=new SynchronizedDemo();

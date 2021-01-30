@@ -15,7 +15,7 @@ Redisson是Redis官方推荐的Java版的Redis客户端。
 ### 案例实战：体验redis分布式重入锁
 
 #### 步骤1:加入pom依赖包
-``` 
+``` xml
 <dependency>
     <groupId>org.redisson</groupId>
     <artifactId>redisson</artifactId>
@@ -60,7 +60,7 @@ spring.redis.sentinel.fail-max=3
 ```
 
 #### 步骤3:Redisson重入锁代码
-``` 
+``` java
 public class RedisController {
 
     @Autowired

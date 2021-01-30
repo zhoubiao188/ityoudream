@@ -6,6 +6,7 @@
 
 ### SpringBoot+Redis
 ##### 步骤1：模拟大量PV请求
+```java
 public class InitPVTask {
 
     @Autowired
@@ -81,10 +82,10 @@ public class InitPVTask {
 
 
 }
-
+```
 
 ##### 步骤2：一级缓存定时器消费
-``` 
+``` java
 public class OneCacheTask {
 
     @Autowired
@@ -144,7 +145,7 @@ public class OneCacheTask {
 
 
 ##### 步骤3：二级缓存定时器消费
-``` 
+``` java
 public class TwoCacheTask {
 
     @Autowired
@@ -208,7 +209,7 @@ public class TwoCacheTask {
 
 ##### 步骤4：查看浏览量
 
-``` 
+``` java
     @GetMapping(value = "/view")
     public String view(Integer id) {
         String key= Constants.CACHE_ARTICLE+id;

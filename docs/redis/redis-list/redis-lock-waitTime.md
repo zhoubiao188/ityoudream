@@ -7,7 +7,7 @@ OK
 2.isLock = redLock.tryLock(1000*5*20, 1000*60*5*20, TimeUnit.MILLISECONDS);
 
 
-``` 
+``` java
     @Override
     public boolean tryLock(long waitTime, long leaseTime, TimeUnit unit) throws InterruptedException {
 //        try {

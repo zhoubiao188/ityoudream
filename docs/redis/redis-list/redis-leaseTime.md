@@ -10,7 +10,7 @@ OK
 
 
 leaseTime就是租约时间，就是redis key的过期时间。
-``` 
+``` java
 long newLeaseTime = -1;
 if (leaseTime != -1) {
     if (waitTime == -1) {
@@ -38,7 +38,7 @@ for循环执行完后tryLockInnerAsync 后，看下3台redis实例，看下剩�
 
 ### 真实的LeaseTime
 最后再重新设置真实的LeaseTime
-``` 
+``` java
 if (leaseTime != -1) {
             List<RFuture<Boolean>> futures = new ArrayList<>(acquiredLocks.size());
             for (RLock rLock : acquiredLocks) {

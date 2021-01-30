@@ -10,7 +10,7 @@
 
 ### 3.案例实战:基于push技术，实现微博个人列表
 #### 步骤1：发微博后，写入个人主页-队列
-``` 
+``` java
     /**
      * push到个人主页
      */
@@ -21,7 +21,7 @@
 ```
 
 #### 步骤2：查看个人列表
-``` 
+``` java
     /**
      * 获取个人主页列表
      */
@@ -50,7 +50,7 @@
     }
 ```
 
-``` 
+``` java
 
     protected List<Content> getContents(List<Integer> list){
         List<Content> contents=new ArrayList<>();

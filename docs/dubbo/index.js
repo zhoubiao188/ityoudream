@@ -9,7 +9,8 @@ module.exports = () => {
           'dubbo2.md',
           'dubbo3.md',
           'dubbo4.md',
-          'dubbo5.md'
+          'dubbo5.md',
+          'dubbo6.md'
         ]
       }
     ]

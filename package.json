@@ -1,14 +1,25 @@
 {
+  "name": "ityoudream",
+  "version": "0.0.1",
+  "description": "使用 vuepress 生成的 markdown 文档站点",
+  "author": "ityoudream <zz863146675bb@icloud.com>",
+  "private": false,
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs"
   },
   "dependencies": {
-    "vuepress-plugin-sitemap": "^2.3.1",
-    "yarn": "^1.22.4"
+    "moment": "^2.24.0",
+    "vue-router": "3.4.5",
+    "vuepress-plugin-baidu-tongji-analytics": "^1.0.1",
+    "vuepress-plugin-code-copy": "^1.0.4",
+    "vuepress-plugin-tags": "1.0.2"
   },
   "devDependencies": {
-    "vuepress": "^1.5.2",
+    "@vuepress/plugin-back-to-top": "1.8.0",
+    "@vuepress/plugin-medium-zoom": "1.8.0",
+    "@vuepress/plugin-pwa": "1.8.0",
+    "vuepress": "1.8.0",
     "vuepress-plugin-baidu-autopush": "^1.0.1"
   }
 }

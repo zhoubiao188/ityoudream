@@ -14,7 +14,15 @@ module.exports = {
     'sitemap': {
       hostname: 'http://ityoudream.cn'
     },
-    'vuepress-plugin-baidu-autopush': true
+    //top插件
+    '@vuepress/back-to-top': true,
+    //复制代码
+    'vuepress-plugin-code-copy': true,
+    //图片缩放
+    '@vuepress/medium-zoom':{
+      selector: '.theme-default-content img'
+    },
+    'vuepress-plugin-baidu-autopush': true,
   },
   head: [
     ['link', { rel: 'shortcut icon', type: "image/x-icon", href: "/public/favicon.ico" }]

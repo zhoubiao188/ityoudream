@@ -4,12 +4,13 @@ const ArithmeticConfig = require('../arithmetic/')
 const SpringBootConfig = require('../springboot/')
 const KafkaConfig = require('../kafka/')
 const Java8Config = require('../java8/')
+const JavaProcess = require('../process/')
 const mogodbConfig = require('../mongodb/')
 const JdkConfig = require('../jdk/')
 const DubboConfig = require('../dubbo/')
 module.exports = {
   title: '技术无止境的笔记',
-  description: 'jishu',
+  description: '用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等',
   plugins: {
     'sitemap': {
       hostname: 'http://ityoudream.cn'
@@ -90,6 +91,7 @@ module.exports = {
         text: 'Java编程',
         ariaLabel: 'Java',
         items: [
+          {text: 'Java多线程', link: '/process/'},
           {text: 'Java8', link: '/java8/'},
           {text: 'JDK核心源码', link: '/jdk/'},
           { text: 'SpringBoot', link: '/springboot/' },
@@ -113,7 +115,8 @@ module.exports = {
     '/java8/':Java8Config(),
     '/jdk/':JdkConfig(),
     '/mongodb/':mogodbConfig(),
-    '/dubbo/':DubboConfig()
+    '/dubbo/':DubboConfig(),
+    '/process/':JavaProcess()
   },
   }
 }

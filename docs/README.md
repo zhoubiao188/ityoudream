@@ -1,8 +1,7 @@
 ---
 home: true
-heroImage: /main.png
+heroImage: https://spring.io/images/spring-logo-9146a4d3298760c2e7e49595184e1975.svg
 heroText: 重回巅峰
-tagline: 技术无止境的笔记
 actionText: 精通Redis→
 actionLink: /redis/
 features:

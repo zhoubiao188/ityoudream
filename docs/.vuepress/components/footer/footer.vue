@@ -14,12 +14,6 @@ export default {
     handleOpen () {
       window.open(this.url)
     }
-  },
-  //首页图片大小修改
-  created() {
-    var hero = window.document.getElementsByClassName("hero")[0]
-    var heroImg = hero.getElementsByTagName("img")[0]
-    heroImg.setAttribute("width", "500px")
   }
 }
 </script>

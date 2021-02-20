@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://spring.io/images/spring-logo-9146a4d3298760c2e7e49595184e1975.svg
+heroImage: /home/home.svg
 heroText: 重回巅峰
 actionText: 精通Redis→
 actionLink: /redis/

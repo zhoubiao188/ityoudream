@@ -13,7 +13,16 @@ export default {
   methods: {
     handleOpen () {
       window.open(this.url)
+    },
+    setHomeImg() {
+     let taeget = document.getElementsByClassName('hero')[0]
+     let homeImg = taeget.getElementsByTagName('img')[0]
+     homeImg.setAttribute('width', '500px')
+     homeImg.setAttribute('height', '230px')
     }
+  },
+  created() {
+    this.setHomeImg()
   }
 }
 </script>

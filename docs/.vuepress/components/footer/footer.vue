@@ -14,6 +14,7 @@ export default {
     handleOpen () {
       window.open(this.url)
     },
+    //设置首页背景大小
     setHomeImg() {
      let taeget = document.getElementsByClassName('hero')[0]
      let homeImg = taeget.getElementsByTagName('img')[0]

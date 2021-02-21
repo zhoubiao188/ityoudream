@@ -16,10 +16,12 @@ export default {
     },
     //设置首页背景大小
     setHomeImg() {
+     this.$nextTick(()=> {
      let taeget = document.getElementsByClassName('hero')[0]
      let homeImg = taeget.getElementsByTagName('img')[0]
      homeImg.setAttribute('width', '500px')
      homeImg.setAttribute('height', '230px')
+     })
     }
   },
   created() {

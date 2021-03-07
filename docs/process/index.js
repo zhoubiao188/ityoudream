@@ -8,7 +8,8 @@ module.exports = () => {
           '01-about-process.md',
           '02-quickstart-thread.md',
           '03-thread-attribute.md',
-          '04-thread-cengci.md'
+          '04-thread-cengci.md',
+          '05-thread-what.md'
         ]
       }
     ]

@@ -141,7 +141,63 @@ Singleton.class 并再次检查 instance 是否为空，如果还为空则创建
 例。
 
 ```java
-
+public class Singleton {
+    static Singleton instance;
+    static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (Singleton.class) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
 ```
+
+假设有两个线程 A、B 同时调用 `getInstance()` 方法，他们会同时发现 instance ==
+null ，于是同时对 `Singleton.class` 加锁，此时 JVM 保证只有一个线程能够加锁成功
+（假设是线程 A），另外一个线程则会处于等待状态（假设是线程 B）；线程 A 会创建一
+个 Singleton 实例，之后释放锁，锁释放后，线程 B 被唤醒，线程 B 再次尝试加锁，此
+时是可以加锁成功的，加锁成功后，线程 B 检查 `instance == null` 时会发现，已经创
+建过 Singleton 实例了，所以线程 B 不会再创建一个 Singleton 实例。
+
+
+这看上去一切都很完美，无懈可击，但实际上这个 getInstance() 方法并不完美。问题出
+在哪里呢？出在 new 操作上，我们以为的 new 操作应该是：
+```
+1. 分配一块内存 M；
+2. 在内存 M 上初始化 Singleton 对象；
+3. 然后 M 的地址赋值给 instance 变量。
+```
+
+但是实际上优化后的执行路径却是这样的：
+```
+1. 分配一块内存 M；
+2. 将 M 的地址赋值给 instance 变量；
+3. 最后在内存 M 上初始化 Singleton 对象。
+```
+
+优化后会导致什么问题呢？我们假设线程 A 先执行` getInstance()` 方法，当执行完指令 2
+时恰好发生了线程切换，切换到了线程 B 上；如果此时线程 B 也执行` getInstance()` 方
+法，那么线程 B 会发现`instance != null，`所以直接返回 instance，而此时的
+instance 是没有初始化过的，如果我们这个时候访问 instance 的成员变量就可能触发空
+指针异常。
+
+![image](/thread/thread7.png)
+<center>双重检查创建单例的异常执行路径</center>
+
+#### 总结
+要写好并发程序，首先要知道并发程序的问题在哪里，只有确定了“靶子”，才有可能把
+问题解决，毕竟所有的解决方案都是针对问题的。并发程序经常出现的诡异问题看上去非
+常无厘头，但是深究的话，无外乎就是直觉欺骗了我们，只要我们能够深刻理解可见性、
+原子性、有序性在并发场景下的原理，很多并发 Bug 都是可以理解、可以诊断的。
+在介绍可见性、原子性、有序性的时候，特意提到缓存导致的可见性问题，线程切换带来
+的原子性问题，编译优化带来的有序性问题，其实缓存、线程、编译优化的目的和我们写
+并发程序的目的是相同的，都是提高程序性能。但是技术在解决一个问题的同时，必然会
+带来另外一个问题，所以在采用一项技术的同时，一定要清楚它带来的问题是什么，以及
+如何规避。
+
 
 

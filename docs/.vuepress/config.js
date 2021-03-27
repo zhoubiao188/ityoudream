@@ -10,7 +10,7 @@ const JdkConfig = require('../jdk/')
 const DubboConfig = require('../dubbo/')
 module.exports = {
   title: '技术无止境的笔记',
-  base: '/dist/',
+  base: './',
   description: '用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等',
   plugins: {
     'sitemap': {

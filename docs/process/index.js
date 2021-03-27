@@ -9,7 +9,9 @@ module.exports = () => {
           '02-quickstart-thread.md',
           '03-thread-attribute.md',
           '04-thread-cengci.md',
-          '05-thread-what.md'
+          '05-thread-what.md',
+          '06-thread-act.md',
+          '07-thread-meomory.md'
         ]
       }
     ]

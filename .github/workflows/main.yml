@@ -35,10 +35,10 @@ jobs:
           # scp参数
           ARGS: "-avzr --delete"
           # 源目录，编译后生成的文件目录
-          SOURCE: "./dist"
+          SOURCE: "./build/.vuepress/dist"
           # 服务器ip：换成你的服务器IP
           REMOTE_HOST: "120.55.165.179"
           # 用户
           REMOTE_USER: "root"
           # 目标地址 你在服务器上部署代码的地方
-          TARGET: "/root/iblog"
+          TARGET: "/root/iblog/"

@@ -9,7 +9,7 @@ const mogodbConfig = require('../mongodb/')
 const JdkConfig = require('../jdk/')
 const DubboConfig = require('../dubbo/')
 module.exports = {
-  dest: 'build/.vuepress/dist',  // 目录配置在外,纯粹是有代码洁癖和强迫症，并不能规避开发模式下同时构建不报错的问题
+    // dest: 'build/.vuepress/dist',  // 目录配置在外,纯粹是有代码洁癖和强迫症，并不能规避开发模式下同时构建不报错的问题
   host: 'localhost', // dev 的域名
   port: 8080,
   title: '技术无止境的笔记',

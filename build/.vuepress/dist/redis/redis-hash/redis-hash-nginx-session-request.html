@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>七、案例实战：SpringSession+redis解决分布式session不一致性问题 | 技术无止境的笔记</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico">
+    <meta name="description" content="用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等">
+    
+    <link rel="preload" href="/assets/css/0.styles.2b54422c.css" as="style"><link rel="preload" href="/assets/js/app.2a1e5f6f.js" as="script"><link rel="preload" href="/assets/js/2.db335f11.js" as="script"><link rel="preload" href="/assets/js/88.d7b7dd07.js" as="script"><link rel="prefetch" href="/assets/js/10.ba64fbd5.js"><link rel="prefetch" href="/assets/js/100.4cc6d703.js"><link rel="prefetch" href="/assets/js/101.c8006504.js"><link rel="prefetch" href="/assets/js/102.d2af0a9d.js"><link rel="prefetch" href="/assets/js/103.46e357b3.js"><link rel="prefetch" href="/assets/js/104.3e068adb.js"><link rel="prefetch" href="/assets/js/105.aedaadb6.js"><link rel="prefetch" href="/assets/js/106.2a5083d5.js"><link rel="prefetch" href="/assets/js/107.7ac60157.js"><link rel="prefetch" href="/assets/js/108.08a02d73.js"><link rel="prefetch" href="/assets/js/109.8dad5faa.js"><link rel="prefetch" href="/assets/js/11.afd6880c.js"><link rel="prefetch" href="/assets/js/110.f41534e0.js"><link rel="prefetch" href="/assets/js/111.ba9f30e0.js"><link rel="prefetch" href="/assets/js/112.01b4bcce.js"><link rel="prefetch" href="/assets/js/113.9a34329c.js"><link rel="prefetch" href="/assets/js/114.a5573891.js"><link rel="prefetch" href="/assets/js/115.85ae9dc5.js"><link rel="prefetch" href="/assets/js/116.b5ae058f.js"><link rel="prefetch" href="/assets/js/117.7aedada1.js"><link rel="prefetch" href="/assets/js/118.65076a6b.js"><link rel="prefetch" href="/assets/js/119.42922ba3.js"><link rel="prefetch" href="/assets/js/12.9971d1e3.js"><link rel="prefetch" href="/assets/js/120.34987338.js"><link rel="prefetch" href="/assets/js/121.c11a85cf.js"><link rel="prefetch" href="/assets/js/122.2fc7736d.js"><link rel="prefetch" href="/assets/js/123.593835e6.js"><link rel="prefetch" href="/assets/js/124.092ed6ec.js"><link rel="prefetch" href="/assets/js/125.f5024395.js"><link rel="prefetch" href="/assets/js/126.b3715859.js"><link rel="prefetch" href="/assets/js/127.658f3e52.js"><link rel="prefetch" href="/assets/js/128.ecca8429.js"><link rel="prefetch" href="/assets/js/129.a3c6e594.js"><link rel="prefetch" href="/assets/js/13.892efab1.js"><link rel="prefetch" href="/assets/js/130.77484346.js"><link rel="prefetch" href="/assets/js/131.83aef84f.js"><link rel="prefetch" href="/assets/js/132.f419b8b9.js"><link rel="prefetch" href="/assets/js/133.9eb14e3e.js"><link rel="prefetch" href="/assets/js/134.0ac3e4b2.js"><link rel="prefetch" href="/assets/js/135.a5dae3aa.js"><link rel="prefetch" href="/assets/js/136.0d91b2ea.js"><link rel="prefetch" href="/assets/js/137.3518aaaf.js"><link rel="prefetch" href="/assets/js/138.5643c133.js"><link rel="prefetch" href="/assets/js/139.78825bdc.js"><link rel="prefetch" href="/assets/js/14.fa3dda58.js"><link rel="prefetch" href="/assets/js/140.c707af06.js"><link rel="prefetch" href="/assets/js/141.8ca28812.js"><link rel="prefetch" href="/assets/js/142.1dedfbf4.js"><link rel="prefetch" href="/assets/js/143.2a60d1ec.js"><link rel="prefetch" href="/assets/js/144.1835aa63.js"><link rel="prefetch" href="/assets/js/145.2be063f6.js"><link rel="prefetch" href="/assets/js/146.71c5343b.js"><link rel="prefetch" href="/assets/js/147.429833f8.js"><link rel="prefetch" href="/assets/js/148.fc661a01.js"><link rel="prefetch" href="/assets/js/149.eaefad89.js"><link rel="prefetch" href="/assets/js/15.31a38ddb.js"><link rel="prefetch" href="/assets/js/150.5a435065.js"><link rel="prefetch" href="/assets/js/151.a50d159f.js"><link rel="prefetch" href="/assets/js/152.ff7ade34.js"><link rel="prefetch" href="/assets/js/153.4eadc291.js"><link rel="prefetch" href="/assets/js/154.7f02ddda.js"><link rel="prefetch" href="/assets/js/155.0674173e.js"><link rel="prefetch" href="/assets/js/156.f6766536.js"><link rel="prefetch" href="/assets/js/157.c88630bd.js"><link rel="prefetch" href="/assets/js/158.67cb8fc7.js"><link rel="prefetch" href="/assets/js/159.9d4f8f5b.js"><link rel="prefetch" href="/assets/js/16.5627d70d.js"><link rel="prefetch" href="/assets/js/160.f0d5abbe.js"><link rel="prefetch" href="/assets/js/161.3e4ccfcd.js"><link rel="prefetch" href="/assets/js/162.a4c2c57d.js"><link rel="prefetch" href="/assets/js/163.6a22a7a0.js"><link rel="prefetch" href="/assets/js/164.80a30fa3.js"><link rel="prefetch" href="/assets/js/165.a4f1c379.js"><link rel="prefetch" href="/assets/js/166.d6ff1526.js"><link rel="prefetch" href="/assets/js/167.006b5c99.js"><link rel="prefetch" href="/assets/js/168.014ea578.js"><link rel="prefetch" href="/assets/js/169.9e08f696.js"><link rel="prefetch" href="/assets/js/17.04c1196f.js"><link rel="prefetch" href="/assets/js/170.9e86c130.js"><link rel="prefetch" href="/assets/js/171.0bba5ca4.js"><link rel="prefetch" href="/assets/js/172.ce65310f.js"><link rel="prefetch" href="/assets/js/173.d9b6f540.js"><link rel="prefetch" href="/assets/js/18.5d0916aa.js"><link rel="prefetch" href="/assets/js/19.72279b6a.js"><link rel="prefetch" href="/assets/js/20.7a72d63d.js"><link rel="prefetch" href="/assets/js/21.7c7ccd7b.js"><link rel="prefetch" href="/assets/js/22.05fd1c7e.js"><link rel="prefetch" href="/assets/js/23.7f2261d8.js"><link rel="prefetch" href="/assets/js/24.ae1870e7.js"><link rel="prefetch" href="/assets/js/25.6dd42afc.js"><link rel="prefetch" href="/assets/js/26.f8964bb1.js"><link rel="prefetch" href="/assets/js/27.2b935557.js"><link rel="prefetch" href="/assets/js/28.b4e4661d.js"><link rel="prefetch" href="/assets/js/29.83b87606.js"><link rel="prefetch" href="/assets/js/3.39083c9a.js"><link rel="prefetch" href="/assets/js/30.7ef0d087.js"><link rel="prefetch" href="/assets/js/31.6f88487a.js"><link rel="prefetch" href="/assets/js/32.16b614f4.js"><link rel="prefetch" href="/assets/js/33.d96537ae.js"><link rel="prefetch" href="/assets/js/34.ef3ab665.js"><link rel="prefetch" href="/assets/js/35.d9518881.js"><link rel="prefetch" href="/assets/js/36.92e60f9a.js"><link rel="prefetch" href="/assets/js/37.bce21804.js"><link rel="prefetch" href="/assets/js/38.af5acaf3.js"><link rel="prefetch" href="/assets/js/39.7e4e1a5f.js"><link rel="prefetch" href="/assets/js/4.58362b09.js"><link rel="prefetch" href="/assets/js/40.776de79f.js"><link rel="prefetch" href="/assets/js/41.f2baee0f.js"><link rel="prefetch" href="/assets/js/42.72c9a136.js"><link rel="prefetch" href="/assets/js/43.49254e05.js"><link rel="prefetch" href="/assets/js/44.6cc75b9f.js"><link rel="prefetch" href="/assets/js/45.2a901451.js"><link rel="prefetch" href="/assets/js/46.22995936.js"><link rel="prefetch" href="/assets/js/47.4d391fa2.js"><link rel="prefetch" href="/assets/js/48.8b3fe383.js"><link rel="prefetch" href="/assets/js/49.f464e7df.js"><link rel="prefetch" href="/assets/js/5.d234a04e.js"><link rel="prefetch" href="/assets/js/50.01050001.js"><link rel="prefetch" href="/assets/js/51.1a0990d5.js"><link rel="prefetch" href="/assets/js/52.eba86d0d.js"><link rel="prefetch" href="/assets/js/53.fdb91471.js"><link rel="prefetch" href="/assets/js/54.a2e86c9c.js"><link rel="prefetch" href="/assets/js/55.d648878b.js"><link rel="prefetch" href="/assets/js/56.2e56568b.js"><link rel="prefetch" href="/assets/js/57.e08a0b66.js"><link rel="prefetch" href="/assets/js/58.2713d96b.js"><link rel="prefetch" href="/assets/js/59.f4d392a8.js"><link rel="prefetch" href="/assets/js/6.4a832852.js"><link rel="prefetch" href="/assets/js/60.7d6939c3.js"><link rel="prefetch" href="/assets/js/61.d8393a2f.js"><link rel="prefetch" href="/assets/js/62.bbcb7c7a.js"><link rel="prefetch" href="/assets/js/63.2744f95a.js"><link rel="prefetch" href="/assets/js/64.1862d27d.js"><link rel="prefetch" href="/assets/js/65.609b2ae4.js"><link rel="prefetch" href="/assets/js/66.9db500e9.js"><link rel="prefetch" href="/assets/js/67.a1663e78.js"><link rel="prefetch" href="/assets/js/68.3f41fc42.js"><link rel="prefetch" href="/assets/js/69.153e109a.js"><link rel="prefetch" href="/assets/js/7.5eb59aa1.js"><link rel="prefetch" href="/assets/js/70.c73bdd92.js"><link rel="prefetch" href="/assets/js/71.450f9d34.js"><link rel="prefetch" href="/assets/js/72.6d9ebd6e.js"><link rel="prefetch" href="/assets/js/73.90814231.js"><link rel="prefetch" href="/assets/js/74.55718f93.js"><link rel="prefetch" href="/assets/js/75.48fe8883.js"><link rel="prefetch" href="/assets/js/76.96f96629.js"><link rel="prefetch" href="/assets/js/77.0afc9977.js"><link rel="prefetch" href="/assets/js/78.5d59dce4.js"><link rel="prefetch" href="/assets/js/79.ed0e79ce.js"><link rel="prefetch" href="/assets/js/8.860e551e.js"><link rel="prefetch" href="/assets/js/80.44b2dff9.js"><link rel="prefetch" href="/assets/js/81.b65dedf6.js"><link rel="prefetch" href="/assets/js/82.290f1512.js"><link rel="prefetch" href="/assets/js/83.3f9b2b83.js"><link rel="prefetch" href="/assets/js/84.c8fa17f2.js"><link rel="prefetch" href="/assets/js/85.4933f216.js"><link rel="prefetch" href="/assets/js/86.76d9be0c.js"><link rel="prefetch" href="/assets/js/87.42b498ef.js"><link rel="prefetch" href="/assets/js/89.e4be057f.js"><link rel="prefetch" href="/assets/js/9.5a02f479.js"><link rel="prefetch" href="/assets/js/90.2b09e90c.js"><link rel="prefetch" href="/assets/js/91.bd369b27.js"><link rel="prefetch" href="/assets/js/92.6f2af2d9.js"><link rel="prefetch" href="/assets/js/93.5b56c8c3.js"><link rel="prefetch" href="/assets/js/94.08d17f82.js"><link rel="prefetch" href="/assets/js/95.eeef4101.js"><link rel="prefetch" href="/assets/js/96.d60fdfe4.js"><link rel="prefetch" href="/assets/js/97.41304392.js"><link rel="prefetch" href="/assets/js/98.8560c69c.js"><link rel="prefetch" href="/assets/js/99.7154a422.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.2b54422c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">技术无止境的笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/redis/" class="nav-link router-link-active">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/redis/" class="nav-link router-link-active">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/redis/" aria-current="page" class="sidebar-link">Redis入门到实战</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之String部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Redis之Hash部分</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/redis/redis-hash/01-aboutHash.html" class="sidebar-link">什么是redis的hash数据结构？</a></li><li><a href="/redis/redis-hash/02-hash-quickstart.html" class="sidebar-link">一、redis存储java对象常用String，那为什么还要用hash来存储？</a></li><li><a href="/redis/redis-hash/03-taobao-shorturl.html" class="sidebar-link">淘宝短链接如何设计？</a></li><li><a href="/redis/redis-hash/04-hash-shorturl-boot.html" class="sidebar-link">短链接转换器实战</a></li><li><a href="/redis/redis-hash/05-hash-shoppingcard.html" class="sidebar-link">京东双11购物车</a></li><li><a href="/redis/redis-hash/06-hash-concurrent-shoppingcard.html" class="sidebar-link">案例实战：SpringBoot+Redis+Cookies实现高并发的购物车</a></li><li><a href="/redis/redis-hash/07-hash-session.html" class="sidebar-link">redis解决了分布式系统的session一致性问题</a></li><li><a href="/redis/redis-hash/08-hash-login-manger.html" class="sidebar-link">三、案例实战：Springboot实现用户登录session管理功能</a></li><li><a href="/redis/redis-hash/redis-hash-nginx-session.html" class="sidebar-link">四、采用docker安装部署Nginx</a></li><li><a href="/redis/redis-hash/redis-hash-nginx-session-request.html" aria-current="page" class="active sidebar-link">七、案例实战：SpringSession+redis解决分布式session不一致性问题</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/redis/redis-hash/redis-hash-session-source.html" class="sidebar-link">八、剖析SpringSession的redis原理</a></li><li><a href="/redis/redis-hash/09-hash-webo-send.html" class="sidebar-link">基于Redis的用户发微博</a></li><li><a href="/redis/redis-hash/redis-hash-webo-register.html" class="sidebar-link">基于Redis的微博的注册</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之Set部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之List部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之Zset部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之源码解析</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h3 id="七、案例实战-springsession-redis解决分布式session不一致性问题"><a href="#七、案例实战-springsession-redis解决分布式session不一致性问题" class="header-anchor">#</a> 七、案例实战：SpringSession+redis解决分布式session不一致性问题</h3> <h4 id="步骤1-加入springsession、redis的依赖包"><a href="#步骤1-加入springsession、redis的依赖包" class="header-anchor">#</a> 步骤1：加入SpringSession、redis的依赖包</h4> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-redis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>1.4.7.RELEASE<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.session<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-session-data-redis<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h4 id="步骤2-修改配置文件"><a href="#步骤2-修改配置文件" class="header-anchor">#</a> 步骤2：修改配置文件</h4> <div class="language-yml line-numbers-mode"><pre class="language-yml"><code>
+<span class="token comment"># 为某个包目录下 设置日志</span>
+logging.level.com.agan=debug
+
+
+<span class="token comment"># 设置session的存储方式，采用redis存储</span>
+spring.session.store<span class="token punctuation">-</span>type=redis
+
+<span class="token comment"># session有效时长为10分钟</span>
+server.servlet.session.timeout=PT10M
+
+<span class="token comment">## Redis 配置</span>
+<span class="token comment">## Redis数据库索引（默认为0）</span>
+spring.redis.database=0
+<span class="token comment">## Redis服务器地址</span>
+spring.redis.host=192.168.1.138
+<span class="token comment">## Redis服务器连接端口</span>
+spring.redis.port=6379
+<span class="token comment">## Redis服务器连接密码（默认为空）</span>
+spring.redis.password=
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">1/30/2021, 10:57:51 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/redis/redis-hash/redis-hash-nginx-session.html" class="prev">
+        四、采用docker安装部署Nginx
+      </a></span> <span class="next"><a href="/redis/redis-hash/redis-hash-session-source.html">
+        八、剖析SpringSession的redis原理
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.2a1e5f6f.js" defer></script><script src="/assets/js/2.db335f11.js" defer></script><script src="/assets/js/88.d7b7dd07.js" defer></script>
+  </body>
+</html>

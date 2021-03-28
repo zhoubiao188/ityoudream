@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>redis的IM的聊天工具 | 技术无止境的笔记</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico">
+    <meta name="description" content="用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等">
+    
+    <link rel="preload" href="/assets/css/0.styles.2b54422c.css" as="style"><link rel="preload" href="/assets/js/app.2a1e5f6f.js" as="script"><link rel="preload" href="/assets/js/2.db335f11.js" as="script"><link rel="preload" href="/assets/js/134.0ac3e4b2.js" as="script"><link rel="prefetch" href="/assets/js/10.ba64fbd5.js"><link rel="prefetch" href="/assets/js/100.4cc6d703.js"><link rel="prefetch" href="/assets/js/101.c8006504.js"><link rel="prefetch" href="/assets/js/102.d2af0a9d.js"><link rel="prefetch" href="/assets/js/103.46e357b3.js"><link rel="prefetch" href="/assets/js/104.3e068adb.js"><link rel="prefetch" href="/assets/js/105.aedaadb6.js"><link rel="prefetch" href="/assets/js/106.2a5083d5.js"><link rel="prefetch" href="/assets/js/107.7ac60157.js"><link rel="prefetch" href="/assets/js/108.08a02d73.js"><link rel="prefetch" href="/assets/js/109.8dad5faa.js"><link rel="prefetch" href="/assets/js/11.afd6880c.js"><link rel="prefetch" href="/assets/js/110.f41534e0.js"><link rel="prefetch" href="/assets/js/111.ba9f30e0.js"><link rel="prefetch" href="/assets/js/112.01b4bcce.js"><link rel="prefetch" href="/assets/js/113.9a34329c.js"><link rel="prefetch" href="/assets/js/114.a5573891.js"><link rel="prefetch" href="/assets/js/115.85ae9dc5.js"><link rel="prefetch" href="/assets/js/116.b5ae058f.js"><link rel="prefetch" href="/assets/js/117.7aedada1.js"><link rel="prefetch" href="/assets/js/118.65076a6b.js"><link rel="prefetch" href="/assets/js/119.42922ba3.js"><link rel="prefetch" href="/assets/js/12.9971d1e3.js"><link rel="prefetch" href="/assets/js/120.34987338.js"><link rel="prefetch" href="/assets/js/121.c11a85cf.js"><link rel="prefetch" href="/assets/js/122.2fc7736d.js"><link rel="prefetch" href="/assets/js/123.593835e6.js"><link rel="prefetch" href="/assets/js/124.092ed6ec.js"><link rel="prefetch" href="/assets/js/125.f5024395.js"><link rel="prefetch" href="/assets/js/126.b3715859.js"><link rel="prefetch" href="/assets/js/127.658f3e52.js"><link rel="prefetch" href="/assets/js/128.ecca8429.js"><link rel="prefetch" href="/assets/js/129.a3c6e594.js"><link rel="prefetch" href="/assets/js/13.892efab1.js"><link rel="prefetch" href="/assets/js/130.77484346.js"><link rel="prefetch" href="/assets/js/131.83aef84f.js"><link rel="prefetch" href="/assets/js/132.f419b8b9.js"><link rel="prefetch" href="/assets/js/133.9eb14e3e.js"><link rel="prefetch" href="/assets/js/135.a5dae3aa.js"><link rel="prefetch" href="/assets/js/136.0d91b2ea.js"><link rel="prefetch" href="/assets/js/137.3518aaaf.js"><link rel="prefetch" href="/assets/js/138.5643c133.js"><link rel="prefetch" href="/assets/js/139.78825bdc.js"><link rel="prefetch" href="/assets/js/14.fa3dda58.js"><link rel="prefetch" href="/assets/js/140.c707af06.js"><link rel="prefetch" href="/assets/js/141.8ca28812.js"><link rel="prefetch" href="/assets/js/142.1dedfbf4.js"><link rel="prefetch" href="/assets/js/143.2a60d1ec.js"><link rel="prefetch" href="/assets/js/144.1835aa63.js"><link rel="prefetch" href="/assets/js/145.2be063f6.js"><link rel="prefetch" href="/assets/js/146.71c5343b.js"><link rel="prefetch" href="/assets/js/147.429833f8.js"><link rel="prefetch" href="/assets/js/148.fc661a01.js"><link rel="prefetch" href="/assets/js/149.eaefad89.js"><link rel="prefetch" href="/assets/js/15.31a38ddb.js"><link rel="prefetch" href="/assets/js/150.5a435065.js"><link rel="prefetch" href="/assets/js/151.a50d159f.js"><link rel="prefetch" href="/assets/js/152.ff7ade34.js"><link rel="prefetch" href="/assets/js/153.4eadc291.js"><link rel="prefetch" href="/assets/js/154.7f02ddda.js"><link rel="prefetch" href="/assets/js/155.0674173e.js"><link rel="prefetch" href="/assets/js/156.f6766536.js"><link rel="prefetch" href="/assets/js/157.c88630bd.js"><link rel="prefetch" href="/assets/js/158.67cb8fc7.js"><link rel="prefetch" href="/assets/js/159.9d4f8f5b.js"><link rel="prefetch" href="/assets/js/16.5627d70d.js"><link rel="prefetch" href="/assets/js/160.f0d5abbe.js"><link rel="prefetch" href="/assets/js/161.3e4ccfcd.js"><link rel="prefetch" href="/assets/js/162.a4c2c57d.js"><link rel="prefetch" href="/assets/js/163.6a22a7a0.js"><link rel="prefetch" href="/assets/js/164.80a30fa3.js"><link rel="prefetch" href="/assets/js/165.a4f1c379.js"><link rel="prefetch" href="/assets/js/166.d6ff1526.js"><link rel="prefetch" href="/assets/js/167.006b5c99.js"><link rel="prefetch" href="/assets/js/168.014ea578.js"><link rel="prefetch" href="/assets/js/169.9e08f696.js"><link rel="prefetch" href="/assets/js/17.04c1196f.js"><link rel="prefetch" href="/assets/js/170.9e86c130.js"><link rel="prefetch" href="/assets/js/171.0bba5ca4.js"><link rel="prefetch" href="/assets/js/172.ce65310f.js"><link rel="prefetch" href="/assets/js/173.d9b6f540.js"><link rel="prefetch" href="/assets/js/18.5d0916aa.js"><link rel="prefetch" href="/assets/js/19.72279b6a.js"><link rel="prefetch" href="/assets/js/20.7a72d63d.js"><link rel="prefetch" href="/assets/js/21.7c7ccd7b.js"><link rel="prefetch" href="/assets/js/22.05fd1c7e.js"><link rel="prefetch" href="/assets/js/23.7f2261d8.js"><link rel="prefetch" href="/assets/js/24.ae1870e7.js"><link rel="prefetch" href="/assets/js/25.6dd42afc.js"><link rel="prefetch" href="/assets/js/26.f8964bb1.js"><link rel="prefetch" href="/assets/js/27.2b935557.js"><link rel="prefetch" href="/assets/js/28.b4e4661d.js"><link rel="prefetch" href="/assets/js/29.83b87606.js"><link rel="prefetch" href="/assets/js/3.39083c9a.js"><link rel="prefetch" href="/assets/js/30.7ef0d087.js"><link rel="prefetch" href="/assets/js/31.6f88487a.js"><link rel="prefetch" href="/assets/js/32.16b614f4.js"><link rel="prefetch" href="/assets/js/33.d96537ae.js"><link rel="prefetch" href="/assets/js/34.ef3ab665.js"><link rel="prefetch" href="/assets/js/35.d9518881.js"><link rel="prefetch" href="/assets/js/36.92e60f9a.js"><link rel="prefetch" href="/assets/js/37.bce21804.js"><link rel="prefetch" href="/assets/js/38.af5acaf3.js"><link rel="prefetch" href="/assets/js/39.7e4e1a5f.js"><link rel="prefetch" href="/assets/js/4.58362b09.js"><link rel="prefetch" href="/assets/js/40.776de79f.js"><link rel="prefetch" href="/assets/js/41.f2baee0f.js"><link rel="prefetch" href="/assets/js/42.72c9a136.js"><link rel="prefetch" href="/assets/js/43.49254e05.js"><link rel="prefetch" href="/assets/js/44.6cc75b9f.js"><link rel="prefetch" href="/assets/js/45.2a901451.js"><link rel="prefetch" href="/assets/js/46.22995936.js"><link rel="prefetch" href="/assets/js/47.4d391fa2.js"><link rel="prefetch" href="/assets/js/48.8b3fe383.js"><link rel="prefetch" href="/assets/js/49.f464e7df.js"><link rel="prefetch" href="/assets/js/5.d234a04e.js"><link rel="prefetch" href="/assets/js/50.01050001.js"><link rel="prefetch" href="/assets/js/51.1a0990d5.js"><link rel="prefetch" href="/assets/js/52.eba86d0d.js"><link rel="prefetch" href="/assets/js/53.fdb91471.js"><link rel="prefetch" href="/assets/js/54.a2e86c9c.js"><link rel="prefetch" href="/assets/js/55.d648878b.js"><link rel="prefetch" href="/assets/js/56.2e56568b.js"><link rel="prefetch" href="/assets/js/57.e08a0b66.js"><link rel="prefetch" href="/assets/js/58.2713d96b.js"><link rel="prefetch" href="/assets/js/59.f4d392a8.js"><link rel="prefetch" href="/assets/js/6.4a832852.js"><link rel="prefetch" href="/assets/js/60.7d6939c3.js"><link rel="prefetch" href="/assets/js/61.d8393a2f.js"><link rel="prefetch" href="/assets/js/62.bbcb7c7a.js"><link rel="prefetch" href="/assets/js/63.2744f95a.js"><link rel="prefetch" href="/assets/js/64.1862d27d.js"><link rel="prefetch" href="/assets/js/65.609b2ae4.js"><link rel="prefetch" href="/assets/js/66.9db500e9.js"><link rel="prefetch" href="/assets/js/67.a1663e78.js"><link rel="prefetch" href="/assets/js/68.3f41fc42.js"><link rel="prefetch" href="/assets/js/69.153e109a.js"><link rel="prefetch" href="/assets/js/7.5eb59aa1.js"><link rel="prefetch" href="/assets/js/70.c73bdd92.js"><link rel="prefetch" href="/assets/js/71.450f9d34.js"><link rel="prefetch" href="/assets/js/72.6d9ebd6e.js"><link rel="prefetch" href="/assets/js/73.90814231.js"><link rel="prefetch" href="/assets/js/74.55718f93.js"><link rel="prefetch" href="/assets/js/75.48fe8883.js"><link rel="prefetch" href="/assets/js/76.96f96629.js"><link rel="prefetch" href="/assets/js/77.0afc9977.js"><link rel="prefetch" href="/assets/js/78.5d59dce4.js"><link rel="prefetch" href="/assets/js/79.ed0e79ce.js"><link rel="prefetch" href="/assets/js/8.860e551e.js"><link rel="prefetch" href="/assets/js/80.44b2dff9.js"><link rel="prefetch" href="/assets/js/81.b65dedf6.js"><link rel="prefetch" href="/assets/js/82.290f1512.js"><link rel="prefetch" href="/assets/js/83.3f9b2b83.js"><link rel="prefetch" href="/assets/js/84.c8fa17f2.js"><link rel="prefetch" href="/assets/js/85.4933f216.js"><link rel="prefetch" href="/assets/js/86.76d9be0c.js"><link rel="prefetch" href="/assets/js/87.42b498ef.js"><link rel="prefetch" href="/assets/js/88.d7b7dd07.js"><link rel="prefetch" href="/assets/js/89.e4be057f.js"><link rel="prefetch" href="/assets/js/9.5a02f479.js"><link rel="prefetch" href="/assets/js/90.2b09e90c.js"><link rel="prefetch" href="/assets/js/91.bd369b27.js"><link rel="prefetch" href="/assets/js/92.6f2af2d9.js"><link rel="prefetch" href="/assets/js/93.5b56c8c3.js"><link rel="prefetch" href="/assets/js/94.08d17f82.js"><link rel="prefetch" href="/assets/js/95.eeef4101.js"><link rel="prefetch" href="/assets/js/96.d60fdfe4.js"><link rel="prefetch" href="/assets/js/97.41304392.js"><link rel="prefetch" href="/assets/js/98.8560c69c.js"><link rel="prefetch" href="/assets/js/99.7154a422.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.2b54422c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">技术无止境的笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/redis/" class="nav-link router-link-active">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/redis/" class="nav-link router-link-active">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/redis/" aria-current="page" class="sidebar-link">Redis入门到实战</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之String部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之Hash部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之Set部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之List部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Redis之Zset部分</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/redis/redis-zset/about-zset.html" class="sidebar-link">什么是redis zset类型？</a></li><li><a href="/redis/redis-zset/redis-webo-rank.html" class="sidebar-link">springboot+redis实现微博热搜排行榜</a></li><li><a href="/redis/redis-zset/redis-geo-hotel.html" class="sidebar-link">美团附近酒店搜索-技术方案</a></li><li><a href="/redis/redis-zset/redis-geo-hotel-coding.html" class="sidebar-link">代码实现美团附近酒店搜索</a></li><li><a href="/redis/redis-zset/redis-zset-live.html" class="sidebar-link">案例实战：基于redis的直播发言弹幕</a></li><li><a href="/redis/redis-zset/redis-im-01.html" aria-current="page" class="active sidebar-link">redis的IM的聊天工具</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/redis/redis-zset/redis-im-01.html#im聊天室" class="sidebar-link">IM聊天室</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/redis/redis-zset/redis-im-01.html#zhoubiao的聊天" class="sidebar-link">zhoubiao的聊天</a></li><li class="sidebar-sub-header"><a href="/redis/redis-zset/redis-im-01.html#alex的聊天" class="sidebar-link">alex的聊天</a></li><li class="sidebar-sub-header"><a href="/redis/redis-zset/redis-im-01.html#关于未读消息的处理" class="sidebar-link">关于未读消息的处理</a></li></ul></li></ul></li><li><a href="/redis/redis-zset/redis-bloom-filter.html" class="sidebar-link">采用docker安装RedisBloom</a></li><li><a href="/redis/redis-zset/redis-stream-mq-01.html" class="sidebar-link">stream消息队列实战</a></li><li><a href="/redis/redis-zset/redis-stream-mq-02.html" class="sidebar-link">如何确保消息100%消费成功？</a></li><li><a href="/redis/redis-zset/redis-stream-mq-03.html" class="sidebar-link">没人消费的消息，采用消息转移</a></li><li><a href="/redis/redis-zset/redis-stream-mq-04.html" class="sidebar-link">删除死信消息</a></li><li><a href="/redis/redis-zset/redis-stream-mq-05.html" class="sidebar-link">6.案例实战：积分服务的消费队列</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之源码解析</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="redis的im的聊天工具"><a href="#redis的im的聊天工具" class="header-anchor">#</a> redis的IM的聊天工具</h1> <h3 id="什么是redis的stream数据结构"><a href="#什么是redis的stream数据结构" class="header-anchor">#</a> 什么是redis的stream数据结构？</h3> <p>Redis 5.0推出了一个新的数据结构：Stream。Stream就是一个流处理 的数据结构.
+基于流处理的数据结构，它的功能应用于类似IM的聊天工具和典型的消息队列。
+Redis 的Stream几乎满足了消息队列具备的全部内容，包括但不限于：
+1.消息ID的序列化生成
+2.消息遍历
+3.消息的阻塞和非阻塞读取
+4.消息的分组消费
+5.未完成消息的处理
+6.消息队列监控</p> <p>xadd：向Stream追加消息
+xdel：从Stream中删除消息，删除仅仅是设置标志位，不影响消息总长度。
+xrange：获取Stream中的消息列表，自动过滤已经删除的消息。-表示最小值，+表示最大值。
+xlen：获取Stream的消息长度，所有在链表中存在的消息
+del：删除整个Stream中的所有消息。</p> <h4 id="stream生产消息"><a href="#stream生产消息" class="header-anchor">#</a> stream生产消息</h4> <p>XADD，命令用于在某个stream（流数据）中追加消息,语法如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>xadd key ID field string [field string ...]
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>需要提供key，消息ID方案，消息内容，其中消息内容为key-value型数据。
+ID，最常使用*，表示由Redis生成消息ID，这也是强烈建议的方案。
+field string [field string], 就是当前消息内容，由1个或多个key-value构成。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; xadd message * hello zhoubiao
+&quot;1587196058726-0&quot;  #消息ID
+39.100.196.99:6379&gt; xadd message * hello zhoubiao2
+&quot;1587196063320-0&quot;
+39.100.196.99:6379&gt; xadd message * hello zhoubiao3
+&quot;1587196067111-0&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><h3 id="stream独立消费"><a href="#stream独立消费" class="header-anchor">#</a> stream独立消费</h3> <p>从消息队列中获取消息，XREAD，消费消息</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>xread [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] ID [ID ...]
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>[COUNT count]，用于限定获取的消息数量
+[BLOCK milliseconds]，用于设置XREAD为阻塞模式，默认为非阻塞模式
+ID，用于设置由哪个消息ID开始读取。使用0表示从第一条消息开始。（本例中就是使用0），
+消息队列ID是单调递增的，所以通过设置起点，可以向后读取。在阻塞模式中，可以使用，表示最新的消息ID。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; xread STREAMS message 0
+1) 1) &quot;message&quot;
+   2) 1) 1) &quot;1587196058726-0&quot;
+         2) 1) &quot;hello&quot;
+            2) &quot;zhoubiao&quot;
+      2) 1) &quot;1587196063320-0&quot;
+         2) 1) &quot;hello&quot;
+            2) &quot;zhoubiao2&quot;
+      3) 1) &quot;1587196067111-0&quot;
+         2) 1) &quot;hello&quot;
+            2) &quot;zhoubiao3&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><h3 id="消息id的原理"><a href="#消息id的原理" class="header-anchor">#</a> 消息ID的原理</h3> <p>上文这个消息id 1587196058726-0，是redis 生成的消息id。
+它由2部分组成：时间戳-序号。时间戳是毫秒级，序号是为了防止相同时间内生成的id重复。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; multi
+OK
+39.100.196.99:6379&gt; xadd message * hello zhoubiao1
+QUEUED
+39.100.196.99:6379&gt; xadd message * hello zhoubiao2
+QUEUED
+39.100.196.99:6379&gt; xadd message * hello zhoubiao3
+QUEUED
+39.100.196.99:6379&gt; exec
+1) &quot;1587198991846-0&quot;
+2) &quot;1587198991846-1&quot;
+3) &quot;1587198991846-2&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><h2 id="im聊天室"><a href="#im聊天室" class="header-anchor">#</a> IM聊天室</h2> <p>业务场景：互联网很多在线客服，在线咨询，或在线聊天室，例如有2个人 zhoubiao alex ，分别进行在线实时咨询聊天，如下：
+zhoubiao: hi
+alex: hi hi
+zhoubiao: how are you
+alex: I fine</p> <h3 id="zhoubiao的聊天"><a href="#zhoubiao的聊天" class="header-anchor">#</a> zhoubiao的聊天</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; xadd roomA * zhoubiao hi # 发送消息
+&quot;1587199309199-0&quot;
+39.100.196.99:6379&gt; xread BLOCK 600000 STREAMS roomA $ #等10分钟，等消息；指定$表示只接收实时的最新消息。
+1) 1) &quot;roomA&quot;
+   2) 1) 1) &quot;1587199436403-0&quot;
+         2) 1) &quot;alex&quot;
+            2) &quot;hi hi&quot;
+(91.54s)
+39.100.196.99:6379&gt; xadd roomA * zhoubiao &quot;how are you&quot; # 再次发送消息
+&quot;1587199484867-0&quot;
+39.100.196.99:6379&gt; xread BLOCK 600000 STREAMS roomA $  #等10分钟，等消息；
+1) 1) &quot;roomA&quot;
+   2) 1) 1) &quot;1587199523884-0&quot;
+         2) 1) &quot;alex&quot;
+            2) &quot;I fine&quot;
+(28.48s)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><h3 id="alex的聊天"><a href="#alex的聊天" class="header-anchor">#</a> alex的聊天</h3> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; xread BLOCK 600000 STREAMS roomA $
+1) 1) &quot;roomA&quot;
+   2) 1) 1) &quot;1587199309199-0&quot;
+         2) 1) &quot;zhoubiao&quot;
+            2) &quot;hi&quot;
+(9.20s)
+39.100.196.99:6379&gt;
+39.100.196.99:6379&gt; xadd roomA *  alex &quot;hi hi&quot;
+&quot;1587199436403-0&quot;
+39.100.196.99:6379&gt; xread BLOCK 600000 STREAMS roomA $
+1) 1) &quot;roomA&quot;
+   2) 1) 1) &quot;1587199484867-0&quot;
+         2) 1) &quot;zhoubiao&quot;
+            2) &quot;how are you&quot;
+(34.58s)
+39.100.196.99:6379&gt; xadd roomA *  alex &quot;I fine&quot;
+&quot;1587199523884-0&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><h3 id="关于未读消息的处理"><a href="#关于未读消息的处理" class="header-anchor">#</a> 关于未读消息的处理</h3> <p>XREAD的语法如下：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>xread [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] ID [ID ...]
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>上文的例子中，$代表是一个特殊起始ID读取消息，表示只接收实时最新的频道消息
+也可以用ID来处理，ID代表来取该ID之后的消息。
+这个ID非常重要，主要用在当一个用户断开连接重新加入聊天时，可以通过上一个ID，拉取历史消息：
+例如：当用户读到1587199309199-0在，断开连接了，可以通过如下，拉取历史数据。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; xread BLOCK 600000 STREAMS roomA 1587199309199-0
+1) 1) &quot;roomA&quot;
+   2) 1) 1) &quot;1587199436403-0&quot;
+         2) 1) &quot;alex&quot;
+            2) &quot;hi hi&quot;
+      2) 1) &quot;1587199484867-0&quot;
+         2) 1) &quot;zhoubiao&quot;
+            2) &quot;how are you&quot;
+      3) 1) &quot;1587199523884-0&quot;
+         2) 1) &quot;alex&quot;
+            2) &quot;I fine&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>zhoubiao: hi
+alex: hi hi
+zhoubiao: how are you
+alex: I fine</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">9/14/2020, 11:13:29 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/redis/redis-zset/redis-zset-live.html" class="prev">
+        案例实战：基于redis的直播发言弹幕
+      </a></span> <span class="next"><a href="/redis/redis-zset/redis-bloom-filter.html">
+        采用docker安装RedisBloom
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.2a1e5f6f.js" defer></script><script src="/assets/js/2.db335f11.js" defer></script><script src="/assets/js/134.0ac3e4b2.js" defer></script>
+  </body>
+</html>

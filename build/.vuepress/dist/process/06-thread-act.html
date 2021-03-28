@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>可见性、原子性和有序性问题:并发编程的Bug的源头 | 技术无止境的笔记</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/public/favicon.ico">
+    <meta name="description" content="用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等">
+    
+    <link rel="preload" href="/assets/css/0.styles.2b54422c.css" as="style"><link rel="preload" href="/assets/js/app.2a1e5f6f.js" as="script"><link rel="preload" href="/assets/js/2.db335f11.js" as="script"><link rel="preload" href="/assets/js/75.48fe8883.js" as="script"><link rel="prefetch" href="/assets/js/10.ba64fbd5.js"><link rel="prefetch" href="/assets/js/100.4cc6d703.js"><link rel="prefetch" href="/assets/js/101.c8006504.js"><link rel="prefetch" href="/assets/js/102.d2af0a9d.js"><link rel="prefetch" href="/assets/js/103.46e357b3.js"><link rel="prefetch" href="/assets/js/104.3e068adb.js"><link rel="prefetch" href="/assets/js/105.aedaadb6.js"><link rel="prefetch" href="/assets/js/106.2a5083d5.js"><link rel="prefetch" href="/assets/js/107.7ac60157.js"><link rel="prefetch" href="/assets/js/108.08a02d73.js"><link rel="prefetch" href="/assets/js/109.8dad5faa.js"><link rel="prefetch" href="/assets/js/11.afd6880c.js"><link rel="prefetch" href="/assets/js/110.f41534e0.js"><link rel="prefetch" href="/assets/js/111.ba9f30e0.js"><link rel="prefetch" href="/assets/js/112.01b4bcce.js"><link rel="prefetch" href="/assets/js/113.9a34329c.js"><link rel="prefetch" href="/assets/js/114.a5573891.js"><link rel="prefetch" href="/assets/js/115.85ae9dc5.js"><link rel="prefetch" href="/assets/js/116.b5ae058f.js"><link rel="prefetch" href="/assets/js/117.7aedada1.js"><link rel="prefetch" href="/assets/js/118.65076a6b.js"><link rel="prefetch" href="/assets/js/119.42922ba3.js"><link rel="prefetch" href="/assets/js/12.9971d1e3.js"><link rel="prefetch" href="/assets/js/120.34987338.js"><link rel="prefetch" href="/assets/js/121.c11a85cf.js"><link rel="prefetch" href="/assets/js/122.2fc7736d.js"><link rel="prefetch" href="/assets/js/123.593835e6.js"><link rel="prefetch" href="/assets/js/124.092ed6ec.js"><link rel="prefetch" href="/assets/js/125.f5024395.js"><link rel="prefetch" href="/assets/js/126.b3715859.js"><link rel="prefetch" href="/assets/js/127.658f3e52.js"><link rel="prefetch" href="/assets/js/128.ecca8429.js"><link rel="prefetch" href="/assets/js/129.a3c6e594.js"><link rel="prefetch" href="/assets/js/13.892efab1.js"><link rel="prefetch" href="/assets/js/130.77484346.js"><link rel="prefetch" href="/assets/js/131.83aef84f.js"><link rel="prefetch" href="/assets/js/132.f419b8b9.js"><link rel="prefetch" href="/assets/js/133.9eb14e3e.js"><link rel="prefetch" href="/assets/js/134.0ac3e4b2.js"><link rel="prefetch" href="/assets/js/135.a5dae3aa.js"><link rel="prefetch" href="/assets/js/136.0d91b2ea.js"><link rel="prefetch" href="/assets/js/137.3518aaaf.js"><link rel="prefetch" href="/assets/js/138.5643c133.js"><link rel="prefetch" href="/assets/js/139.78825bdc.js"><link rel="prefetch" href="/assets/js/14.fa3dda58.js"><link rel="prefetch" href="/assets/js/140.c707af06.js"><link rel="prefetch" href="/assets/js/141.8ca28812.js"><link rel="prefetch" href="/assets/js/142.1dedfbf4.js"><link rel="prefetch" href="/assets/js/143.2a60d1ec.js"><link rel="prefetch" href="/assets/js/144.1835aa63.js"><link rel="prefetch" href="/assets/js/145.2be063f6.js"><link rel="prefetch" href="/assets/js/146.71c5343b.js"><link rel="prefetch" href="/assets/js/147.429833f8.js"><link rel="prefetch" href="/assets/js/148.fc661a01.js"><link rel="prefetch" href="/assets/js/149.eaefad89.js"><link rel="prefetch" href="/assets/js/15.31a38ddb.js"><link rel="prefetch" href="/assets/js/150.5a435065.js"><link rel="prefetch" href="/assets/js/151.a50d159f.js"><link rel="prefetch" href="/assets/js/152.ff7ade34.js"><link rel="prefetch" href="/assets/js/153.4eadc291.js"><link rel="prefetch" href="/assets/js/154.7f02ddda.js"><link rel="prefetch" href="/assets/js/155.0674173e.js"><link rel="prefetch" href="/assets/js/156.f6766536.js"><link rel="prefetch" href="/assets/js/157.c88630bd.js"><link rel="prefetch" href="/assets/js/158.67cb8fc7.js"><link rel="prefetch" href="/assets/js/159.9d4f8f5b.js"><link rel="prefetch" href="/assets/js/16.5627d70d.js"><link rel="prefetch" href="/assets/js/160.f0d5abbe.js"><link rel="prefetch" href="/assets/js/161.3e4ccfcd.js"><link rel="prefetch" href="/assets/js/162.a4c2c57d.js"><link rel="prefetch" href="/assets/js/163.6a22a7a0.js"><link rel="prefetch" href="/assets/js/164.80a30fa3.js"><link rel="prefetch" href="/assets/js/165.a4f1c379.js"><link rel="prefetch" href="/assets/js/166.d6ff1526.js"><link rel="prefetch" href="/assets/js/167.006b5c99.js"><link rel="prefetch" href="/assets/js/168.014ea578.js"><link rel="prefetch" href="/assets/js/169.9e08f696.js"><link rel="prefetch" href="/assets/js/17.04c1196f.js"><link rel="prefetch" href="/assets/js/170.9e86c130.js"><link rel="prefetch" href="/assets/js/171.0bba5ca4.js"><link rel="prefetch" href="/assets/js/172.ce65310f.js"><link rel="prefetch" href="/assets/js/173.d9b6f540.js"><link rel="prefetch" href="/assets/js/18.5d0916aa.js"><link rel="prefetch" href="/assets/js/19.72279b6a.js"><link rel="prefetch" href="/assets/js/20.7a72d63d.js"><link rel="prefetch" href="/assets/js/21.7c7ccd7b.js"><link rel="prefetch" href="/assets/js/22.05fd1c7e.js"><link rel="prefetch" href="/assets/js/23.7f2261d8.js"><link rel="prefetch" href="/assets/js/24.ae1870e7.js"><link rel="prefetch" href="/assets/js/25.6dd42afc.js"><link rel="prefetch" href="/assets/js/26.f8964bb1.js"><link rel="prefetch" href="/assets/js/27.2b935557.js"><link rel="prefetch" href="/assets/js/28.b4e4661d.js"><link rel="prefetch" href="/assets/js/29.83b87606.js"><link rel="prefetch" href="/assets/js/3.39083c9a.js"><link rel="prefetch" href="/assets/js/30.7ef0d087.js"><link rel="prefetch" href="/assets/js/31.6f88487a.js"><link rel="prefetch" href="/assets/js/32.16b614f4.js"><link rel="prefetch" href="/assets/js/33.d96537ae.js"><link rel="prefetch" href="/assets/js/34.ef3ab665.js"><link rel="prefetch" href="/assets/js/35.d9518881.js"><link rel="prefetch" href="/assets/js/36.92e60f9a.js"><link rel="prefetch" href="/assets/js/37.bce21804.js"><link rel="prefetch" href="/assets/js/38.af5acaf3.js"><link rel="prefetch" href="/assets/js/39.7e4e1a5f.js"><link rel="prefetch" href="/assets/js/4.58362b09.js"><link rel="prefetch" href="/assets/js/40.776de79f.js"><link rel="prefetch" href="/assets/js/41.f2baee0f.js"><link rel="prefetch" href="/assets/js/42.72c9a136.js"><link rel="prefetch" href="/assets/js/43.49254e05.js"><link rel="prefetch" href="/assets/js/44.6cc75b9f.js"><link rel="prefetch" href="/assets/js/45.2a901451.js"><link rel="prefetch" href="/assets/js/46.22995936.js"><link rel="prefetch" href="/assets/js/47.4d391fa2.js"><link rel="prefetch" href="/assets/js/48.8b3fe383.js"><link rel="prefetch" href="/assets/js/49.f464e7df.js"><link rel="prefetch" href="/assets/js/5.d234a04e.js"><link rel="prefetch" href="/assets/js/50.01050001.js"><link rel="prefetch" href="/assets/js/51.1a0990d5.js"><link rel="prefetch" href="/assets/js/52.eba86d0d.js"><link rel="prefetch" href="/assets/js/53.fdb91471.js"><link rel="prefetch" href="/assets/js/54.a2e86c9c.js"><link rel="prefetch" href="/assets/js/55.d648878b.js"><link rel="prefetch" href="/assets/js/56.2e56568b.js"><link rel="prefetch" href="/assets/js/57.e08a0b66.js"><link rel="prefetch" href="/assets/js/58.2713d96b.js"><link rel="prefetch" href="/assets/js/59.f4d392a8.js"><link rel="prefetch" href="/assets/js/6.4a832852.js"><link rel="prefetch" href="/assets/js/60.7d6939c3.js"><link rel="prefetch" href="/assets/js/61.d8393a2f.js"><link rel="prefetch" href="/assets/js/62.bbcb7c7a.js"><link rel="prefetch" href="/assets/js/63.2744f95a.js"><link rel="prefetch" href="/assets/js/64.1862d27d.js"><link rel="prefetch" href="/assets/js/65.609b2ae4.js"><link rel="prefetch" href="/assets/js/66.9db500e9.js"><link rel="prefetch" href="/assets/js/67.a1663e78.js"><link rel="prefetch" href="/assets/js/68.3f41fc42.js"><link rel="prefetch" href="/assets/js/69.153e109a.js"><link rel="prefetch" href="/assets/js/7.5eb59aa1.js"><link rel="prefetch" href="/assets/js/70.c73bdd92.js"><link rel="prefetch" href="/assets/js/71.450f9d34.js"><link rel="prefetch" href="/assets/js/72.6d9ebd6e.js"><link rel="prefetch" href="/assets/js/73.90814231.js"><link rel="prefetch" href="/assets/js/74.55718f93.js"><link rel="prefetch" href="/assets/js/76.96f96629.js"><link rel="prefetch" href="/assets/js/77.0afc9977.js"><link rel="prefetch" href="/assets/js/78.5d59dce4.js"><link rel="prefetch" href="/assets/js/79.ed0e79ce.js"><link rel="prefetch" href="/assets/js/8.860e551e.js"><link rel="prefetch" href="/assets/js/80.44b2dff9.js"><link rel="prefetch" href="/assets/js/81.b65dedf6.js"><link rel="prefetch" href="/assets/js/82.290f1512.js"><link rel="prefetch" href="/assets/js/83.3f9b2b83.js"><link rel="prefetch" href="/assets/js/84.c8fa17f2.js"><link rel="prefetch" href="/assets/js/85.4933f216.js"><link rel="prefetch" href="/assets/js/86.76d9be0c.js"><link rel="prefetch" href="/assets/js/87.42b498ef.js"><link rel="prefetch" href="/assets/js/88.d7b7dd07.js"><link rel="prefetch" href="/assets/js/89.e4be057f.js"><link rel="prefetch" href="/assets/js/9.5a02f479.js"><link rel="prefetch" href="/assets/js/90.2b09e90c.js"><link rel="prefetch" href="/assets/js/91.bd369b27.js"><link rel="prefetch" href="/assets/js/92.6f2af2d9.js"><link rel="prefetch" href="/assets/js/93.5b56c8c3.js"><link rel="prefetch" href="/assets/js/94.08d17f82.js"><link rel="prefetch" href="/assets/js/95.eeef4101.js"><link rel="prefetch" href="/assets/js/96.d60fdfe4.js"><link rel="prefetch" href="/assets/js/97.41304392.js"><link rel="prefetch" href="/assets/js/98.8560c69c.js"><link rel="prefetch" href="/assets/js/99.7154a422.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.2b54422c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">技术无止境的笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/redis/" class="nav-link">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/process/" class="nav-link router-link-active">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/redis/" class="nav-link">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/process/" class="nav-link router-link-active">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/process/" aria-current="page" class="sidebar-link">研磨多线程</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Java线程</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/process/01-about-process.html" class="sidebar-link">走进Java世界中的线程</a></li><li><a href="/process/02-quickstart-thread.html" class="sidebar-link">线程的几种创建方式</a></li><li><a href="/process/03-thread-attribute.html" class="sidebar-link">线程的属性和方法</a></li><li><a href="/process/04-thread-cengci.html" class="sidebar-link">Java线程的层次关系</a></li><li><a href="/process/05-thread-what.html" class="sidebar-link">并发编程的核心问题</a></li><li><a href="/process/06-thread-act.html" aria-current="page" class="active sidebar-link">可见性、原子性和有序性问题:并发编程的Bug的源头</a></li><li><a href="/process/07-thread-meomory.html" class="sidebar-link">Java内存模型：看Java如何解决可见性和有序性问题</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h4 id="可见性、原子性和有序性问题-并发编程的bug的源头"><a href="#可见性、原子性和有序性问题-并发编程的bug的源头" class="header-anchor">#</a> 可见性、原子性和有序性问题:并发编程的Bug的源头</h4> <p>通常在并发程序中会出现很多Bug，这些Bug很难追踪和定位，一般我都是为了解决并发问题，而忽略了如线程安全等问题，造成系统出现Bug，我们要定位并发中的Bug，那么就要对并发编程深入的了解，而不是停留在只会用。</p> <h4 id="源头之一-缓存导致的可见性问题"><a href="#源头之一-缓存导致的可见性问题" class="header-anchor">#</a> 源头之一：缓存导致的可见性问题</h4> <p>在单核时代，所有的线程都在一个CPU上运行，CPU 缓存与内存的数据一致性容易解
+决。因为所有线程都是操作同一个 CPU 的缓存，一个线程对缓存的写，对另外一个线程来
+说一定是可见的。例如在下面的图中，线程 A 和线程 B 都是操作同一个 CPU 里面的缓
+存，所以线程 A 更新了变量 V 的值，那么线程 B 之后再访问变量 V，得到的一定是 V 的
+最新值（线程 A 写过的值）。</p> <p><img src="/thread/thread1.png" alt="image"></p> <center>CPU 缓存与内存的关系图</center> <p>一个线程对共享变量的修改，另外一个线程能够立刻看到，我们称为可见性。
+多核时代，每颗 CPU 都有自己的缓存，这时 CPU 缓存与内存的数据一致性就没那么容易
+解决了，当多个线程在不同的 CPU 上执行时，这些线程操作的是不同的 CPU 缓存。比如
+下图中，线程 A 操作的是 CPU-1 上的缓存，而线程 B 操作的是 CPU-2 上的缓存，很明
+显，这个时候线程 A 对变量 V 的操作对于线程 B 而言就不具备可见性了。这个就属于硬
+件程序员给软件程序员挖的“坑”。</p> <p><img src="/thread/thread2.png" alt="image"> <center>多核 CPU 的缓存与内存关系图</center></p> <p>下面我们再用一段代码来验证一下多核场景下的可见性问题。下面的代码，每执行一次
+add10K() 方法，都会循环 10000 次 count+=1 操作。在 calc() 方法中我们创建了两个
+线程，每个线程调用一次 add10K() 方法，我们来想一想执行 calc() 方法得到的结果应该
+是多少呢？</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">package</span> <span class="token namespace">cn<span class="token punctuation">.</span>ityoudream<span class="token punctuation">.</span>thread3</span><span class="token punctuation">;</span>
+
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ThreadTest</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">long</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">add10K</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>idx<span class="token operator">++</span> <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            count <span class="token operator">+=</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">long</span> <span class="token function">calc</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">InterruptedException</span> <span class="token punctuation">{</span>
+        <span class="token keyword">final</span> <span class="token class-name">ThreadTest</span> test <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadTest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//创建两个线程执行add()操作</span>
+        <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            test<span class="token punctuation">.</span><span class="token function">add10K</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span> t2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-&gt;</span> <span class="token punctuation">{</span>
+            test<span class="token punctuation">.</span><span class="token function">add10K</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t2<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> count<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            <span class="token keyword">long</span> calc <span class="token operator">=</span> <span class="token class-name">ThreadTest</span><span class="token punctuation">.</span><span class="token function">calc</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">//答案就是20000，但是这个是随机性的</span>
+            <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;result:&quot;</span> <span class="token operator">+</span> calc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> interruptedException<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            interruptedException<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br></div></div><p>那么为什么最终calc执行的结果不是每次都是20000，而是10000到20000之间到随机数呢？
+因为我们在但线程调用了两次add10K方法，假设线程 A 和线程 B 同时开始执行，那么第一次都会将 count=0 读到各自的 CPU
+缓存里，执行完 count+=1 之后，各自 CPU 缓存里的值都是 1，同时写入内存后，我们
+会发现内存中是 1，而不是我们期望的 2。之后由于各自的 CPU 缓存里都有了 count 的
+值，两个线程都是基于 CPU 缓存里的 count 值来计算，所以导致最终 count 的值都是小
+于 20000 的。这就是缓存的可见性问题。
+循环 10000 次 count+=1 操作如果改为循环 1 亿次，你会发现效果更明显，最终 count
+的值接近 1 亿，而不是 2 亿。如果循环 10000 次，count 的值接近 20000，原因是两个
+线程不是同时启动的，有一个时差。</p> <p><img src="/thread/thread3.png" alt="image"></p> <h4 id="源头之二-线程切换带来的原子性问题"><a href="#源头之二-线程切换带来的原子性问题" class="header-anchor">#</a> 源头之二：线程切换带来的原子性问题</h4> <p>由于 IO 太慢，早期的操作系统就发明了多进程，即便在单核的 CPU 上我们也可以一边听
+着歌，一边写 Bug，这个就是多进程的功劳</p> <p>操作系统允许某个进程执行一小段时间，例如 50 毫秒，过了 50 毫秒操作系统就会重新选
+择一个进程来执行（我们称为“任务切换”），这个 50 毫秒称为“时间片”。</p> <p><img src="/thread/thread4.png" alt="image"> <center>线程切换示意图</center></p> <p>在一个时间片内，如果一个进程进行一个 IO 操作，例如读个文件，这个时候该进程可以
+把自己标记为“休眠状态”并出让 CPU 的使用权，待文件读进内存，操作系统会把这个休
+眠的进程唤醒，唤醒后的进程就有机会重新获得 CPU 的使用权了。
+这里的进程在等待 IO 时之所以会释放 CPU 使用权，是为了让 CPU 在这段等待时间里可
+以做别的事情，这样一来 CPU 的使用率就上来了；此外，如果这时有另外一个进程也读文
+件，读文件的操作就会排队，磁盘驱动在完成一个进程的读操作后，发现有排队的任务，
+就会立即启动下一个读操作，这样 IO 的使用率也上来了。</p> <p>早期的操作系统基于进程来调度 CPU，不同进程间是不共享内存空间的，所以进程要做任
+务切换就要切换内存映射地址，而一个进程创建的所有线程，都是共享一个内存空间的，所以线程做任务切换成本就很低了。现代的操作系统都基于更轻量的线程来调度，现在我
+们提到的“任务切换”都是指“线程切换”。</p> <p>Java 并发程序都是基于多线程的，自然也会涉及到任务切换，也许你想不到，任务切换竟
+然也是并发编程里诡异 Bug 的源头之一。任务切换的时机大多数是在时间片结束的时候，
+我们现在基本都使用高级语言编程，高级语言里一条语句往往需要多条 CPU 指令完成，例
+如上面代码中的count += 1，至少需要三条 CPU 指令。</p> <p>指令 1：首先，需要把变量 count 从内存加载到 CPU 的寄存器；
+指令 2：之后，在寄存器中执行 +1 操作；
+指令 3：最后，将结果写入内存（缓存机制导致可能写入的是 CPU 缓存而不是内存）。</p> <p>操作系统做任务切换，可以发生在任何一条CPU 指令执行完，是的，是 CPU 指令，而不
+是高级语言里的一条语句。对于上面的三条指令来说，我们假设 count=0，如果线程 A
+在指令 1 执行完后做线程切换，线程 A 和线程 B 按照下图的序列执行，那么我们会发现
+两个线程都执行了 count+=1 的操作，但是得到的结果不是我们期望的 2，而是 1。</p> <p><img src="/thread/thread5.png" alt="image"> <center>非原子操作的执行路径示意图</center></p> <p>我们潜意识里面觉得 count+=1 这个操作是一个不可分割的整体，就像一个原子一样，线
+程的切换可以发生在 count+=1 之前，也可以发生在 count+=1 之后，但就是不会发生
+在中间。<code>我们把一个或者多个操作在 CPU 执行的过程中不被中断的特性称为原子性。</code></p> <p>CPU 能保证的原子操作是 CPU 指令级别的，而不是高级语言的操作符，这是违背我们直
+觉的地方。因此，很多时候我们需要在高级语言层面保证操作的原子性。</p> <h4 id="源头之三-编译优化带来的有序性问题"><a href="#源头之三-编译优化带来的有序性问题" class="header-anchor">#</a> 源头之三：编译优化带来的有序性问题</h4> <p>那并发编程里还有没有其他有违直觉容易导致诡异 Bug 的技术呢？有的，就是有序性。顾
+名思义，有序性指的是程序按照代码的先后顺序执行。编译器为了优化性能，有时候会改
+变程序中语句的先后顺序，例如程序中：“a=6；b=7；”编译器优化后可能变
+成“b=7；a=6；”，在这个例子中，编译器调整了语句的顺序，但是不影响程序的最终
+结果。不过有时候编译器及解释器的优化可能导致意想不到的 Bug。
+在 Java 领域一个经典的案例就是利用双重检查创建单例对象，例如下面的代码：在获取实
+例 getInstance() 的方法中，我们首先判断 instance 是否为空，如果为空，则锁定
+Singleton.class 并再次检查 instance 是否为空，如果还为空则创建 Singleton 的一个实
+例。</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Singleton</span> <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token class-name">Singleton</span> instance<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> <span class="token class-name">Singleton</span> <span class="token function">getInstance</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">synchronized</span> <span class="token punctuation">(</span><span class="token class-name">Singleton</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>instance <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    instance <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Singleton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>假设有两个线程 A、B 同时调用 <code>getInstance()</code> 方法，他们会同时发现 instance ==
+null ，于是同时对 <code>Singleton.class</code> 加锁，此时 JVM 保证只有一个线程能够加锁成功
+（假设是线程 A），另外一个线程则会处于等待状态（假设是线程 B）；线程 A 会创建一
+个 Singleton 实例，之后释放锁，锁释放后，线程 B 被唤醒，线程 B 再次尝试加锁，此
+时是可以加锁成功的，加锁成功后，线程 B 检查 <code>instance == null</code> 时会发现，已经创
+建过 Singleton 实例了，所以线程 B 不会再创建一个 Singleton 实例。</p> <p>这看上去一切都很完美，无懈可击，但实际上这个 getInstance() 方法并不完美。问题出
+在哪里呢？出在 new 操作上，我们以为的 new 操作应该是：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>1. 分配一块内存 M；
+2. 在内存 M 上初始化 Singleton 对象；
+3. 然后 M 的地址赋值给 instance 变量。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>但是实际上优化后的执行路径却是这样的：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>1. 分配一块内存 M；
+2. 将 M 的地址赋值给 instance 变量；
+3. 最后在内存 M 上初始化 Singleton 对象。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>优化后会导致什么问题呢？我们假设线程 A 先执行<code>getInstance()</code> 方法，当执行完指令 2
+时恰好发生了线程切换，切换到了线程 B 上；如果此时线程 B 也执行<code>getInstance()</code> 方
+法，那么线程 B 会发现<code>instance != null，</code>所以直接返回 instance，而此时的
+instance 是没有初始化过的，如果我们这个时候访问 instance 的成员变量就可能触发空
+指针异常。</p> <p><img src="/thread/thread7.png" alt="image"> <center>双重检查创建单例的异常执行路径</center></p> <h4 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h4> <p>要写好并发程序，首先要知道并发程序的问题在哪里，只有确定了“靶子”，才有可能把
+问题解决，毕竟所有的解决方案都是针对问题的。并发程序经常出现的诡异问题看上去非
+常无厘头，但是深究的话，无外乎就是直觉欺骗了我们，只要我们能够深刻理解可见性、
+原子性、有序性在并发场景下的原理，很多并发 Bug 都是可以理解、可以诊断的。
+在介绍可见性、原子性、有序性的时候，特意提到缓存导致的可见性问题，线程切换带来
+的原子性问题，编译优化带来的有序性问题，其实缓存、线程、编译优化的目的和我们写
+并发程序的目的是相同的，都是提高程序性能。但是技术在解决一个问题的同时，必然会
+带来另外一个问题，所以在采用一项技术的同时，一定要清楚它带来的问题是什么，以及
+如何规避。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">3/23/2021, 9:14:38 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/process/05-thread-what.html" class="prev">
+        并发编程的核心问题
+      </a></span> <span class="next"><a href="/process/07-thread-meomory.html">
+        Java内存模型：看Java如何解决可见性和有序性问题
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.2a1e5f6f.js" defer></script><script src="/assets/js/2.db335f11.js" defer></script><script src="/assets/js/75.48fe8883.js" defer></script>
+  </body>
+</html>

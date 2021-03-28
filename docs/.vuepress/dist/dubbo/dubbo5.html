@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Dubbo的SPI实现原理 | 技术无止境的笔记</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/ityoudream/public/favicon.ico">
+    <meta name="description" content="用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等">
+    
+    <link rel="preload" href="/ityoudream/assets/css/0.styles.8789555f.css" as="style"><link rel="preload" href="/ityoudream/assets/js/app.d734b1a7.js" as="script"><link rel="preload" href="/ityoudream/assets/js/2.db335f11.js" as="script"><link rel="preload" href="/ityoudream/assets/js/23.8b0ce516.js" as="script"><link rel="prefetch" href="/ityoudream/assets/js/10.ba64fbd5.js"><link rel="prefetch" href="/ityoudream/assets/js/100.95b65e66.js"><link rel="prefetch" href="/ityoudream/assets/js/101.b0646c57.js"><link rel="prefetch" href="/ityoudream/assets/js/102.0ca5ddb0.js"><link rel="prefetch" href="/ityoudream/assets/js/103.46e357b3.js"><link rel="prefetch" href="/ityoudream/assets/js/104.0bc5f821.js"><link rel="prefetch" href="/ityoudream/assets/js/105.9c359f18.js"><link rel="prefetch" href="/ityoudream/assets/js/106.2a5083d5.js"><link rel="prefetch" href="/ityoudream/assets/js/107.7ac60157.js"><link rel="prefetch" href="/ityoudream/assets/js/108.08a02d73.js"><link rel="prefetch" href="/ityoudream/assets/js/109.8dad5faa.js"><link rel="prefetch" href="/ityoudream/assets/js/11.6426eca1.js"><link rel="prefetch" href="/ityoudream/assets/js/110.f41534e0.js"><link rel="prefetch" href="/ityoudream/assets/js/111.20aad295.js"><link rel="prefetch" href="/ityoudream/assets/js/112.ae09c9a3.js"><link rel="prefetch" href="/ityoudream/assets/js/113.6d15e42e.js"><link rel="prefetch" href="/ityoudream/assets/js/114.7ec34fd9.js"><link rel="prefetch" href="/ityoudream/assets/js/115.12e50f31.js"><link rel="prefetch" href="/ityoudream/assets/js/116.b5ae058f.js"><link rel="prefetch" href="/ityoudream/assets/js/117.7aedada1.js"><link rel="prefetch" href="/ityoudream/assets/js/118.3e6b039b.js"><link rel="prefetch" href="/ityoudream/assets/js/119.6970f8e0.js"><link rel="prefetch" href="/ityoudream/assets/js/12.bf916594.js"><link rel="prefetch" href="/ityoudream/assets/js/120.71c255f8.js"><link rel="prefetch" href="/ityoudream/assets/js/121.5d877e2b.js"><link rel="prefetch" href="/ityoudream/assets/js/122.d974693f.js"><link rel="prefetch" href="/ityoudream/assets/js/123.62974d2e.js"><link rel="prefetch" href="/ityoudream/assets/js/124.092ed6ec.js"><link rel="prefetch" href="/ityoudream/assets/js/125.e4eed101.js"><link rel="prefetch" href="/ityoudream/assets/js/126.a77538ce.js"><link rel="prefetch" href="/ityoudream/assets/js/127.658f3e52.js"><link rel="prefetch" href="/ityoudream/assets/js/128.4c25caa0.js"><link rel="prefetch" href="/ityoudream/assets/js/129.8d6a5e6f.js"><link rel="prefetch" href="/ityoudream/assets/js/13.393c42c4.js"><link rel="prefetch" href="/ityoudream/assets/js/130.77484346.js"><link rel="prefetch" href="/ityoudream/assets/js/131.9281330f.js"><link rel="prefetch" href="/ityoudream/assets/js/132.b6821b7e.js"><link rel="prefetch" href="/ityoudream/assets/js/133.595266c5.js"><link rel="prefetch" href="/ityoudream/assets/js/134.7ee9bff8.js"><link rel="prefetch" href="/ityoudream/assets/js/135.7ea86dfb.js"><link rel="prefetch" href="/ityoudream/assets/js/136.db6af459.js"><link rel="prefetch" href="/ityoudream/assets/js/137.b3927962.js"><link rel="prefetch" href="/ityoudream/assets/js/138.26508531.js"><link rel="prefetch" href="/ityoudream/assets/js/139.acc88142.js"><link rel="prefetch" href="/ityoudream/assets/js/14.bf2e9fbe.js"><link rel="prefetch" href="/ityoudream/assets/js/140.358349c1.js"><link rel="prefetch" href="/ityoudream/assets/js/141.0f11da08.js"><link rel="prefetch" href="/ityoudream/assets/js/142.189c6ae0.js"><link rel="prefetch" href="/ityoudream/assets/js/143.aee6b799.js"><link rel="prefetch" href="/ityoudream/assets/js/144.20151c5c.js"><link rel="prefetch" href="/ityoudream/assets/js/145.23856f11.js"><link rel="prefetch" href="/ityoudream/assets/js/146.71c5343b.js"><link rel="prefetch" href="/ityoudream/assets/js/147.bf92bce3.js"><link rel="prefetch" href="/ityoudream/assets/js/148.fc661a01.js"><link rel="prefetch" href="/ityoudream/assets/js/149.b4e7140a.js"><link rel="prefetch" href="/ityoudream/assets/js/15.6895e249.js"><link rel="prefetch" href="/ityoudream/assets/js/150.79c483a6.js"><link rel="prefetch" href="/ityoudream/assets/js/151.37cffe44.js"><link rel="prefetch" href="/ityoudream/assets/js/152.8740ee2b.js"><link rel="prefetch" href="/ityoudream/assets/js/153.c938b585.js"><link rel="prefetch" href="/ityoudream/assets/js/154.fedfae22.js"><link rel="prefetch" href="/ityoudream/assets/js/155.0674173e.js"><link rel="prefetch" href="/ityoudream/assets/js/156.f6766536.js"><link rel="prefetch" href="/ityoudream/assets/js/157.55c54b7c.js"><link rel="prefetch" href="/ityoudream/assets/js/158.bdef992c.js"><link rel="prefetch" href="/ityoudream/assets/js/159.9d4f8f5b.js"><link rel="prefetch" href="/ityoudream/assets/js/16.d863bf51.js"><link rel="prefetch" href="/ityoudream/assets/js/160.f0d5abbe.js"><link rel="prefetch" href="/ityoudream/assets/js/161.3e4ccfcd.js"><link rel="prefetch" href="/ityoudream/assets/js/162.034cf4bf.js"><link rel="prefetch" href="/ityoudream/assets/js/163.6a22a7a0.js"><link rel="prefetch" href="/ityoudream/assets/js/164.80a30fa3.js"><link rel="prefetch" href="/ityoudream/assets/js/165.21a3f6df.js"><link rel="prefetch" href="/ityoudream/assets/js/166.2743ff5e.js"><link rel="prefetch" href="/ityoudream/assets/js/167.006b5c99.js"><link rel="prefetch" href="/ityoudream/assets/js/168.5d3dd716.js"><link rel="prefetch" href="/ityoudream/assets/js/169.0dad9e2d.js"><link rel="prefetch" href="/ityoudream/assets/js/17.6ff9ca33.js"><link rel="prefetch" href="/ityoudream/assets/js/170.0207d8c7.js"><link rel="prefetch" href="/ityoudream/assets/js/171.c172f504.js"><link rel="prefetch" href="/ityoudream/assets/js/172.ce65310f.js"><link rel="prefetch" href="/ityoudream/assets/js/173.d9b6f540.js"><link rel="prefetch" href="/ityoudream/assets/js/18.1e32f5dc.js"><link rel="prefetch" href="/ityoudream/assets/js/19.85e50fde.js"><link rel="prefetch" href="/ityoudream/assets/js/20.d88932be.js"><link rel="prefetch" href="/ityoudream/assets/js/21.70d02578.js"><link rel="prefetch" href="/ityoudream/assets/js/22.afe17182.js"><link rel="prefetch" href="/ityoudream/assets/js/24.1be51d0e.js"><link rel="prefetch" href="/ityoudream/assets/js/25.02c1384e.js"><link rel="prefetch" href="/ityoudream/assets/js/26.f8964bb1.js"><link rel="prefetch" href="/ityoudream/assets/js/27.8191e8f4.js"><link rel="prefetch" href="/ityoudream/assets/js/28.2627ffcb.js"><link rel="prefetch" href="/ityoudream/assets/js/29.fdd11d32.js"><link rel="prefetch" href="/ityoudream/assets/js/3.39083c9a.js"><link rel="prefetch" href="/ityoudream/assets/js/30.d1bf1126.js"><link rel="prefetch" href="/ityoudream/assets/js/31.6f88487a.js"><link rel="prefetch" href="/ityoudream/assets/js/32.f61cfc42.js"><link rel="prefetch" href="/ityoudream/assets/js/33.c5abbd6a.js"><link rel="prefetch" href="/ityoudream/assets/js/34.1c9c9766.js"><link rel="prefetch" href="/ityoudream/assets/js/35.d9518881.js"><link rel="prefetch" href="/ityoudream/assets/js/36.bdd9db6c.js"><link rel="prefetch" href="/ityoudream/assets/js/37.3aa16bb8.js"><link rel="prefetch" href="/ityoudream/assets/js/38.af5acaf3.js"><link rel="prefetch" href="/ityoudream/assets/js/39.29514b0d.js"><link rel="prefetch" href="/ityoudream/assets/js/4.58362b09.js"><link rel="prefetch" href="/ityoudream/assets/js/40.ced15749.js"><link rel="prefetch" href="/ityoudream/assets/js/41.bba468b4.js"><link rel="prefetch" href="/ityoudream/assets/js/42.1036b3c7.js"><link rel="prefetch" href="/ityoudream/assets/js/43.052e8889.js"><link rel="prefetch" href="/ityoudream/assets/js/44.4156e942.js"><link rel="prefetch" href="/ityoudream/assets/js/45.505d4cf9.js"><link rel="prefetch" href="/ityoudream/assets/js/46.22995936.js"><link rel="prefetch" href="/ityoudream/assets/js/47.d0c09063.js"><link rel="prefetch" href="/ityoudream/assets/js/48.8b3fe383.js"><link rel="prefetch" href="/ityoudream/assets/js/49.eb0be388.js"><link rel="prefetch" href="/ityoudream/assets/js/5.06adf4ad.js"><link rel="prefetch" href="/ityoudream/assets/js/50.93a3e92f.js"><link rel="prefetch" href="/ityoudream/assets/js/51.1a0990d5.js"><link rel="prefetch" href="/ityoudream/assets/js/52.f6cef544.js"><link rel="prefetch" href="/ityoudream/assets/js/53.d19e815c.js"><link rel="prefetch" href="/ityoudream/assets/js/54.c11f2de0.js"><link rel="prefetch" href="/ityoudream/assets/js/55.fa289907.js"><link rel="prefetch" href="/ityoudream/assets/js/56.2e56568b.js"><link rel="prefetch" href="/ityoudream/assets/js/57.e08a0b66.js"><link rel="prefetch" href="/ityoudream/assets/js/58.2713d96b.js"><link rel="prefetch" href="/ityoudream/assets/js/59.5302539f.js"><link rel="prefetch" href="/ityoudream/assets/js/6.33970d11.js"><link rel="prefetch" href="/ityoudream/assets/js/60.0c8f28f6.js"><link rel="prefetch" href="/ityoudream/assets/js/61.3d20cad9.js"><link rel="prefetch" href="/ityoudream/assets/js/62.fb621211.js"><link rel="prefetch" href="/ityoudream/assets/js/63.9689e764.js"><link rel="prefetch" href="/ityoudream/assets/js/64.1862d27d.js"><link rel="prefetch" href="/ityoudream/assets/js/65.654f8764.js"><link rel="prefetch" href="/ityoudream/assets/js/66.0af079fa.js"><link rel="prefetch" href="/ityoudream/assets/js/67.a1663e78.js"><link rel="prefetch" href="/ityoudream/assets/js/68.ccde0097.js"><link rel="prefetch" href="/ityoudream/assets/js/69.189171fe.js"><link rel="prefetch" href="/ityoudream/assets/js/7.5eb59aa1.js"><link rel="prefetch" href="/ityoudream/assets/js/70.32e982f2.js"><link rel="prefetch" href="/ityoudream/assets/js/71.b063efaf.js"><link rel="prefetch" href="/ityoudream/assets/js/72.056862ed.js"><link rel="prefetch" href="/ityoudream/assets/js/73.54d61186.js"><link rel="prefetch" href="/ityoudream/assets/js/74.55718f93.js"><link rel="prefetch" href="/ityoudream/assets/js/75.86a8b7de.js"><link rel="prefetch" href="/ityoudream/assets/js/76.e2d1157c.js"><link rel="prefetch" href="/ityoudream/assets/js/77.51ce36e4.js"><link rel="prefetch" href="/ityoudream/assets/js/78.b447beef.js"><link rel="prefetch" href="/ityoudream/assets/js/79.16c9c54f.js"><link rel="prefetch" href="/ityoudream/assets/js/8.860e551e.js"><link rel="prefetch" href="/ityoudream/assets/js/80.8b13cee0.js"><link rel="prefetch" href="/ityoudream/assets/js/81.8aefe911.js"><link rel="prefetch" href="/ityoudream/assets/js/82.290f1512.js"><link rel="prefetch" href="/ityoudream/assets/js/83.b4b6ca61.js"><link rel="prefetch" href="/ityoudream/assets/js/84.18f8b5fd.js"><link rel="prefetch" href="/ityoudream/assets/js/85.9e2d808c.js"><link rel="prefetch" href="/ityoudream/assets/js/86.28ac4e5a.js"><link rel="prefetch" href="/ityoudream/assets/js/87.980f5e8a.js"><link rel="prefetch" href="/ityoudream/assets/js/88.bbb32e1d.js"><link rel="prefetch" href="/ityoudream/assets/js/89.35e2881c.js"><link rel="prefetch" href="/ityoudream/assets/js/9.02785fd9.js"><link rel="prefetch" href="/ityoudream/assets/js/90.2b09e90c.js"><link rel="prefetch" href="/ityoudream/assets/js/91.ab5ad6d8.js"><link rel="prefetch" href="/ityoudream/assets/js/92.9e2bd118.js"><link rel="prefetch" href="/ityoudream/assets/js/93.5b56c8c3.js"><link rel="prefetch" href="/ityoudream/assets/js/94.41b0f828.js"><link rel="prefetch" href="/ityoudream/assets/js/95.ad3e1815.js"><link rel="prefetch" href="/ityoudream/assets/js/96.52a66219.js"><link rel="prefetch" href="/ityoudream/assets/js/97.29119e5a.js"><link rel="prefetch" href="/ityoudream/assets/js/98.8560c69c.js"><link rel="prefetch" href="/ityoudream/assets/js/99.a2d5543c.js">
+    <link rel="stylesheet" href="/ityoudream/assets/css/0.styles.8789555f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/ityoudream/" class="home-link router-link-active"><!----> <span class="site-name">技术无止境的笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/ityoudream/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/redis/" class="nav-link">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/dubbo/" class="nav-link router-link-active">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/ityoudream/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/redis/" class="nav-link">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/dubbo/" class="nav-link router-link-active">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/ityoudream/dubbo/" aria-current="page" class="sidebar-link">Dubbo从入门到源码分析</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Dubbo从入门到精通</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h4 id="dubbo的spi实现原理"><a href="#dubbo的spi实现原理" class="header-anchor">#</a> Dubbo的SPI实现原理</h4> <p>Dubbo的内核由SPI、Aop、IOC、Compiler(动态编译)组成，下面是Dubbo内核图
+<img src="/dubbo/dubbo-%E5%86%85%E6%A0%B8.png" alt="image"></p> <p>Dubbo没有采用JDK的默认实现的SPI、而是模仿JDK的SPI实现，并且改进了JDK的一运行就全部加载所有的SPI接口，而Dubbo的是按需加载，不用全部调用，想用那个就用那个。那么我们常见的一些依赖那些是用了JDK的SPI呢？比如<code>mysql-connector-java.jar</code>,JDK的SPI是在META-INFO文件中</p> <p><img src="/dubbo/mysql-spi.png" alt="image"></p> <h4 id="jdk的默认spi实现例子"><a href="#jdk的默认spi实现例子" class="header-anchor">#</a> JDK的默认SPI实现例子</h4> <p>首先我们创建一个项目，jdk-default-spi，然后我们需要定义一个Command接口，提供一个自定义方法如：</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token comment">/**
+ * 定义Spi接口
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">Command</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>然后实现一个关机和启动的Command的实现类，实现<code>Command</code>中的<code>execute</code>方法</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">StartCommand</span> <span class="token keyword">implements</span> <span class="token class-name">Command</span><span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;start........&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">ShutDownCommand</span> <span class="token keyword">implements</span> <span class="token class-name">Command</span><span class="token punctuation">{</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">&quot;shutdown.....&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>然后需要创建一个resources文件夹作为资源文件夹，在里面创建一个META-INF的文件夹，在里面在创建一个services文件夹，在services文件中创建一个Command的全路径名：cn.ityoudream.jdk.spi.Command，里面的内容</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>cn.ityoudream.jdk.spi.StartCommand
+
+cn.ityoudream.jdk.spi.ShutDownCommand
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>最后需要创建一个Main方法来测试:</p> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token comment">/**
+ * spi的设计目标：
+ * 面向的对象的设计里，模块之间是基于接口编程，模块之间不对实现类进行硬编码。
+ * 一旦代码里涉及具体的实现类，就违反了可拔插的原则，如果需要替换一种实现，就需要修改代码。
+ * 为了实现在模块装配的时候，不在模块里面写死代码，这就需要一种服务发现机制。
+ * java spi就是提供这样的一个机制：
+ * 为某个接口寻找服务实现的机制。有点类似IOC的思想，就是将装配的控制权移到代码之外。
+ *
+ *
+ * spi的具体约定如下  ：
+ * 当服务的提供者(provider)，提供了一个接口多种实现时，
+ * 一般会在jar包的META-INF/services/目录下，创建该接口的同名文件。
+ * 该文件里面的内容就是该服务接口的具体实现类的名称。
+ * 而当外部加载这个模块的时候，
+ * 就能通过该jar包META-INF/services/里的配置文件得到具体的实现类名，并加载实例化，完成模块的装配。
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//通过ServiceLoader来加载Command中的SPI实现</span>
+        <span class="token class-name">ServiceLoader</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Command</span><span class="token punctuation">&gt;</span></span> serviceLoader <span class="token operator">=</span> <span class="token class-name">ServiceLoader</span><span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token class-name">Command</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Command</span> command <span class="token operator">:</span> serviceLoader<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">//调用execute</span>
+            command<span class="token punctuation">.</span><span class="token function">execute</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br></div></div><p>下面是jdk-default-spi项目的总揽结构图
+<img src="/dubbo/project-view.png" alt="image"></p> <h4 id="为什么dubbo不采用jdk的spi"><a href="#为什么dubbo不采用jdk的spi" class="header-anchor">#</a> 为什么Dubbo不采用JDK的SPI</h4> <p>主要有两个原因：</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>JDK标准的SPI会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用上也加载，会很浪费资源.
+
+增加了对扩展点IoC和AOP的支持，一个扩展点可以直接setter注入其它扩展点。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><h4 id="duubo-spi-有哪些约定"><a href="#duubo-spi-有哪些约定" class="header-anchor">#</a> Duubo SPI 有哪些约定？</h4> <p>下面是Dubbo的SPI结构
+<img src="/dubbo/dubbo-core-spi.png" alt="image"></p> <div class="language- line-numbers-mode"><pre class="language-text"><code>spi 文件 存储路径 在 META-INF\dubbo\internal 目录下 并且文件名为接口的全路径名 就是=接口的包名+接口名
+
+每个spi 文件里面的格式定义为： 扩展名=具体的类名，例如 dubbo=com.alibaba.dubbo.rpc.protocol.dubbo.DubboProtoco
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>Dubbo可以通过配置文件中的key来实现按需加载，而不是像JDK那样全部加载，这样就不会造成资源的浪费</p> <h4 id="dubbo-spi的目的是什么"><a href="#dubbo-spi的目的是什么" class="header-anchor">#</a> Dubbo SPI的目的是什么</h4> <p>dubbo spi 的目的：获取一个指定实现类的对象。
+途径：<code>ExtensionLoader.getExtension(String name)</code>
+实现路径：
+<code>getExtensionLoader(Class&lt;T&gt; type)</code>就是为该接口new 一个<code>ExtensionLoader</code>，然后缓存起来。
+获取一个扩展类，如果<code>@Adaptive</code>注解在类上就是一个装饰类；如果注解在方法上就是一个动态代理类，例如Protocol$Adaptive对象。
+<code>getExtension(String name)</code>获取一个指定对象。</p> <p>-----------------------ExtensionLoader.getExtensionLoader(Class<T> type)
+ExtensionLoader.getExtensionLoader(Container.class)
+--&gt;this.type = type;
+--&gt;objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
+--&gt;ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension()
+--&gt;this.type = type;
+--&gt;objectFactory =null;</T></p> <p>执行以上代码完成了2个属性的初始化</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>1.每个一个ExtensionLoader都包含了2个值 type 和 objectFactory
+  Class&lt;?&gt; type；//构造器  初始化时要得到的接口名
+  ExtensionFactory objectFactory//构造器  初始化时 AdaptiveExtensionFactory[SpiExtensionFactory,SpringExtensionFactory]
+  
+2.new 一个ExtensionLoader 存储在ConcurrentMap&lt;Class&lt;?&gt;, ExtensionLoader&lt;?&gt;&gt; EXTENSION_LOADERS
+关于这个objectFactory的一些细节：
+1.objectFactory就是ExtensionFactory，它也是通过ExtensionLoader.getExtensionLoader(ExtensionFactory.class)来实现的，但是它的objectFactory=null
+
+2.objectFactory作用，它就是为dubbo的IOC提供所有对象。
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">1/25/2021, 11:08:09 PM</span></div></footer> <!----> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/ityoudream/assets/js/app.d734b1a7.js" defer></script><script src="/ityoudream/assets/js/2.db335f11.js" defer></script><script src="/ityoudream/assets/js/23.8b0ce516.js" defer></script>
+  </body>
+</html>

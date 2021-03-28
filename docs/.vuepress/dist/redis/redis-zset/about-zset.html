@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>什么是redis zset类型？ | 技术无止境的笔记</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    <link rel="shortcut icon" type="image/x-icon" href="/ityoudream/public/favicon.ico">
+    <meta name="description" content="用来记录工作和学习过程中的笔记，汇总成册方便查阅，类容涵盖各类技术，如：Java、Redis、MongoDB、SpringBoot、SpringCloud、Dubbo等">
+    
+    <link rel="preload" href="/ityoudream/assets/css/0.styles.8789555f.css" as="style"><link rel="preload" href="/ityoudream/assets/js/app.d734b1a7.js" as="script"><link rel="preload" href="/ityoudream/assets/js/2.db335f11.js" as="script"><link rel="preload" href="/ityoudream/assets/js/130.77484346.js" as="script"><link rel="prefetch" href="/ityoudream/assets/js/10.ba64fbd5.js"><link rel="prefetch" href="/ityoudream/assets/js/100.95b65e66.js"><link rel="prefetch" href="/ityoudream/assets/js/101.b0646c57.js"><link rel="prefetch" href="/ityoudream/assets/js/102.0ca5ddb0.js"><link rel="prefetch" href="/ityoudream/assets/js/103.46e357b3.js"><link rel="prefetch" href="/ityoudream/assets/js/104.0bc5f821.js"><link rel="prefetch" href="/ityoudream/assets/js/105.9c359f18.js"><link rel="prefetch" href="/ityoudream/assets/js/106.2a5083d5.js"><link rel="prefetch" href="/ityoudream/assets/js/107.7ac60157.js"><link rel="prefetch" href="/ityoudream/assets/js/108.08a02d73.js"><link rel="prefetch" href="/ityoudream/assets/js/109.8dad5faa.js"><link rel="prefetch" href="/ityoudream/assets/js/11.6426eca1.js"><link rel="prefetch" href="/ityoudream/assets/js/110.f41534e0.js"><link rel="prefetch" href="/ityoudream/assets/js/111.20aad295.js"><link rel="prefetch" href="/ityoudream/assets/js/112.ae09c9a3.js"><link rel="prefetch" href="/ityoudream/assets/js/113.6d15e42e.js"><link rel="prefetch" href="/ityoudream/assets/js/114.7ec34fd9.js"><link rel="prefetch" href="/ityoudream/assets/js/115.12e50f31.js"><link rel="prefetch" href="/ityoudream/assets/js/116.b5ae058f.js"><link rel="prefetch" href="/ityoudream/assets/js/117.7aedada1.js"><link rel="prefetch" href="/ityoudream/assets/js/118.3e6b039b.js"><link rel="prefetch" href="/ityoudream/assets/js/119.6970f8e0.js"><link rel="prefetch" href="/ityoudream/assets/js/12.bf916594.js"><link rel="prefetch" href="/ityoudream/assets/js/120.71c255f8.js"><link rel="prefetch" href="/ityoudream/assets/js/121.5d877e2b.js"><link rel="prefetch" href="/ityoudream/assets/js/122.d974693f.js"><link rel="prefetch" href="/ityoudream/assets/js/123.62974d2e.js"><link rel="prefetch" href="/ityoudream/assets/js/124.092ed6ec.js"><link rel="prefetch" href="/ityoudream/assets/js/125.e4eed101.js"><link rel="prefetch" href="/ityoudream/assets/js/126.a77538ce.js"><link rel="prefetch" href="/ityoudream/assets/js/127.658f3e52.js"><link rel="prefetch" href="/ityoudream/assets/js/128.4c25caa0.js"><link rel="prefetch" href="/ityoudream/assets/js/129.8d6a5e6f.js"><link rel="prefetch" href="/ityoudream/assets/js/13.393c42c4.js"><link rel="prefetch" href="/ityoudream/assets/js/131.9281330f.js"><link rel="prefetch" href="/ityoudream/assets/js/132.b6821b7e.js"><link rel="prefetch" href="/ityoudream/assets/js/133.595266c5.js"><link rel="prefetch" href="/ityoudream/assets/js/134.7ee9bff8.js"><link rel="prefetch" href="/ityoudream/assets/js/135.7ea86dfb.js"><link rel="prefetch" href="/ityoudream/assets/js/136.db6af459.js"><link rel="prefetch" href="/ityoudream/assets/js/137.b3927962.js"><link rel="prefetch" href="/ityoudream/assets/js/138.26508531.js"><link rel="prefetch" href="/ityoudream/assets/js/139.acc88142.js"><link rel="prefetch" href="/ityoudream/assets/js/14.bf2e9fbe.js"><link rel="prefetch" href="/ityoudream/assets/js/140.358349c1.js"><link rel="prefetch" href="/ityoudream/assets/js/141.0f11da08.js"><link rel="prefetch" href="/ityoudream/assets/js/142.189c6ae0.js"><link rel="prefetch" href="/ityoudream/assets/js/143.aee6b799.js"><link rel="prefetch" href="/ityoudream/assets/js/144.20151c5c.js"><link rel="prefetch" href="/ityoudream/assets/js/145.23856f11.js"><link rel="prefetch" href="/ityoudream/assets/js/146.71c5343b.js"><link rel="prefetch" href="/ityoudream/assets/js/147.bf92bce3.js"><link rel="prefetch" href="/ityoudream/assets/js/148.fc661a01.js"><link rel="prefetch" href="/ityoudream/assets/js/149.b4e7140a.js"><link rel="prefetch" href="/ityoudream/assets/js/15.6895e249.js"><link rel="prefetch" href="/ityoudream/assets/js/150.79c483a6.js"><link rel="prefetch" href="/ityoudream/assets/js/151.37cffe44.js"><link rel="prefetch" href="/ityoudream/assets/js/152.8740ee2b.js"><link rel="prefetch" href="/ityoudream/assets/js/153.c938b585.js"><link rel="prefetch" href="/ityoudream/assets/js/154.fedfae22.js"><link rel="prefetch" href="/ityoudream/assets/js/155.0674173e.js"><link rel="prefetch" href="/ityoudream/assets/js/156.f6766536.js"><link rel="prefetch" href="/ityoudream/assets/js/157.55c54b7c.js"><link rel="prefetch" href="/ityoudream/assets/js/158.bdef992c.js"><link rel="prefetch" href="/ityoudream/assets/js/159.9d4f8f5b.js"><link rel="prefetch" href="/ityoudream/assets/js/16.d863bf51.js"><link rel="prefetch" href="/ityoudream/assets/js/160.f0d5abbe.js"><link rel="prefetch" href="/ityoudream/assets/js/161.3e4ccfcd.js"><link rel="prefetch" href="/ityoudream/assets/js/162.034cf4bf.js"><link rel="prefetch" href="/ityoudream/assets/js/163.6a22a7a0.js"><link rel="prefetch" href="/ityoudream/assets/js/164.80a30fa3.js"><link rel="prefetch" href="/ityoudream/assets/js/165.21a3f6df.js"><link rel="prefetch" href="/ityoudream/assets/js/166.2743ff5e.js"><link rel="prefetch" href="/ityoudream/assets/js/167.006b5c99.js"><link rel="prefetch" href="/ityoudream/assets/js/168.5d3dd716.js"><link rel="prefetch" href="/ityoudream/assets/js/169.0dad9e2d.js"><link rel="prefetch" href="/ityoudream/assets/js/17.6ff9ca33.js"><link rel="prefetch" href="/ityoudream/assets/js/170.0207d8c7.js"><link rel="prefetch" href="/ityoudream/assets/js/171.c172f504.js"><link rel="prefetch" href="/ityoudream/assets/js/172.ce65310f.js"><link rel="prefetch" href="/ityoudream/assets/js/173.d9b6f540.js"><link rel="prefetch" href="/ityoudream/assets/js/18.1e32f5dc.js"><link rel="prefetch" href="/ityoudream/assets/js/19.85e50fde.js"><link rel="prefetch" href="/ityoudream/assets/js/20.d88932be.js"><link rel="prefetch" href="/ityoudream/assets/js/21.70d02578.js"><link rel="prefetch" href="/ityoudream/assets/js/22.afe17182.js"><link rel="prefetch" href="/ityoudream/assets/js/23.8b0ce516.js"><link rel="prefetch" href="/ityoudream/assets/js/24.1be51d0e.js"><link rel="prefetch" href="/ityoudream/assets/js/25.02c1384e.js"><link rel="prefetch" href="/ityoudream/assets/js/26.f8964bb1.js"><link rel="prefetch" href="/ityoudream/assets/js/27.8191e8f4.js"><link rel="prefetch" href="/ityoudream/assets/js/28.2627ffcb.js"><link rel="prefetch" href="/ityoudream/assets/js/29.fdd11d32.js"><link rel="prefetch" href="/ityoudream/assets/js/3.39083c9a.js"><link rel="prefetch" href="/ityoudream/assets/js/30.d1bf1126.js"><link rel="prefetch" href="/ityoudream/assets/js/31.6f88487a.js"><link rel="prefetch" href="/ityoudream/assets/js/32.f61cfc42.js"><link rel="prefetch" href="/ityoudream/assets/js/33.c5abbd6a.js"><link rel="prefetch" href="/ityoudream/assets/js/34.1c9c9766.js"><link rel="prefetch" href="/ityoudream/assets/js/35.d9518881.js"><link rel="prefetch" href="/ityoudream/assets/js/36.bdd9db6c.js"><link rel="prefetch" href="/ityoudream/assets/js/37.3aa16bb8.js"><link rel="prefetch" href="/ityoudream/assets/js/38.af5acaf3.js"><link rel="prefetch" href="/ityoudream/assets/js/39.29514b0d.js"><link rel="prefetch" href="/ityoudream/assets/js/4.58362b09.js"><link rel="prefetch" href="/ityoudream/assets/js/40.ced15749.js"><link rel="prefetch" href="/ityoudream/assets/js/41.bba468b4.js"><link rel="prefetch" href="/ityoudream/assets/js/42.1036b3c7.js"><link rel="prefetch" href="/ityoudream/assets/js/43.052e8889.js"><link rel="prefetch" href="/ityoudream/assets/js/44.4156e942.js"><link rel="prefetch" href="/ityoudream/assets/js/45.505d4cf9.js"><link rel="prefetch" href="/ityoudream/assets/js/46.22995936.js"><link rel="prefetch" href="/ityoudream/assets/js/47.d0c09063.js"><link rel="prefetch" href="/ityoudream/assets/js/48.8b3fe383.js"><link rel="prefetch" href="/ityoudream/assets/js/49.eb0be388.js"><link rel="prefetch" href="/ityoudream/assets/js/5.06adf4ad.js"><link rel="prefetch" href="/ityoudream/assets/js/50.93a3e92f.js"><link rel="prefetch" href="/ityoudream/assets/js/51.1a0990d5.js"><link rel="prefetch" href="/ityoudream/assets/js/52.f6cef544.js"><link rel="prefetch" href="/ityoudream/assets/js/53.d19e815c.js"><link rel="prefetch" href="/ityoudream/assets/js/54.c11f2de0.js"><link rel="prefetch" href="/ityoudream/assets/js/55.fa289907.js"><link rel="prefetch" href="/ityoudream/assets/js/56.2e56568b.js"><link rel="prefetch" href="/ityoudream/assets/js/57.e08a0b66.js"><link rel="prefetch" href="/ityoudream/assets/js/58.2713d96b.js"><link rel="prefetch" href="/ityoudream/assets/js/59.5302539f.js"><link rel="prefetch" href="/ityoudream/assets/js/6.33970d11.js"><link rel="prefetch" href="/ityoudream/assets/js/60.0c8f28f6.js"><link rel="prefetch" href="/ityoudream/assets/js/61.3d20cad9.js"><link rel="prefetch" href="/ityoudream/assets/js/62.fb621211.js"><link rel="prefetch" href="/ityoudream/assets/js/63.9689e764.js"><link rel="prefetch" href="/ityoudream/assets/js/64.1862d27d.js"><link rel="prefetch" href="/ityoudream/assets/js/65.654f8764.js"><link rel="prefetch" href="/ityoudream/assets/js/66.0af079fa.js"><link rel="prefetch" href="/ityoudream/assets/js/67.a1663e78.js"><link rel="prefetch" href="/ityoudream/assets/js/68.ccde0097.js"><link rel="prefetch" href="/ityoudream/assets/js/69.189171fe.js"><link rel="prefetch" href="/ityoudream/assets/js/7.5eb59aa1.js"><link rel="prefetch" href="/ityoudream/assets/js/70.32e982f2.js"><link rel="prefetch" href="/ityoudream/assets/js/71.b063efaf.js"><link rel="prefetch" href="/ityoudream/assets/js/72.056862ed.js"><link rel="prefetch" href="/ityoudream/assets/js/73.54d61186.js"><link rel="prefetch" href="/ityoudream/assets/js/74.55718f93.js"><link rel="prefetch" href="/ityoudream/assets/js/75.86a8b7de.js"><link rel="prefetch" href="/ityoudream/assets/js/76.e2d1157c.js"><link rel="prefetch" href="/ityoudream/assets/js/77.51ce36e4.js"><link rel="prefetch" href="/ityoudream/assets/js/78.b447beef.js"><link rel="prefetch" href="/ityoudream/assets/js/79.16c9c54f.js"><link rel="prefetch" href="/ityoudream/assets/js/8.860e551e.js"><link rel="prefetch" href="/ityoudream/assets/js/80.8b13cee0.js"><link rel="prefetch" href="/ityoudream/assets/js/81.8aefe911.js"><link rel="prefetch" href="/ityoudream/assets/js/82.290f1512.js"><link rel="prefetch" href="/ityoudream/assets/js/83.b4b6ca61.js"><link rel="prefetch" href="/ityoudream/assets/js/84.18f8b5fd.js"><link rel="prefetch" href="/ityoudream/assets/js/85.9e2d808c.js"><link rel="prefetch" href="/ityoudream/assets/js/86.28ac4e5a.js"><link rel="prefetch" href="/ityoudream/assets/js/87.980f5e8a.js"><link rel="prefetch" href="/ityoudream/assets/js/88.bbb32e1d.js"><link rel="prefetch" href="/ityoudream/assets/js/89.35e2881c.js"><link rel="prefetch" href="/ityoudream/assets/js/9.02785fd9.js"><link rel="prefetch" href="/ityoudream/assets/js/90.2b09e90c.js"><link rel="prefetch" href="/ityoudream/assets/js/91.ab5ad6d8.js"><link rel="prefetch" href="/ityoudream/assets/js/92.9e2bd118.js"><link rel="prefetch" href="/ityoudream/assets/js/93.5b56c8c3.js"><link rel="prefetch" href="/ityoudream/assets/js/94.41b0f828.js"><link rel="prefetch" href="/ityoudream/assets/js/95.ad3e1815.js"><link rel="prefetch" href="/ityoudream/assets/js/96.52a66219.js"><link rel="prefetch" href="/ityoudream/assets/js/97.29119e5a.js"><link rel="prefetch" href="/ityoudream/assets/js/98.8560c69c.js"><link rel="prefetch" href="/ityoudream/assets/js/99.a2d5543c.js">
+    <link rel="stylesheet" href="/ityoudream/assets/css/0.styles.8789555f.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/ityoudream/" class="home-link router-link-active"><!----> <span class="site-name">技术无止境的笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/ityoudream/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/redis/" class="nav-link router-link-active">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/ityoudream/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="NoSQL Menu" class="dropdown-title"><span class="title">NoSQL</span> <span class="arrow down"></span></button> <button type="button" aria-label="NoSQL Menu" class="mobile-dropdown-title"><span class="title">NoSQL</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/redis/" class="nav-link router-link-active">
+  Redis
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/mongodb/" class="nav-link">
+  MogoDB
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/nginx/" class="nav-link">
+  Nginx
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Queue" class="dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow down"></span></button> <button type="button" aria-label="Queue" class="mobile-dropdown-title"><span class="title">RabbitMQ</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/rmq/" class="nav-link">
+  RabbitMQ
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/kafka/" class="nav-link">
+  KaFka
+</a></li></ul></div></div><div class="nav-item"><a href="/ityoudream/arithmetic/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="BigData Menu" class="dropdown-title"><span class="title">大数据</span> <span class="arrow down"></span></button> <button type="button" aria-label="BigData Menu" class="mobile-dropdown-title"><span class="title">大数据</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/flink/" class="nav-link">
+  Flink
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/es/" class="nav-link">
+  ElasticSearch
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/spark/" class="nav-link">
+  spark
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/hadoop/" class="nav-link">
+  hadoop
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java编程</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java编程</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/ityoudream/process/" class="nav-link">
+  Java多线程
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/java8/" class="nav-link">
+  Java8
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/jdk/" class="nav-link">
+  JDK核心源码
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springboot/" class="nav-link">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/springcloud/" class="nav-link">
+  SpringCloud
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/dubbo/" class="nav-link">
+  Dubbo入门到源码分析
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/webflux/" class="nav-link">
+  WebFlux
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/docker/" class="nav-link">
+  Docker
+</a></li><li class="dropdown-item"><!----> <a href="/ityoudream/k8s/" class="nav-link">
+  K8s
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/zhoubiao188" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/ityoudream/redis/" aria-current="page" class="sidebar-link">Redis入门到实战</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之String部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之Hash部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之Set部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之List部分</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Redis之Zset部分</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/ityoudream/redis/redis-zset/about-zset.html" aria-current="page" class="active sidebar-link">什么是redis zset类型？</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/ityoudream/redis/redis-zset/about-zset.html#什么是redis-zset类型" class="sidebar-link">什么是redis zset类型？</a></li><li class="sidebar-sub-header"><a href="/ityoudream/redis/redis-zset/about-zset.html#zrevrangebyscore-和上面的功能意义-但是这次是降序的" class="sidebar-link">ZREVRANGEBYSCORE 和上面的功能意义，但是这次是降序的</a></li><li class="sidebar-sub-header"><a href="/ityoudream/redis/redis-zset/about-zset.html#zrank-取某个member的排名-升序" class="sidebar-link">ZRANK 取某个member的排名,升序</a></li></ul></li><li><a href="/ityoudream/redis/redis-zset/redis-webo-rank.html" class="sidebar-link">springboot+redis实现微博热搜排行榜</a></li><li><a href="/ityoudream/redis/redis-zset/redis-geo-hotel.html" class="sidebar-link">美团附近酒店搜索-技术方案</a></li><li><a href="/ityoudream/redis/redis-zset/redis-geo-hotel-coding.html" class="sidebar-link">代码实现美团附近酒店搜索</a></li><li><a href="/ityoudream/redis/redis-zset/redis-zset-live.html" class="sidebar-link">案例实战：基于redis的直播发言弹幕</a></li><li><a href="/ityoudream/redis/redis-zset/redis-im-01.html" class="sidebar-link">redis的IM的聊天工具</a></li><li><a href="/ityoudream/redis/redis-zset/redis-bloom-filter.html" class="sidebar-link">采用docker安装RedisBloom</a></li><li><a href="/ityoudream/redis/redis-zset/redis-stream-mq-01.html" class="sidebar-link">stream消息队列实战</a></li><li><a href="/ityoudream/redis/redis-zset/redis-stream-mq-02.html" class="sidebar-link">如何确保消息100%消费成功？</a></li><li><a href="/ityoudream/redis/redis-zset/redis-stream-mq-03.html" class="sidebar-link">没人消费的消息，采用消息转移</a></li><li><a href="/ityoudream/redis/redis-zset/redis-stream-mq-04.html" class="sidebar-link">删除死信消息</a></li><li><a href="/ityoudream/redis/redis-zset/redis-stream-mq-05.html" class="sidebar-link">6.案例实战：积分服务的消费队列</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Redis之源码解析</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h2 id="什么是redis-zset类型"><a href="#什么是redis-zset类型" class="header-anchor">#</a> 什么是redis zset类型？</h2> <p>zset 是 set 的一个升级版本，它在 set 的基础上增加了一个顺序属性，
+它和 set 一样，zset也是 string 类型元素的集合,且不允许重复的成员，不同的是每个元素都会关联一个 double类型的 score。
+集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。
+集合中最大的成员数为 2的（32 - 1）次方 (4294967295, 每个集合可存储40多亿个成员)。
+zset 最经典的应用场景就是排行榜。</p> <p>##ZADD
+ZADD key score member [[score member] [score member] ...]
+将一个或多个member元素及其score值加入到有序集key当中。</p> <p>##ZRANGE
+ZRANGE key start stop [WITHSCORES]
+返回有序集key中，指定区间内的成员。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司招进了4个员工，分别为： alex 工资2000元  tom工资5000元 jack工资6000元 阿甘1000元，请按工资升序排序
+39.100.196.99:6379&gt; zadd salary 2000  alex  5000 tom 6000 jack 1000 zhoubiao
+(integer) 4
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+(1.21s)
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>##ZREM
+ZREM key member [member ...]
+移除有序集key中的一个或多个成员，不存在的成员将被忽略。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司 tom离职了
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+(1.21s)
+39.100.196.99:6379&gt; zrem salary tom
+(integer) 1
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;jack&quot;
+6) &quot;6000&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>##ZCARD
+ZCARD key
+返回有序集key的基数。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司 有多少人
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;jack&quot;
+6) &quot;6000&quot;
+39.100.196.99:6379&gt; zcard salary
+(integer) 3
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>##ZCOUNT
+ZCOUNT key min max
+返回有序集key中，score值在min和max之间(默认包括score值等于min或max)的成员。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司老板问你 ，工资在2000 至 6000有多少人
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+39.100.196.99:6379&gt; ZCOUNT salary 2000 6000
+(integer) 3
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>##ZSCORE
+ZSCORE key member
+返回有序集key中，成员member的score值。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司老板问你 ，阿甘的工资是多少 ？
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+39.100.196.99:6379&gt; zscore salary zhoubiao
+&quot;1000&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>##ZINCRBY
+ZINCRBY key increment member
+为有序集key的成员member的score值加上增量increment。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司老板说阿甘表现很好，给他加500元吧 
+39.100.196.99:6379&gt; ZINCRBY salary 500 zhoubiao
+&quot;1500&quot;
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1500&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>##ZREVRANGE
+ZREVRANGE key start stop [WITHSCORES]
+返回有序集key中，指定区间内的成员,降序。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司老板说经济不好，成本太大，看工资最多的是哪些人？
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores  #升序
+1) &quot;zhoubiao&quot;
+2) &quot;1500&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+39.100.196.99:6379&gt; ZREVRANGE salary 0 -1 withscores #降序
+1) &quot;jack&quot;
+2) &quot;6000&quot;
+3) &quot;tom&quot;
+4) &quot;5000&quot;
+5) &quot;alex&quot;
+6) &quot;2000&quot;
+7) &quot;zhoubiao&quot;
+8) &quot;1500&quot;
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>##ZRANGEBYSCORE 取某个范围score的member，可以用于分页查询
+ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</p> <p>返回有序集key中，所有score值介于min和max之间(包括等于min或max)的成员。有序集成员按score值递增(从小到大)次序排列。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司老板要给工资低的人加薪水，老板要求先看低于5000元的有哪些人？人多的话分页查看
+39.100.196.99:6379&gt; ZREVRANGE salary 0 -1 withscores
+1) &quot;jack&quot;
+2) &quot;6000&quot;
+3) &quot;tom&quot;
+4) &quot;5000&quot;
+5) &quot;alex&quot;
+6) &quot;2000&quot;
+7) &quot;zhoubiao&quot;
+8) &quot;1500&quot;
+39.100.196.99:6379&gt; ZRANGEBYSCORE salary 1 5000
+1) &quot;zhoubiao&quot;
+2) &quot;alex&quot;
+3) &quot;tom&quot;
+39.100.196.99:6379&gt; ZRANGEBYSCORE salary 1 5000 LIMIT 0 2
+1) &quot;zhoubiao&quot;
+2) &quot;alex&quot;
+39.100.196.99:6379&gt; ZRANGEBYSCORE salary 1 5000 LIMIT 2 2
+1) &quot;tom&quot;
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><h2 id="zrevrangebyscore-和上面的功能意义-但是这次是降序的"><a href="#zrevrangebyscore-和上面的功能意义-但是这次是降序的" class="header-anchor">#</a> ZREVRANGEBYSCORE 和上面的功能意义，但是这次是降序的</h2> <p>ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]
+返回有序集key中，score值介于max和min之间(默认包括等于max或min)的所有的成员。有序集成员按score值递减(从大到小)的次序排列。</p> <h2 id="zrank-取某个member的排名-升序"><a href="#zrank-取某个member的排名-升序" class="header-anchor">#</a> ZRANK 取某个member的排名,升序</h2> <p>ZRANK key member</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：创业公司老板要查，工资从低到高，查某个员工排第几名？
+9.100.196.99:6379&gt; ZREVRANGE salary 0 -1 withscores
+1) &quot;jack&quot;
+2) &quot;6000&quot;
+3) &quot;tom&quot;
+4) &quot;5000&quot;
+5) &quot;alex&quot;
+6) &quot;2000&quot;
+7) &quot;zhoubiao&quot;
+8) &quot;1500&quot;
+(0.75s)
+39.100.196.99:6379&gt; ZRANK salary zhoubiao
+(integer) 0
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br></div></div><p>##ZREVRANK 取某个member的排名，降序
+ZREVRANK key member</p> <p>##ZREMRANGEBYRANK 移除指定排名(rank)区间内的所有成员。
+ZREMRANGEBYRANK key start stop</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：经济不好，老板要裁员了，把工资最低的2个人裁掉
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1500&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+39.100.196.99:6379&gt; ZREMRANGEBYRANK salary 0 1
+(integer) 2
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;tom&quot;
+2) &quot;5000&quot;
+3) &quot;jack&quot;
+4) &quot;6000&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>##ZREMRANGEBYSCORE 移除指定score值介于min和max之间(包括等于min或max)的成员。
+ZREMRANGEBYSCORE key min max</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>案例：经济不好，老板要裁员了，把工资1000至2000之间的人裁掉
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;zhoubiao&quot;
+2) &quot;1000&quot;
+3) &quot;alex&quot;
+4) &quot;2000&quot;
+5) &quot;tom&quot;
+6) &quot;5000&quot;
+7) &quot;jack&quot;
+8) &quot;6000&quot;
+39.100.196.99:6379&gt; ZREMRANGEBYSCORE salary 1000 2000
+(integer) 2
+39.100.196.99:6379&gt; zrange salary 0 -1 withscores
+1) &quot;tom&quot;
+2) &quot;5000&quot;
+3) &quot;jack&quot;
+4) &quot;6000&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br></div></div><p>##ZINTERSTORE 求交集
+ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]
+计算给定的一个或多个有序集的交集，其中给定key的数量必须以numkeys参数指定，并将该交集(结果集)储存到destination。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; zadd group1 10 a 20 b 30 c
+(integer) 3
+39.100.196.99:6379&gt; zadd group2 10 x 20 y 30 z 20 c
+(integer) 4
+39.100.196.99:6379&gt; ZINTERSTORE group3 group1 group2
+(error) ERR value is not an integer or out of range
+39.100.196.99:6379&gt; ZINTERSTORE group3 2 group1 group2
+(integer) 1
+39.100.196.99:6379&gt; zrange group3 0 -1 withscores
+1) &quot;c&quot;
+2) &quot;50&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>##ZUNIONSTORE 求并集
+ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight [weight ...]] [AGGREGATE SUM|MIN|MAX]
+计算给定的一个或多个有序集的并集，其中给定key的数量必须以numkeys参数指定，并将该并集(结果集)储存到destination。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>39.100.196.99:6379&gt; ZUNIONSTORE group4  2 group1 group2
+(integer) 6
+39.100.196.99:6379&gt; zrange group4 0 -1 withscores
+ 1) &quot;a&quot;
+ 2) &quot;10&quot;
+ 3) &quot;x&quot;
+ 4) &quot;10&quot;
+ 5) &quot;b&quot;
+ 6) &quot;20&quot;
+ 7) &quot;y&quot;
+ 8) &quot;20&quot;
+ 9) &quot;z&quot;
+10) &quot;30&quot;
+11) &quot;c&quot;
+12) &quot;50&quot;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">上次更新:</span> <span class="time">9/6/2020, 11:07:22 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/ityoudream/redis/redis-list/redis-lock-fbs-crs.html" class="prev">
+        redis如何实现分布式重入锁？
+      </a></span> <span class="next"><a href="/ityoudream/redis/redis-zset/redis-webo-rank.html">
+        springboot+redis实现微博热搜排行榜
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/ityoudream/assets/js/app.d734b1a7.js" defer></script><script src="/ityoudream/assets/js/2.db335f11.js" defer></script><script src="/ityoudream/assets/js/130.77484346.js" defer></script>
+  </body>
+</html>

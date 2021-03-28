@@ -35,7 +35,7 @@ jobs:
           # scp参数
           ARGS: "-avzr --delete"
           # 源目录，编译后生成的文件目录
-          SOURCE: "build/.vuepress/dist"
+          SOURCE: "./dist"
           # 服务器ip：换成你的服务器IP
           REMOTE_HOST: "120.55.165.179"
           # 用户

@@ -11,7 +11,8 @@ module.exports = () => {
           '04-thread-cengci.md',
           '05-thread-what.md',
           '06-thread-act.md',
-          '07-thread-meomory.md'
+          '07-thread-meomory.md',
+          '08-thread-yzx1.md'
         ]
       }
     ]

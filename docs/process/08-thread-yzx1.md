@@ -40,3 +40,94 @@ lock()，如果成功，则进入临界区，此时我们称这个线程持有�
 题，但却很容易让我们忽视两个非常非常重要的点：我们锁的是什么？我们保护的又是什
 么？
 
+#### 改进后的锁模型
+我们知道在现实世界里，锁和锁要保护的资源是有对应关系的，比如你用你家的锁保护你
+家的东西，我用我家的锁保护我家的东西。在并发编程世界里，锁和资源也应该有这个关
+系，但这个关系在我们上面的模型中是没有体现的，所以我们需要完善一下我们的模型。
+
+![image](/thread/thread-yzx-3.png)
+
+<center>改进后的锁模型</center>
+
+首先，我们要把临界区要保护的资源标注出来，如图中临界区里增加了一个元素：受保护
+的资源 R；其次，我们要保护资源 R 就得为它创建一把锁 LR；最后，针对这把锁 LR，我
+们还需在进出临界区时添上加锁操作和解锁操作。另外，在锁 LR 和受保护资源之间，我
+特地用一条线做了关联，这个关联关系非常重要。很多并发 Bug 的出现都是因为把它忽略
+了，然后就出现了类似锁自家门来保护他家资产的事情，这样的 Bug 非常不好诊断，因为
+潜意识里我们认为已经正确加锁了。
+
+
+#### Java 语言提供的锁技术：synchronized
+锁是一种通用的技术方案，Java语言提供的`synchronized`关键字，就是一种锁的实现。synchronized关键字可以用来修饰方法，也可以修饰代码块，它的使用如下:
+```java
+package cn.ityoudream.thread7;
+
+/**
+ * synchronized 加锁的几种方式
+ */
+public class ThreadBySync {
+    private Object object;
+
+    public ThreadBySync(Object object) {
+        this.object = object;
+    }
+
+    //修饰非静态方法
+    synchronized void girl() {
+        //临界区
+    }///运行完毕自动释放锁
+    //修饰静态方法
+    synchronized void boy() {
+        //临界区
+    }//运行完毕自动释放锁
+
+    //对对象或者当前对象加锁
+    void oop1() {
+        synchronized (this) {
+            //临界区
+        }
+    }
+
+    void oop2() {
+        synchronized (object) {
+            //临界区
+        }
+    }
+}
+
+```
+
+看完之后你可能会觉得有点奇怪，这个和我们上面提到的模型有点对不上号啊，加锁
+lock() 和解锁 unlock() 在哪里呢？其实这两个操作都是有的，只是这两个操作是被 Java
+默默加上的，Java 编译器会在 synchronized 修饰的方法或代码块前后自动加上加锁
+lock() 和解锁 unlock()，这样做的好处就是加锁 lock() 和解锁 unlock() 一定是成对出现
+的，毕竟忘记解锁 unlock() 可是个致命的 Bug（意味着其他线程只能死等下去了）。
+
+那 synchronized 里的加锁 lock() 和解锁 unlock() 锁定的对象在哪里呢？上面的代码我
+们看到只有修饰代码块的时候，锁定了一个 obj 对象，那修饰方法的时候锁定的是什么
+呢？这个也是 Java 的一条隐式规则：
+
+```
+当修饰静态方法的时候，锁定的是当前类的 Class 对象，在上面的例子中就
+是 Class ThreadBySync
+
+当修饰非静态方法的时候，锁定的是当前实例对象 this
+```
+
+对于上面的例子，synchronized 修饰静态方法相当于:
+```java
+public class ThreadBySync2 {
+    //修饰静态方法
+    synchronized (ThreadBySync2.class)static void girl() {
+        //临界区
+    }
+
+    // 修饰非静态方法
+    synchronized (this) void boy() {
+        //临界区
+    }
+}
+```
+
+#### 用 synchronized 解决 count+=1 问题
+

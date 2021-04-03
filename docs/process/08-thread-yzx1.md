@@ -131,3 +131,152 @@ public class ThreadBySync2 {
 
 #### 用 synchronized 解决 count+=1 问题
 
+SafeCalc 这个类有两个方法：一个是
+get() 方法，用来获得 value 的值；另一个是 addOne() 方法，用来给 value 加 1，并且
+addOne() 方法我们用 synchronized 修饰。那么我们使用的这两个方法有没有并发问题
+呢？
+
+```java
+package cn.ityoudream.thread7;
+
+/**
+ * 用 synchronized 解决 count+=1 问题
+ */
+public class SafeCalc {
+    long value = 0l;
+    long get() {
+        return value;
+    }
+
+    synchronized void addOne() {
+        value += 1;
+    }
+
+    public static void main(String[] args) {
+        SafeCalc safeCalc = new SafeCalc();
+        for (int i = 0; i < 1000; i++) {
+           Thread t1 = new Thread(()-> {
+               safeCalc.addOne();
+           });
+            t1.start();
+            System.out.println(safeCalc.get());
+        }
+    }
+}
+
+```
+我们先来看看 addOne() 方法，首先可以肯定，被 synchronized 修饰后，无论是单核
+CPU 还是多核 CPU，只有一个线程能够执行 addOne() 方法，所以一定能保证原子操
+作，那是否有可见性问题呢？这里就用到之前学到的`管程中锁
+的规则`
+```
+管程中锁的规则：对一个锁的解锁 Happens-Before 于后续对这个锁的加
+锁。
+```
+
+管程，就是我们这里的 synchronized（至于为什么叫管程，我们后面介绍），我们知道
+synchronized 修饰的临界区是互斥的，也就是说同一时刻只有一个线程执行临界区的代
+码；而所谓“对一个锁解锁 Happens-Before 后续对这个锁的加锁”，指的是前一个线程
+的解锁操作对后一个线程的加锁操作可见，综合 Happens-Before 的传递性原则，我们就
+能得出前一个线程在临界区修改的共享变量（该操作在解锁之前），对后续进入临界区
+（该操作在加锁之后）的线程是可见的。
+
+按照这个规则，如果多个线程同时执行 addOne() 方法，可见性是可以保证的，也就说如
+果有 1000 个线程执行 addOne() 方法，最终结果一定是 value 的值增加了 1000。看到
+这个结果，我们长出一口气，问题终于解决了。
+
+但也许，你一不小心就忽视了 get() 方法。执行 addOne() 方法后，value 的值对 get()
+方法是可见的吗？这个可见性是没法保证的。管程中锁的规则，是只保证后续对这个锁的
+加锁的可见性，而 get() 方法并没有加锁操作，所以可见性没法保证。那如何解决呢？很
+简单，就是 get() 方法也 synchronized 一下，完整的代码如下所示。
+```java
+package cn.ityoudream.thread7;
+
+/**
+ * 对get() 也进行加锁，解决get获取value不正确
+ */
+public class SafeCalc2 {
+    long value = 0l;
+    synchronized long get() {
+        return value;
+    }
+
+    synchronized void addOne() {
+        value += 1;
+    }
+
+    public static void main(String[] args) {
+        SafeCalc2 safeCalc2 = new SafeCalc2();
+        for (int i = 0; i < 1000 ; i++) {
+            Thread t1 = new Thread(() -> {
+                safeCalc2.addOne();
+            });
+            t1.start();
+        }
+    }
+}
+```
+
+上面的代码转换为我们提到的锁模型，就是下面图示这个样子。get() 方法和 addOne()
+方法都需要访问 value 这个受保护的资源，这个资源用 this 这把锁来保护。线程要进入临
+界区 get() 和 addOne()，必须先获得 this 这把锁，这样 get() 和 addOne() 也是互斥
+的。
+
+
+
+![image](/thread/thread-yzx-4.png)
+
+<center>保护临界区 get() 和 addOne() 的示意图</center>
+
+这个模型更像现实世界里面球赛门票的管理，一个座位只允许一个人使用，这个座位就
+是“受保护资源”，球场的入口就是 Java 类里的方法，而门票就是用来保护资源
+的“锁”，Java 里的检票工作是由 synchronized 解决的。
+
+#### 锁和受保护资源的关系
+受保护资源和锁之间的关联关系非常重要，他们的关系是怎样的呢？一个
+合理的关系是：`受保护资源和锁之间的关联关系是 N:1 的关系`。还拿前面球赛门票的管理
+来类比，就是一个座位，我们只能用一张票来保护，如果多发了重复的票，那就要打架
+了。现实世界里，我们可以用多把锁来保护同一个资源，但在并发领域是不行的，并发领
+域的锁和现实世界的锁不是完全匹配的。不过倒是可以用同一把锁来保护多个资源，这个
+对应到现实世界就是我们所谓的“包场”了。
+
+上面那个例子我稍作改动，把 value 改成静态变量，把 addOne() 方法改成静态方法，此
+时 get() 方法和 addOne() 方法是否存在并发问题呢？
+
+```java
+package cn.ityoudream.thread7;
+
+/**
+ * 存在并发问题
+ */
+public class SafeCalc3 {
+    static long value = 0l;
+
+    synchronized long get() {
+        return value;
+    }
+
+    synchronized static void addOne() {
+        value += 1;
+    }
+    
+}
+```
+
+如果你仔细观察，就会发现改动后的代码是用两个锁保护一个资源。这个受保护的资源就
+是静态变量 value，两个锁分别是 this 和 SafeCalc.class。我们可以用下面这幅图来形象
+描述这个关系。由于临界区 get() 和 addOne() 是用两个锁保护的，因此这两个临界区没
+有互斥关系，临界区 addOne() 对 value 的修改对临界区 get() 也没有可见性保证，这就
+导致并发问题了。
+
+![image](/thread/thread-yzx-5.png)
+
+<center>两把锁保护一个资源的示意图</center>
+
+#### 总结
+互斥锁，在并发领域的知名度极高，只要有了并发问题，大家首先容易想到的就是加锁，
+因为大家都知道，加锁能够保证执行临界区代码的互斥性。这样理解虽然正确，但是却不
+能够指导你真正用好互斥锁。临界区的代码是操作受保护资源的路径，类似于球场的入
+口，入口一定要检票，也就是要加锁，但不是随便一把锁都能有效。所以必须深入分析锁
+定的对象和受保护资源的关系，综合考虑受保护资源的访问路径，多方面考量才能用好互
+斥锁。
